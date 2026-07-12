@@ -24,4 +24,13 @@ npm run dev
 npm run build
 ```
 
-站点通过 Codex Sites 构建和托管。
+## 发布方式
+
+站点源代码托管在 GitHub，并通过 Cloudflare Workers Builds 自动构建和发布：
+
+- 生产分支：`main`；
+- 构建命令：`npm run build`；
+- 部署命令：`npx wrangler deploy`；
+- 每次推送 `main` 后自动更新线上网站。
+
+正式网站使用独立域名，不以 GitHub 用户名作为网站地址。
