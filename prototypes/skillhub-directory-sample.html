@@ -1,0 +1,560 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light" />
+    <title>z-skill · 工具目录 UI 小样</title>
+    <style>
+      :root {
+        --ink: #111827;
+        --muted: #667085;
+        --faint: #98a2b3;
+        --line: #e6e9ef;
+        --line-strong: #d7dce5;
+        --panel: #ffffff;
+        --canvas: #f7f8fa;
+        --blue: #4263eb;
+        --blue-deep: #3451d1;
+        --blue-soft: #eef2ff;
+        --green: #17875d;
+        --green-soft: #eaf8f2;
+        --amber: #a66316;
+        --amber-soft: #fff6e7;
+        --shadow: 0 1px 2px rgb(16 24 40 / 4%);
+        font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      }
+
+      * { box-sizing: border-box; }
+
+      body {
+        margin: 0;
+        min-width: 320px;
+        color: var(--ink);
+        background: var(--canvas);
+        -webkit-font-smoothing: antialiased;
+      }
+
+      button, input, select { font: inherit; }
+      button { cursor: pointer; }
+
+      .prototype-note {
+        height: 30px;
+        display: grid;
+        place-items: center;
+        color: #596275;
+        background: #f0f2f6;
+        border-bottom: 1px solid #e5e7eb;
+        font-size: 12px;
+        letter-spacing: .02em;
+      }
+
+      .site-header {
+        background: rgb(255 255 255 / 96%);
+        border-bottom: 1px solid var(--line);
+      }
+
+      .header-inner, .page {
+        width: min(1180px, calc(100% - 40px));
+        margin: 0 auto;
+      }
+
+      .header-inner {
+        min-height: 68px;
+        display: flex;
+        align-items: center;
+        gap: 30px;
+      }
+
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        color: var(--ink);
+        font-size: 20px;
+        font-weight: 760;
+        letter-spacing: -.04em;
+        text-decoration: none;
+      }
+
+      .brand-mark {
+        width: 30px;
+        height: 30px;
+        display: grid;
+        place-items: center;
+        color: #fff;
+        background: var(--blue);
+        border-radius: 8px;
+        font-size: 19px;
+        font-weight: 800;
+        line-height: 1;
+      }
+
+      .primary-nav {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+      }
+
+      .primary-nav button {
+        padding: 8px 11px;
+        color: #596275;
+        background: transparent;
+        border: 0;
+        border-radius: 7px;
+        font-size: 14px;
+      }
+
+      .primary-nav button:hover, .primary-nav button.active {
+        color: var(--ink);
+        background: #f4f5f7;
+      }
+
+      .header-meta {
+        margin-left: auto;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      .status-dot {
+        width: 7px;
+        height: 7px;
+        background: var(--green);
+        border-radius: 50%;
+        box-shadow: 0 0 0 4px var(--green-soft);
+      }
+
+      .page { padding: 48px 0 72px; }
+
+      .hero {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 24px;
+        margin-bottom: 30px;
+      }
+
+      .eyebrow {
+        margin: 0 0 8px;
+        color: var(--blue);
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: .12em;
+        text-transform: uppercase;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: clamp(30px, 4vw, 42px);
+        line-height: 1.16;
+        letter-spacing: -.05em;
+      }
+
+      .hero-copy {
+        margin: 10px 0 0;
+        color: var(--muted);
+        font-size: 15px;
+        line-height: 1.7;
+      }
+
+      .count {
+        color: var(--faint);
+        font-size: 13px;
+        white-space: nowrap;
+      }
+
+      .toolbar {
+        display: grid;
+        grid-template-columns: minmax(260px, 1fr) auto;
+        align-items: center;
+        gap: 16px;
+        padding: 13px 14px;
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        box-shadow: var(--shadow);
+      }
+
+      .sort-tabs, .filters, .view-toggle {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .sort-tabs button {
+        min-height: 34px;
+        padding: 0 12px;
+        color: var(--muted);
+        background: transparent;
+        border: 0;
+        border-radius: 7px;
+        font-size: 13px;
+      }
+
+      .sort-tabs button.active {
+        color: var(--blue-deep);
+        background: var(--blue-soft);
+        font-weight: 650;
+      }
+
+      .filters select, .search {
+        height: 36px;
+        color: #475467;
+        background: #fff;
+        border: 1px solid var(--line-strong);
+        border-radius: 8px;
+        font-size: 13px;
+        outline: none;
+      }
+
+      .filters select { padding: 0 28px 0 10px; }
+
+      .search {
+        width: 180px;
+        padding: 0 12px;
+      }
+
+      .search:focus, .filters select:focus {
+        border-color: #9dadf8;
+        box-shadow: 0 0 0 3px rgb(66 99 235 / 10%);
+      }
+
+      .view-toggle {
+        padding-left: 7px;
+        border-left: 1px solid var(--line);
+      }
+
+      .view-toggle button {
+        width: 34px;
+        height: 34px;
+        display: grid;
+        place-items: center;
+        color: var(--faint);
+        background: transparent;
+        border: 0;
+        border-radius: 7px;
+        font-size: 16px;
+      }
+
+      .view-toggle button.active {
+        color: var(--blue);
+        background: var(--blue-soft);
+      }
+
+      .results-label {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin: 22px 2px 10px;
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      .tool-list {
+        overflow: hidden;
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        box-shadow: var(--shadow);
+      }
+
+      .tool-row {
+        min-height: 128px;
+        display: grid;
+        grid-template-columns: 58px minmax(0, 1fr) auto;
+        align-items: center;
+        gap: 18px;
+        padding: 22px;
+      }
+
+      .tool-icon {
+        width: 56px;
+        height: 56px;
+        display: grid;
+        place-items: center;
+        color: var(--blue-deep);
+        background: linear-gradient(145deg, #f4f6ff, #e7ecff);
+        border: 1px solid #dce3ff;
+        border-radius: 13px;
+        font-size: 17px;
+        font-weight: 780;
+        letter-spacing: -.04em;
+      }
+
+      .tool-title-line {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .tool-name {
+        margin: 0;
+        font-size: 17px;
+        line-height: 1.4;
+        letter-spacing: -.02em;
+      }
+
+      .tag {
+        display: inline-flex;
+        align-items: center;
+        min-height: 22px;
+        padding: 0 8px;
+        border-radius: 999px;
+        font-size: 11px;
+        font-weight: 620;
+        white-space: nowrap;
+      }
+
+      .tag.type { color: #4d5d72; background: #f1f3f6; }
+      .tag.candidate { color: var(--amber); background: var(--amber-soft); }
+
+      .tool-description {
+        max-width: 720px;
+        margin: 8px 0 0;
+        color: var(--muted);
+        font-size: 13px;
+        line-height: 1.65;
+      }
+
+      .tool-submeta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+        margin-top: 10px;
+        color: var(--faint);
+        font-size: 12px;
+      }
+
+      .tool-actions {
+        min-width: 190px;
+        display: grid;
+        justify-items: end;
+        gap: 12px;
+      }
+
+      .version {
+        color: var(--faint);
+        font-size: 12px;
+      }
+
+      .action-buttons { display: flex; gap: 8px; }
+
+      .button {
+        min-height: 36px;
+        padding: 0 13px;
+        border: 1px solid var(--line-strong);
+        border-radius: 8px;
+        font-size: 13px;
+        font-weight: 620;
+      }
+
+      .button.secondary { color: #344054; background: #fff; }
+      .button.primary { color: #fff; background: var(--blue); border-color: var(--blue); }
+      .button.primary:hover { background: var(--blue-deep); }
+
+      .coming-soon {
+        display: grid;
+        place-items: center;
+        min-height: 116px;
+        margin-top: 16px;
+        color: var(--faint);
+        background: repeating-linear-gradient(-45deg, #fafbfc, #fafbfc 10px, #f7f8fa 10px, #f7f8fa 20px);
+        border: 1px dashed var(--line-strong);
+        border-radius: 12px;
+        text-align: center;
+        font-size: 13px;
+      }
+
+      .coming-soon strong {
+        display: block;
+        margin-bottom: 6px;
+        color: var(--muted);
+        font-size: 14px;
+      }
+
+      .empty-state {
+        display: none;
+        padding: 42px 20px;
+        color: var(--muted);
+        text-align: center;
+      }
+
+      .tool-list.empty .tool-row { display: none; }
+      .tool-list.empty .empty-state { display: block; }
+
+      @media (max-width: 940px) {
+        .primary-nav { display: none; }
+        .toolbar { grid-template-columns: 1fr; }
+        .filters { flex-wrap: wrap; }
+        .search { flex: 1; min-width: 180px; }
+      }
+
+      @media (max-width: 680px) {
+        .header-inner, .page { width: min(100% - 24px, 1180px); }
+        .header-meta span:last-child { display: none; }
+        .page { padding-top: 34px; }
+        .hero { align-items: flex-start; flex-direction: column; }
+        .toolbar { padding: 10px; }
+        .sort-tabs { overflow-x: auto; }
+        .filters select { flex: 1; min-width: 108px; }
+        .view-toggle { display: none; }
+        .tool-row {
+          grid-template-columns: 48px minmax(0, 1fr);
+          align-items: start;
+          gap: 14px;
+          padding: 18px;
+        }
+        .tool-icon { width: 48px; height: 48px; border-radius: 11px; }
+        .tool-actions {
+          grid-column: 1 / -1;
+          width: 100%;
+          justify-items: stretch;
+          padding-top: 4px;
+        }
+        .version { display: none; }
+        .action-buttons { display: grid; grid-template-columns: 1fr 1fr; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="prototype-note">UI 小样 · 仅用于确认视觉与信息结构，尚未正式发布</div>
+    <header class="site-header">
+      <div class="header-inner">
+        <a class="brand" href="#" aria-label="z-skill 首页">
+          <span class="brand-mark">z</span>
+          <span>z-skill</span>
+        </a>
+        <nav class="primary-nav" aria-label="工具分类">
+          <button class="active" type="button">全部工具</button>
+          <button type="button">Skill</button>
+          <button type="button">Workflow</button>
+          <button type="button">Agent</button>
+          <button type="button">工具</button>
+        </nav>
+        <div class="header-meta">
+          <span class="status-dot" aria-hidden="true"></span>
+          <span>持续整理与验证</span>
+        </div>
+      </div>
+    </header>
+
+    <main class="page">
+      <section class="hero">
+        <div>
+          <p class="eyebrow">Personal AI Tool Hub</p>
+          <h1>全部工具</h1>
+          <p class="hero-copy">周全设计、整理并验证的 AI 工具，提供清晰说明与可迁移下载。</p>
+        </div>
+        <span class="count">当前收录 1 项</span>
+      </section>
+
+      <section class="toolbar" aria-label="工具筛选">
+        <div class="sort-tabs" aria-label="排序方式">
+          <button class="active" type="button">全部</button>
+          <button type="button">推荐</button>
+          <button type="button">最近更新</button>
+          <button type="button">名称</button>
+        </div>
+
+        <div class="filters">
+          <select id="typeFilter" aria-label="按类型筛选">
+            <option value="all">全部类型</option>
+            <option value="skill">Skill</option>
+            <option value="workflow">Workflow</option>
+            <option value="agent">Agent</option>
+            <option value="tool">工具</option>
+          </select>
+          <select aria-label="按环境筛选">
+            <option>全部环境</option>
+            <option>Codex</option>
+            <option>Claude</option>
+            <option>通用</option>
+          </select>
+          <select aria-label="按状态筛选">
+            <option>全部状态</option>
+            <option>已验证</option>
+            <option>公开候选</option>
+            <option>尚未验证</option>
+          </select>
+          <input class="search" id="searchInput" type="search" placeholder="搜索工具" aria-label="搜索工具" />
+          <div class="view-toggle" aria-label="视图切换">
+            <button class="active" type="button" aria-label="列表视图">☷</button>
+            <button type="button" aria-label="卡片视图">⊞</button>
+          </div>
+        </div>
+      </section>
+
+      <div class="results-label">
+        <span id="resultText">找到 1 项结果</span>
+        <span>按推荐排序</span>
+      </div>
+
+      <section class="tool-list" id="toolList" aria-label="工具列表">
+        <article class="tool-row" data-name="any-to-md markdown 文件转换" data-type="skill">
+          <div class="tool-icon" aria-hidden="true">MD</div>
+          <div>
+            <div class="tool-title-line">
+              <h2 class="tool-name">Any-to-MD</h2>
+              <span class="tag type">Skill</span>
+              <span class="tag candidate">公开候选</span>
+            </div>
+            <p class="tool-description">将 PDF、Word、Excel、图片等资料转换并整理为适合 AI 长期读取、人工维护和跨平台迁移的 Markdown 基础资料。</p>
+            <div class="tool-submeta">
+              <span>知识管理 · 文件处理</span>
+              <span>适配环境待正式验收</span>
+              <span>更新于 2026-07-12</span>
+            </div>
+          </div>
+          <div class="tool-actions">
+            <span class="version">v0.1.0-candidate</span>
+            <div class="action-buttons">
+              <button class="button secondary" type="button">查看详情</button>
+              <button class="button primary" type="button">下载 ZIP</button>
+            </div>
+          </div>
+        </article>
+        <div class="empty-state">没有与当前条件匹配的工具。</div>
+      </section>
+
+      <section class="coming-soon">
+        <div>
+          <strong>更多工具正在整理</strong>
+          Workflow、Agent 与实用工具将在完成验证后陆续发布。
+        </div>
+      </section>
+    </main>
+
+    <script>
+      const input = document.querySelector('#searchInput');
+      const typeFilter = document.querySelector('#typeFilter');
+      const toolList = document.querySelector('#toolList');
+      const toolRow = document.querySelector('.tool-row');
+      const resultText = document.querySelector('#resultText');
+
+      function updateResults() {
+        const query = input.value.trim().toLowerCase();
+        const type = typeFilter.value;
+        const matchesText = toolRow.dataset.name.includes(query);
+        const matchesType = type === 'all' || type === toolRow.dataset.type;
+        const visible = matchesText && matchesType;
+        toolList.classList.toggle('empty', !visible);
+        resultText.textContent = visible ? '找到 1 项结果' : '找到 0 项结果';
+      }
+
+      input.addEventListener('input', updateResults);
+      typeFilter.addEventListener('change', updateResults);
+
+      document.querySelectorAll('.sort-tabs button, .view-toggle button').forEach((button) => {
+        button.addEventListener('click', () => {
+          button.parentElement.querySelectorAll('button').forEach((item) => item.classList.remove('active'));
+          button.classList.add('active');
+        });
+      });
+    </script>
+  </body>
+</html>

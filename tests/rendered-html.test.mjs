@@ -31,9 +31,10 @@ test("server-renders the z-skill tool directory", async () => {
   const html = await response.text();
   assert.match(html, /<title>z-skill｜AI 工具与可复用工作流<\/title>/i);
   assert.match(html, /Any-to-MD/);
-  assert.match(html, /PDF/);
-  assert.match(html, /XLSX/);
   assert.match(html, /公开候选/);
+  assert.match(html, /知识管理 · 文件处理/);
+  assert.match(html, /适配环境待正式验收/);
+  assert.match(html, /更多工具正在整理/);
   assert.match(html, /\/downloads\/any-to-md-v0\.1\.0-candidate\.zip/);
   assert.doesNotMatch(html, /codex-preview|SkeletonPreview|Your site is taking shape/i);
 });
@@ -44,11 +45,11 @@ test("server-renders the Any-to-MD detail page", async () => {
 
   const html = await response.text();
   assert.match(html, /Any-to-MD/);
-  assert.match(html, /本轮验证状态/);
+  assert.match(html, /测试与已知限制/);
   assert.match(html, /DOCX/);
   assert.match(html, /PPT \/ PPTX/);
   assert.match(html, /轻量接口本轮失败/);
-  assert.match(html, /下载完整候选包/);
+  assert.match(html, /下载候选版 ZIP/);
 });
 
 test("ships a real candidate download without starter dependencies", async () => {
