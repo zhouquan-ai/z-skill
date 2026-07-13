@@ -35,7 +35,7 @@ export function CopyPrompt({ prompt }: { prompt: string }) {
       <div className="prompt-head">
         <div>
           <strong>复制给 Agent</strong>
-          <span>保留环境检查、隐私提示与失败回报要求</span>
+          <span>包含下载地址、安装步骤和隐私提示</span>
         </div>
         <button type="button" onClick={copy}>{label}</button>
       </div>

@@ -110,7 +110,7 @@ export default async function ToolDetailPage({ params }: ToolPageProps) {
               <div><dt>作者</dt><dd>{tool.author}</dd></div>
               <div><dt>许可证</dt><dd>{tool.license}</dd></div>
               <div><dt>文件类型</dt><dd>{tool.download.fileType}</dd></div>
-              <div className="stacked"><dt>适配状态</dt><dd>{tool.environmentNote}</dd></div>
+              <div className="stacked"><dt>验证环境</dt><dd>{tool.environmentNote}</dd></div>
             </dl>
             <div className="checksum-note"><strong>文件校验</strong><span>SHA-256</span><code>{tool.download.sha256}</code></div>
             <div className="privacy-note"><strong>隐私提示</strong><p>{tool.privacy}</p></div>

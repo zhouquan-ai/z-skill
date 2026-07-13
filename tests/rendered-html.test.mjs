@@ -37,7 +37,7 @@ test("server-renders the z-skill brand homepage", async () => {
   assert.match(html, /<title>z-skill｜AI 工具与可复用工作流<\/title>/i);
   assert.match(html, /把\s*<span>AI 工具<\/span>/);
   assert.match(html, /Any-to-MD/);
-  assert.match(html, /公开候选/);
+  assert.match(html, /class="tag verified">已验证/);
   assert.match(html, /周全设计、整理并验证的 AI 工具发布站/);
   assert.match(html, /搜索工具名称或用途/);
   assert.match(html, />搜索工具</);
@@ -59,7 +59,7 @@ test("server-renders the searchable tool directory", async () => {
   assert.match(html, /Any-to-MD/);
   assert.match(html, /知识管理 · 文件处理/);
   assert.match(html, /最近更新/);
-  assert.match(html, /\/downloads\/any-to-md-v0\.1\.0-candidate\.zip/);
+  assert.match(html, /\/downloads\/any-to-md-v0\.1\.0\.zip/);
 });
 
 test("server-renders the Any-to-MD detail page", async () => {
@@ -74,18 +74,20 @@ test("server-renders the Any-to-MD detail page", async () => {
   assert.match(html, /PPT \/ PPTX/);
   assert.match(html, /轻量接口本轮失败/);
   assert.match(html, /复制给 Agent 的安装 Prompt/);
+  assert.match(html, /包含下载地址、安装步骤和隐私提示/);
   assert.match(html, /raw\.githubusercontent\.com\/zzzq8848-ai\/z-skill/);
   assert.match(html, /隐私提示/);
-  assert.match(html, /下载候选版 ZIP/);
+  assert.match(html, /下载 ZIP/);
   assert.match(html, /不能替代原文件、签章、公式、批注或修订记录/);
   assert.match(html, /<title>Any-to-MD｜z-skill<\/title>/i);
   assert.match(html, /aria-label="本页内容"/);
   assert.match(html, /href="#install"/);
   assert.match(html, /class="failed">轻量接口本轮失败/);
   assert.match(html, new RegExp(tools[0].download.sha256));
-  assert.match(html, /适配状态/);
-  assert.match(html, /个人 Skills 目录安装及本地脚本已验证/);
-  assert.match(html, /Codex CLI 受版本与模型兼容问题阻断/);
+  assert.match(html, /验证环境/);
+  assert.match(html, /<dt>验证环境<\/dt><dd>Codex<\/dd>/);
+  assert.doesNotMatch(html, /Claude|Codex CLI|宿主 CLI/);
+  assert.doesNotMatch(html, /失败回报要求|目标 Agent 认可的 skills 目录/);
 });
 
 test("returns 404 for an unpublished tool slug", async () => {
@@ -109,7 +111,8 @@ test("server-renders the About page and channel boundaries", async () => {
   assert.match(html, /GitHub/);
   assert.match(html, /不做文章站、社区、投稿平台或排行榜/);
   assert.match(html, /当前仅公开/);
-  assert.match(html, /Any-to-MD v0\.1\.0-candidate/);
+  assert.match(html, /Any-to-MD v0\.1\.0/);
+  assert.doesNotMatch(html, /v0\.1\.0-candidate|Claude/);
 });
 
 test("keeps the mobile hero accent separate from the search panel", async () => {
@@ -133,9 +136,10 @@ test("derives release metadata and install prompt from one tool record", () => {
   const prompt = buildInstallPrompt(tool);
 
   assert.equal(tools.filter((item) => item.featured).length, 1);
-  assert.equal(tool.status, "公开候选");
-  assert.equal(tool.version, "v0.1.0-candidate");
-  assert.deepEqual(tool.environments, []);
+  assert.equal(tool.status, "已验证");
+  assert.equal(tool.statusTone, "verified");
+  assert.equal(tool.version, "v0.1.0");
+  assert.deepEqual(tool.environments, ["Codex"]);
   assert.deepEqual(getVerifiedFormats(tool), ["PDF", "XLSX", "PNG", "Markdown"]);
   assert.match(tool.download.path, new RegExp(`${tool.slug}-${tool.version}\\.zip$`));
   assert.match(prompt, new RegExp(tool.version));
@@ -143,7 +147,7 @@ test("derives release metadata and install prompt from one tool record", () => {
   assert.ok(prompt.includes(tool.install.fallback));
 });
 
-test("ships a real candidate download without starter dependencies", async () => {
+test("ships a real formal download without starter dependencies", async () => {
   const archive = new URL(`../public${tools[0].download.path}`, import.meta.url);
   const packageJsonUrl = new URL("../package.json", import.meta.url);
 

@@ -28,7 +28,7 @@ export default function Home() {
             <div className="release-rule" aria-hidden="true" />
             <div className="release-topline">
               <span className="tool-glyph" aria-hidden="true">MD</span>
-              <div className="tag-group"><span className="tag neutral">{tool.type}</span><span className="tag candidate">{tool.status}</span></div>
+              <div className="tag-group"><span className="tag neutral">{tool.type}</span><span className={`tag ${tool.statusTone}`}>{tool.status}</span></div>
             </div>
             <p className="eyebrow">CURRENT RELEASE</p>
             <h2>{tool.name}</h2>

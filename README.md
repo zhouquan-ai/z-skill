@@ -10,11 +10,11 @@
 - 可搜索、筛选和排序的工具目录 `/tools`；
 - 通用工具详情路由 `/tools/[slug]`；
 - 定位与收录原则 `/about`；
-- Any-to-MD `v0.1.0-candidate` 详情、Agent 安装 Prompt 和 ZIP 下载。
+- Any-to-MD `v0.1.0` 详情、Agent 安装 Prompt 和 ZIP 下载。
 
 当前临时线上地址：<https://z-skill.zzzq8848.workers.dev/>。该地址含账户标识，不作为最终正式域名。
 
-2026-07-13目标环境复验确认：候选Skill已安装到Codex与Claude个人Skills目录，两个副本的结构与哈希一致，本地优化和严格QA脚本通过。Codex CLI受版本与账户模型兼容问题阻断，Claude Code无工具探针亦连接超时，因此尚未取得Agent模型级触发证据；Any-to-MD继续保留候选状态。
+2026-07-13 发布验收确认：Any-to-MD 已由 Codex 实际触发，完成本地结构修复、严格 QA 和预期结果比对，正式发布 `v0.1.0`。
 
 ## 工具数据
 
