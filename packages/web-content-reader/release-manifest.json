@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 1,
+  "status": "internal-candidate",
+  "workflow": {
+    "slug": "web-content-reader",
+    "name": "Web Content Reader",
+    "type": "Workflow",
+    "packageMode": "Bundle",
+    "version": "v0.2.0-candidate.1",
+    "archiveName": "web-content-reader-v0.2.0-candidate.1.zip",
+    "archiveRoot": "web-content-reader",
+    "bundleFiles": [
+      "README.md",
+      "PRIVACY.md",
+      "KNOWN_LIMITATIONS.md",
+      "TEST_MATRIX.md",
+      "LICENSE",
+      "THIRD_PARTY_NOTICES.md"
+    ],
+    "components": [
+      {
+        "slug": "web-content-reader",
+        "type": "Skill",
+        "role": "routing-quality-control",
+        "version": "v0.2.0-candidate.1",
+        "source": "skill/web-content-reader"
+      },
+      {
+        "slug": "weixin-article-reader",
+        "type": "Skill",
+        "role": "public-component",
+        "version": "v0.1.0-candidate.1",
+        "source": "skill/weixin-article-reader"
+      },
+      {
+        "slug": "generic-web-reader",
+        "type": "Internal",
+        "role": "direct-extraction-and-cleaning",
+        "source": "skill/web-content-reader/scripts",
+        "files": [
+          "direct_extract.py",
+          "html_to_markdown.py"
+        ]
+      }
+    ]
+  },
+  "standalone": {
+    "slug": "weixin-article-reader",
+    "name": "Weixin Article Reader",
+    "type": "Skill",
+    "packageMode": "Standalone",
+    "version": "v0.1.0-candidate.1",
+    "archiveName": "weixin-article-reader-v0.1.0-candidate.1.zip",
+    "archiveRoot": "weixin-article-reader",
+    "source": "skill/weixin-article-reader",
+    "distributionFiles": [
+      "distributions/weixin-article-reader/README.md",
+      "distributions/weixin-article-reader/PRIVACY.md",
+      "distributions/weixin-article-reader/KNOWN_LIMITATIONS.md",
+      "LICENSE",
+      "THIRD_PARTY_NOTICES.md"
+    ]
+  },
+  "build": {
+    "outputDirectory": "outputs/web-content-reader",
+    "artifactManifest": "artifacts.json",
+    "fixedZipTimestamp": "1980-01-01T00:00:00Z"
+  }
+}

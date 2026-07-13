@@ -1,0 +1,4 @@
+interface:
+  display_name: "微信公众号文章读取"
+  short_description: "批量读取微信公众号文章，保留正文元数据并报告失败链接"
+  default_prompt: "Use $weixin-article-reader to read and summarize these WeChat article URLs."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "网页内容批量读取"
+  short_description: "批量读取微信公众号及普通网页，自动路由工具并检查正文完整性"
+  default_prompt: "Use $web-content-reader to extract and validate the content of these web page URLs."
