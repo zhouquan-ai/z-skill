@@ -28,6 +28,10 @@ test("server-renders the z-skill brand homepage", async () => {
   const response = await render();
   assert.equal(response.status, 200);
   assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
+  assert.equal(response.headers.get("x-content-type-options"), "nosniff");
+  assert.equal(response.headers.get("referrer-policy"), "strict-origin-when-cross-origin");
+  assert.equal(response.headers.get("permissions-policy"), "camera=(), microphone=(), geolocation=()");
+  assert.equal(response.headers.get("x-frame-options"), "DENY");
 
   const html = await response.text();
   assert.match(html, /<title>z-skill｜AI 工具与可复用工作流<\/title>/i);
