@@ -23,20 +23,32 @@ async function render(pathname = "/") {
   );
 }
 
-test("server-renders the z-skill tool directory", async () => {
+test("server-renders the z-skill brand homepage", async () => {
   const response = await render();
   assert.equal(response.status, 200);
   assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
 
   const html = await response.text();
   assert.match(html, /<title>z-skill｜AI 工具与可复用工作流<\/title>/i);
+  assert.match(html, /把\s*<span>AI 工具<\/span>/);
   assert.match(html, /Any-to-MD/);
   assert.match(html, /公开候选/);
-  assert.match(html, /知识管理 · 文件处理/);
-  assert.match(html, /适配环境待正式验收/);
-  assert.match(html, /更多工具正在整理/);
-  assert.match(html, /\/downloads\/any-to-md-v0\.1\.0-candidate\.zip/);
+  assert.match(html, /搜索工具名称、用途或已验证格式/);
+  assert.match(html, /发布少一点，说明完整一点/);
+  assert.doesNotMatch(html, /下载量|用户数|排行榜|评分/);
   assert.doesNotMatch(html, /codex-preview|SkeletonPreview|Your site is taking shape/i);
+});
+
+test("server-renders the searchable tool directory", async () => {
+  const response = await render("/tools");
+  assert.equal(response.status, 200);
+
+  const html = await response.text();
+  assert.match(html, /全部工具/);
+  assert.match(html, /Any-to-MD/);
+  assert.match(html, /知识管理 · 文件处理/);
+  assert.match(html, /最近更新/);
+  assert.match(html, /\/downloads\/any-to-md-v0\.1\.0-candidate\.zip/);
 });
 
 test("server-renders the Any-to-MD detail page", async () => {
@@ -45,11 +57,27 @@ test("server-renders the Any-to-MD detail page", async () => {
 
   const html = await response.text();
   assert.match(html, /Any-to-MD/);
-  assert.match(html, /测试与已知限制/);
+  assert.match(html, /当前测试状态/);
+  assert.match(html, /已知限制/);
   assert.match(html, /DOCX/);
   assert.match(html, /PPT \/ PPTX/);
   assert.match(html, /轻量接口本轮失败/);
+  assert.match(html, /复制给 Agent 的安装 Prompt/);
+  assert.match(html, /raw\.githubusercontent\.com\/zzzq8848-ai\/z-skill/);
+  assert.match(html, /隐私提示/);
   assert.match(html, /下载候选版 ZIP/);
+});
+
+test("server-renders the About page and channel boundaries", async () => {
+  const response = await render("/about");
+  assert.equal(response.status, 200);
+
+  const html = await response.text();
+  assert.match(html, /收录与验证原则/);
+  assert.match(html, /收录标准/);
+  assert.match(html, /公众号/);
+  assert.match(html, /GitHub/);
+  assert.match(html, /不扩展为文章站、社区、投稿平台或排行榜/);
 });
 
 test("ships a real candidate download without starter dependencies", async () => {

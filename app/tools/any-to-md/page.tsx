@@ -1,113 +1,106 @@
 import Link from "next/link";
+import { CopyPrompt } from "../../CopyPrompt";
+import { SiteFooter, SiteHeader } from "../../SiteChrome";
 import { tools } from "../../tool-data";
 
 const tool = tools[0];
+const installPrompt = `请安装 Any-to-MD v0.1.0-candidate。
+
+权威候选包地址：
+https://raw.githubusercontent.com/zzzq8848-ai/z-skill/main/public/downloads/any-to-md-v0.1.0-candidate.zip
+
+1. 先检查当前环境支持的 skills 目录与安装规则，不要猜测路径。
+2. 从上述地址下载并解压候选版 ZIP，阅读 README、PRIVACY.md 和 KNOWN_LIMITATIONS.md。
+3. 将 skill/any-to-md 放入当前环境认可的 skills 目录。
+4. 不要上传任何敏感文件进行测试；默认远程转换可能把文件发送至 MinerU。
+5. 安装后只做无敏感信息的最小触发检查，并报告下载来源、实际安装路径、测试结果与失败原因。
+
+如果当前环境不支持该 Skill，请停止，不要伪造成功结果。`;
 
 export default function AnyToMdPage() {
   return (
-    <main className="detail-page">
-      <header className="site-header">
-        <div className="header-inner">
-          <Link className="brand" href="/" aria-label="返回 z-skill 首页">
-            <span className="brand-mark">z</span>
-            <span>z-skill</span>
-          </Link>
-          <nav className="breadcrumb" aria-label="面包屑">
-            <Link href="/">工具目录</Link><span>/</span><span>Any-to-MD</span>
-          </nav>
-        </div>
-      </header>
+    <>
+      <SiteHeader active="tools" />
+      <main>
+        <div className="breadcrumb-row site-wrap"><Link href="/tools">全部工具</Link><span>/</span><span>Any-to-MD</span></div>
 
-      <section className="detail-intro">
-        <div className="detail-mark" aria-hidden="true">MD</div>
-        <div className="detail-title">
-          <div className="tool-title-line">
-            <span className="tag neutral">{tool.type}</span>
-            <span className="tag candidate">{tool.status}</span>
+        <section className="detail-hero site-wrap">
+          <div className="detail-glyph" aria-hidden="true">MD</div>
+          <div className="detail-title">
+            <div className="tag-group"><span className="tag neutral">{tool.type}</span><span className="tag candidate">{tool.status}</span></div>
+            <h1>{tool.name}</h1>
+            <p>{tool.summary} 让资料更适合跨平台调用与长期维护。</p>
+            <div className="detail-meta"><strong>{tool.version}</strong><span>作者：周全</span><span>MIT License</span><span>更新于 {tool.updated}</span></div>
           </div>
-          <h1>{tool.name}</h1>
-          <p>{tool.summary}</p>
-          <div className="detail-meta">
-            <span>{tool.version}</span><span>更新于 {tool.updated}</span><span>{tool.category}</span>
-          </div>
-        </div>
-        <div className="detail-download">
           <a className="button primary large" href={tool.download} download>下载候选版 ZIP</a>
-          <span>完整包 · 约 337 KB</span>
+        </section>
+
+        <div className="detail-layout site-wrap">
+          <article className="detail-content">
+            <section>
+              <p className="eyebrow">OVERVIEW</p>
+              <h2>让基础资料脱离单一 AI 平台</h2>
+              <p>Any-to-MD 把格式识别、内容转换、结构修复和质量扫描组织成一条可复核流程。Markdown 是衍生资料，不替代原文件、签章、公式、批注、修订记录或法律证据原貌。</p>
+              <div className="scenario-grid">
+                <div>把研究报告与合同附件整理为可检索的 Markdown</div>
+                <div>为知识库准备可跨平台迁移的基础资料</div>
+                <div>将表格和图片转换后继续人工复核与修订</div>
+                <div>为 Agent 提供结构更稳定的长期输入</div>
+              </div>
+            </section>
+
+            <section>
+              <p className="eyebrow">VERIFIED FORMATS</p>
+              <h2>当前测试状态</h2>
+              <p>下列状态只对应本仓库已完成的测试，不外推为所有复杂文件均可无误转换。</p>
+              <div className="verification-table" role="table" aria-label="格式验证状态">
+                {tool.verified.map((format) => <div role="row" key={format}><code role="cell">{format}</code><strong role="cell">本仓库已验证</strong></div>)}
+                <div role="row"><code role="cell">DOCX</code><strong role="cell" className="pending">轻量接口本轮失败</strong></div>
+                <div role="row"><code role="cell">PPT / PPTX</code><strong role="cell" className="pending">尚未验证</strong></div>
+              </div>
+            </section>
+
+            <section>
+              <p className="eyebrow">HOW TO USE</p>
+              <h2>下载后怎样使用</h2>
+              <ol className="steps">
+                <li><span>01</span><p>解压 ZIP，并先阅读 README、隐私说明和已知限制。</p></li>
+                <li><span>02</span><p>把 <code>skill/any-to-md</code> 复制到目标 Agent 认可的 skills 目录。</p></li>
+                <li><span>03</span><p>远程转换前确认文件可以上传第三方服务；敏感资料不要直接上传。</p></li>
+                <li><span>04</span><p>转换后运行本地修复和质量扫描，并逐项对照原文件。</p></li>
+              </ol>
+            </section>
+
+            <section>
+              <p className="eyebrow">INSTALL WITH AN AGENT</p>
+              <h2>复制给 Agent 的安装 Prompt</h2>
+              <p>这段 Prompt 要求 Agent 先检查环境与说明文件，再执行安装。目标环境的实际触发仍需正式验收。</p>
+              <CopyPrompt prompt={installPrompt} />
+            </section>
+
+            <section>
+              <p className="eyebrow">LIMITS</p>
+              <h2>已知限制</h2>
+              <p>精准接口因现有私人 Token 返回 401，尚未完成本轮复验。Codex 与 Claude 目标环境的实际安装触发仍待验证。复杂合并表格、OCR 错误与语义结构必须回看原件。</p>
+            </section>
+          </article>
+
+          <aside className="download-panel" aria-label="下载与发布信息">
+            <h2>下载与发布信息</h2>
+            <dl>
+              <div><dt>当前版本</dt><dd>{tool.version}</dd></div>
+              <div><dt>发布状态</dt><dd>{tool.status}</dd></div>
+              <div><dt>作者</dt><dd>周全</dd></div>
+              <div><dt>许可证</dt><dd>MIT</dd></div>
+              <div><dt>文件类型</dt><dd>ZIP</dd></div>
+            </dl>
+            <div className="privacy-note"><strong>隐私提示</strong><p>默认转换路径可能把原文件上传至 MinerU。处理客户资料、案件材料或其他敏感信息前，应先脱敏并确认上传权限。</p></div>
+            <a className="button primary large" href={tool.download} download>下载候选版 ZIP</a>
+            <p className="panel-footnote">版本、测试与限制以本页说明为准</p>
+          </aside>
         </div>
-      </section>
-
-      <nav className="detail-tabs" aria-label="详情页章节">
-        <a href="#overview">概述</a>
-        <a href="#usage">使用说明</a>
-        <a href="#versions">版本记录</a>
-        <a href="#limits">测试与限制</a>
-      </nav>
-
-      <div className="detail-layout">
-        <article className="detail-content">
-          <section id="overview">
-            <p className="section-label">OVERVIEW</p>
-            <h2>让基础资料脱离单一 AI 平台</h2>
-            <p>PDF、Word、Excel和图片并不适合被不同AI产品长期调用。Any-to-MD把格式识别、内容转换、结构修复和质量扫描组织成一条可复核流程，让Markdown成为可以迁移、维护和持续复用的衍生资料。</p>
-            <div className="notice"><strong>重要边界</strong><span>Markdown不替代原文件、签章、公式、批注、修订记录或法律证据原貌。</span></div>
-          </section>
-
-          <section id="usage">
-            <p className="section-label">HOW TO USE</p>
-            <h2>下载后怎样使用</h2>
-            <ol className="steps">
-              <li><span>01</span><p>解压 ZIP，并先阅读根目录 README、隐私说明和已知限制。</p></li>
-              <li><span>02</span><p>把 <code>skill/any-to-md</code> 复制到目标 Agent 的 skills 目录。</p></li>
-              <li><span>03</span><p>远程转换前确认文件可以上传第三方服务；敏感资料不要直接上传。</p></li>
-              <li><span>04</span><p>转换后运行本地修复和质量扫描，并逐项对照原文件。</p></li>
-            </ol>
-          </section>
-
-          <section id="versions">
-            <p className="section-label">CHANGELOG</p>
-            <h2>版本记录</h2>
-            <div className="version-card">
-              <div><strong>{tool.version}</strong><span>{tool.updated}</span></div>
-              <p>首个公开候选包。包含 Skill、转换脚本、格式修复、质量扫描、说明文件与脱敏测试材料。</p>
-            </div>
-          </section>
-
-          <section id="limits">
-            <p className="section-label">TESTS & LIMITS</p>
-            <h2>测试与已知限制</h2>
-            <div className="verification-table" role="table" aria-label="格式验证状态">
-              {tool.verified.map((format) => <div role="row" key={format}><span role="cell">{format}</span><strong role="cell">本仓库已验证</strong></div>)}
-              <div role="row"><span role="cell">DOCX</span><strong role="cell" className="pending">轻量接口本轮失败</strong></div>
-              <div role="row"><span role="cell">PPT / PPTX</span><strong role="cell" className="pending">尚未验证</strong></div>
-            </div>
-            <ul className="boundary-list">
-              <li>精准接口因现有私人 Token 返回 401，尚未完成本轮复验。</li>
-              <li>Codex 与 Claude 目标环境的实际安装触发仍待验证。</li>
-              <li>复杂合并表格、OCR错误和语义结构必须回看原件。</li>
-              <li>默认转换路径会把文件上传至 MinerU，并非纯本地处理。</li>
-            </ul>
-          </section>
-        </article>
-
-        <aside className="detail-aside" aria-label="发布信息">
-          <h2>发布信息</h2>
-          <dl>
-            <div><dt>当前版本</dt><dd>{tool.version}</dd></div>
-            <div><dt>发布状态</dt><dd>{tool.status}</dd></div>
-            <div><dt>作者</dt><dd>周全</dd></div>
-            <div><dt>许可证</dt><dd>MIT</dd></div>
-            <div><dt>远程解析</dt><dd>MinerU</dd></div>
-          </dl>
-          <div className="aside-note"><strong>隐私提示</strong><p>默认路径可能把原文件上传至第三方服务。处理客户资料、案件材料或其他敏感信息前，应先完成脱敏并确认上传权限。</p></div>
-          <a className="button primary aside-button" href={tool.download} download>下载 ZIP</a>
-        </aside>
-      </div>
-
-      <footer className="site-footer">
-        <p><strong>z-skill</strong> · 版本与限制以本页说明为准</p>
-        <Link href="/">← 返回工具目录</Link>
-      </footer>
-    </main>
+      </main>
+      <SiteFooter />
+    </>
   );
 }
