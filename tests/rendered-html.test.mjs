@@ -137,6 +137,7 @@ test("ships a real candidate download without starter dependencies", async () =>
 
   const packageJson = await readFile(packageJsonUrl, "utf8");
   assert.doesNotMatch(packageJson, /react-loading-skeleton/);
+  assert.match(packageJson, /"node": ">=22\.19\.0"/);
   assert.match(packageJson, /"build": "npm run validate:release && vinext build"/);
   assert.match(packageJson, /"start": "wrangler dev --config dist\/server\/wrangler\.json"/);
   await assert.rejects(access(new URL("../app/_sites-preview/", import.meta.url)));
