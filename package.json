@@ -3,14 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "engines": {
-    "node": ">=22.19.0"
+    "node": ">=22.13.0"
   },
   "scripts": {
     "dev": "vinext dev",
     "build": "npm run validate:release && vinext build",
     "start": "wrangler dev --config dist/server/wrangler.json",
-    "validate:release": "node scripts/validate-release.mjs",
-    "test": "npm run build && node --test tests/rendered-html.test.mjs",
+    "validate:release": "node --experimental-strip-types scripts/validate-release.mjs",
+    "test": "npm run build && node --experimental-strip-types --test tests/rendered-html.test.mjs",
     "lint": "eslint . --ignore-pattern dist --ignore-pattern .next",
     "db:generate": "drizzle-kit generate"
   },
