@@ -84,6 +84,8 @@ test("server-renders the Any-to-MD detail page", async () => {
   assert.match(html, /class="failed">轻量接口本轮失败/);
   assert.match(html, new RegExp(tools[0].download.sha256));
   assert.match(html, /适配状态/);
+  assert.match(html, /个人 Skills 目录安装及本地脚本已验证/);
+  assert.match(html, /Codex CLI 受版本与模型兼容问题阻断/);
 });
 
 test("returns 404 for an unpublished tool slug", async () => {
@@ -131,6 +133,9 @@ test("derives release metadata and install prompt from one tool record", () => {
   const prompt = buildInstallPrompt(tool);
 
   assert.equal(tools.filter((item) => item.featured).length, 1);
+  assert.equal(tool.status, "公开候选");
+  assert.equal(tool.version, "v0.1.0-candidate");
+  assert.deepEqual(tool.environments, []);
   assert.deepEqual(getVerifiedFormats(tool), ["PDF", "XLSX", "PNG", "Markdown"]);
   assert.match(tool.download.path, new RegExp(`${tool.slug}-${tool.version}\\.zip$`));
   assert.match(prompt, new RegExp(tool.version));

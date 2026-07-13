@@ -58,7 +58,7 @@ export const tools: ToolRecord[] = [
     status: "公开候选",
     statusTone: "candidate",
     version: "v0.1.0-candidate",
-    updated: "2026-07-12",
+    updated: "2026-07-13",
     author: "周全",
     license: "MIT",
     category: "知识管理 · 文件处理",
@@ -66,7 +66,8 @@ export const tools: ToolRecord[] = [
       "把 PDF、Word、Excel、图片等文件转换为可维护、可复核的 Markdown 基础资料。",
     detailSummary: "把常见文件转换为可维护、可复核的 Markdown 基础资料。",
     environments: [],
-    environmentNote: "Codex 与 Claude 的实际安装触发待正式验收",
+    environmentNote:
+      "Codex 与 Claude 个人 Skills 目录安装及本地脚本已验证；Agent 实际触发因宿主 CLI 问题待复验",
     download: {
       path: "/downloads/any-to-md-v0.1.0-candidate.zip",
       sourceUrl:
@@ -102,7 +103,8 @@ export const tools: ToolRecord[] = [
       "转换后运行本地修复和质量扫描，并逐项对照原文件。",
     ],
     install: {
-      intro: "要求 Agent 先检查环境和说明文件，再执行安装；实际触发仍待目标环境验收。",
+      intro:
+        "安装目录与本地脚本已经验证；仍要求 Agent 先检查环境和说明文件，实际触发结果须据实报告。",
       steps: [
         "先检查当前环境支持的 skills 目录与安装规则，不要猜测路径。",
         "从上述地址下载并解压候选版 ZIP，阅读 README、PRIVACY.md 和 KNOWN_LIMITATIONS.md。",
@@ -115,7 +117,7 @@ export const tools: ToolRecord[] = [
     privacy:
       "默认转换可能把原文件上传至 MinerU。处理客户、案件或其他敏感资料前，须先脱敏并确认上传权限。",
     limitations:
-      "精准接口因私人 Token 返回 401，尚未复验；Codex 与 Claude 的实际安装触发仍待验证。复杂表格、OCR 和语义结构必须回看原件。",
+      "精准接口因私人 Token 返回 401，尚未复验；Codex CLI 受版本与模型兼容问题阻断，Claude Code 模型连接超时，Agent 实际触发仍待复验。复杂表格、OCR 和语义结构必须回看原件。",
   },
 ];
 
