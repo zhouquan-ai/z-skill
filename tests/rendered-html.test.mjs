@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { access, readFile, stat } from "node:fs/promises";
 import test from "node:test";
+import { buildInstallPrompt, getVerifiedFormats, tools } from "../app/tool-data.ts";
 
 async function render(pathname = "/") {
   const workerUrl = new URL("../dist/server/index.js", import.meta.url);
@@ -71,6 +72,12 @@ test("server-renders the Any-to-MD detail page", async () => {
   assert.match(html, /隐私提示/);
   assert.match(html, /下载候选版 ZIP/);
   assert.match(html, /不能替代原文件、签章、公式、批注或修订记录/);
+  assert.match(html, /<title>Any-to-MD｜z-skill<\/title>/i);
+});
+
+test("returns 404 for an unpublished tool slug", async () => {
+  const response = await render("/tools/not-published");
+  assert.equal(response.status, 404);
 });
 
 test("server-renders the About page and channel boundaries", async () => {
@@ -83,7 +90,8 @@ test("server-renders the About page and channel boundaries", async () => {
   assert.match(html, /公众号/);
   assert.match(html, /GitHub/);
   assert.match(html, /不做文章站、社区、投稿平台或排行榜/);
-  assert.match(html, /当前仅公开 Any-to-MD v0\.1\.0-candidate/);
+  assert.match(html, /当前仅公开/);
+  assert.match(html, /Any-to-MD v0\.1\.0-candidate/);
 });
 
 test("keeps the mobile hero accent separate from the search panel", async () => {
@@ -95,11 +103,20 @@ test("keeps the mobile hero accent separate from the search panel", async () => 
   assert.match(css, /\.catalog-search:focus-within\s*\{/);
 });
 
+test("derives release metadata and install prompt from one tool record", () => {
+  const tool = tools[0];
+  const prompt = buildInstallPrompt(tool);
+
+  assert.equal(tools.filter((item) => item.featured).length, 1);
+  assert.deepEqual(getVerifiedFormats(tool), ["PDF", "XLSX", "PNG", "Markdown"]);
+  assert.match(tool.download.path, new RegExp(`${tool.slug}-${tool.version}\\.zip$`));
+  assert.match(prompt, new RegExp(tool.version));
+  assert.ok(prompt.includes(tool.download.sourceUrl));
+  assert.ok(prompt.includes(tool.install.fallback));
+});
+
 test("ships a real candidate download without starter dependencies", async () => {
-  const archive = new URL(
-    "../public/downloads/any-to-md-v0.1.0-candidate.zip",
-    import.meta.url,
-  );
+  const archive = new URL(`../public${tools[0].download.path}`, import.meta.url);
   const packageJsonUrl = new URL("../package.json", import.meta.url);
 
   await access(archive);

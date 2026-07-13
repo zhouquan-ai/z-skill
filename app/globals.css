@@ -86,6 +86,8 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .tag { min-height: 24px; display: inline-flex; align-items: center; padding: 0 9px; border-radius: 999px; font-size: 11px; font-weight: 700; white-space: nowrap; }
 .tag.neutral { color: #4d5d72; background: #eff1f4; }
 .tag.candidate { color: var(--amber); background: var(--amber-soft); }
+.tag.verified { color: var(--green); background: var(--green-soft); }
+.tag.unverified { color: var(--ink-400); background: #eff1f4; }
 .release-card h2 { margin: 10px 0 12px; font-size: 34px; font-weight: 680; line-height: 1.15; letter-spacing: -.035em; }
 .release-card > p:not(.eyebrow) { margin: 0; color: var(--ink-600); font-size: 15px; line-height: 1.78; }
 .release-formats { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; }

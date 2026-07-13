@@ -1,9 +1,9 @@
 import Link from "next/link";
 import { HeroSearch } from "./HeroSearch";
 import { SiteFooter, SiteHeader } from "./SiteChrome";
-import { tools } from "./tool-data";
+import { featuredTool as tool, getVerifiedFormats } from "./tool-data";
 
-const tool = tools[0];
+const verifiedFormats = getVerifiedFormats(tool);
 
 export default function Home() {
   return (
@@ -34,7 +34,7 @@ export default function Home() {
             <h2>{tool.name}</h2>
             <p>{tool.summary}</p>
             <div className="release-formats" aria-label="已验证格式">
-              {tool.verified.map((format) => <span key={format}>{format}</span>)}
+              {verifiedFormats.map((format) => <span key={format}>{format}</span>)}
             </div>
             <div className="release-meta"><strong>{tool.version}</strong><span>更新于 {tool.updated}</span></div>
             <Link className="button primary large" href={`/tools/${tool.slug}`}>查看工具详情</Link>

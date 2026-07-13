@@ -1,4 +1,7 @@
 import { SiteFooter, SiteHeader } from "../SiteChrome";
+import { tools } from "../tool-data";
+
+const currentReleases = tools.map((tool) => `${tool.name} ${tool.version}`).join("、");
 
 export default function AboutPage() {
   return (
@@ -12,7 +15,7 @@ export default function AboutPage() {
         </section>
 
         <section className="about-section site-wrap">
-          <div className="about-copy"><h2>发布什么</h2><p>只收录用途明确、版本可交付、测试和边界可说明的个人 AI 工具。当前仅公开 Any-to-MD v0.1.0-candidate。</p></div>
+          <div className="about-copy"><h2>发布什么</h2><p>只收录用途明确、版本可交付、测试和边界可说明的个人 AI 工具。当前仅公开 {currentReleases}。</p></div>
         </section>
 
         <section className="about-section site-wrap">

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useMemo, useState } from "react";
-import { tools, toolStatuses, toolTypes } from "./tool-data";
+import { catalogUpdated, getVerifiedFormats, tools, toolStatuses, toolTypes } from "./tool-data";
 
 type SortMode = "recent" | "name";
 
@@ -16,7 +16,7 @@ export function ToolCatalog({ initialQuery = "" }: { initialQuery?: string }) {
     const normalizedQuery = query.trim().toLowerCase();
     return tools
       .filter((tool) => {
-        const searchable = `${tool.name} ${tool.summary} ${tool.category} ${tool.verified.join(" ")}`.toLowerCase();
+        const searchable = `${tool.name} ${tool.summary} ${tool.category} ${getVerifiedFormats(tool).join(" ")}`.toLowerCase();
         const matchesType = activeType === "全部" || tool.type === activeType;
         const matchesStatus = status === "全部状态" || tool.status === status;
         return matchesType && matchesStatus && (!normalizedQuery || searchable.includes(normalizedQuery));
@@ -54,19 +54,19 @@ export function ToolCatalog({ initialQuery = "" }: { initialQuery?: string }) {
         </select>
       </div>
 
-      <div className="results-heading"><span>找到 {visibleTools.length} 项公开工具</span><span>数据截至 2026-07-13</span></div>
+      <div className="results-heading"><span>找到 {visibleTools.length} 项公开工具</span><span>最近更新 {catalogUpdated}</span></div>
 
       <div className="tool-list" aria-live="polite">
         {visibleTools.map((tool) => (
           <article className="tool-card" key={tool.slug}>
-            <div className="tool-glyph" aria-hidden="true">MD</div>
+            <div className="tool-glyph" aria-hidden="true">{tool.glyph}</div>
             <div className="tool-copy">
-              <div className="tool-title-line"><h3>{tool.name}</h3><span className="tag neutral">{tool.type}</span><span className="tag candidate">{tool.status}</span></div>
+              <div className="tool-title-line"><h3>{tool.name}</h3><span className="tag neutral">{tool.type}</span><span className={`tag ${tool.statusTone}`}>{tool.status}</span></div>
               <p>{tool.summary}</p>
-              <div className="verified-row"><span>已验证格式</span>{tool.verified.map((format) => <code key={format}>{format}</code>)}</div>
+              <div className="verified-row"><span>已验证格式</span>{getVerifiedFormats(tool).map((format) => <code key={format}>{format}</code>)}</div>
               <div className="tool-submeta"><span>{tool.category}</span><strong>{tool.version}</strong><span>更新于 {tool.updated}</span></div>
             </div>
-            <div className="tool-actions"><Link className="button primary" href={`/tools/${tool.slug}`}>查看详情</Link><a className="text-link" href={tool.download} download>下载 ZIP</a></div>
+            <div className="tool-actions"><Link className="button primary" href={`/tools/${tool.slug}`}>查看详情</Link><a className="text-link" href={tool.download.path} download>下载 ZIP</a></div>
           </article>
         ))}
         {visibleTools.length === 0 && <div className="empty-result"><p>没有匹配的公开工具。</p><button type="button" onClick={clearFilters}>清除搜索与筛选</button></div>}
