@@ -290,11 +290,12 @@ About 不是品牌宣传长页，应解释：
 所有链接、按钮、输入框和选择框必须支持 `:focus-visible`：
 
 ```css
-outline: 3px solid rgb(49 87 213 / 22%);
-outline-offset: 3px;
+outline: 2px solid var(--surface);
+outline-offset: 0;
+box-shadow: 0 0 0 5px var(--blue-700);
 ```
 
-不得只依赖颜色变化表示焦点。
+白色内环用于深色表面，深蓝外环用于浅色表面；不得使用低透明度焦点环，也不得只依赖颜色变化表示焦点。搜索框由完整容器显示同等级焦点环，内部无边框输入框不重复叠加。
 
 ### Active / Pressed
 

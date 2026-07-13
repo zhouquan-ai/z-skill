@@ -112,11 +112,16 @@ test("server-renders the About page and channel boundaries", async () => {
 
 test("keeps the mobile hero accent separate from the search panel", async () => {
   const css = await readFile(new URL("../app/globals.css", import.meta.url), "utf8");
+  const searchComponent = await readFile(new URL("../app/HeroSearch.tsx", import.meta.url), "utf8");
 
   assert.match(css, /\.hero-statement::before\s*\{/);
   assert.doesNotMatch(css, /\.hero-copy::before\s*\{/);
   assert.match(css, /\.hero-search:focus-within\s*\{/);
   assert.match(css, /\.catalog-search:focus-within\s*\{/);
+  assert.match(css, /box-shadow: 0 0 0 5px var\(--blue-700\)/);
+  assert.doesNotMatch(css, /rgb\(49 87 213 \/ 22%\)/);
+  assert.match(searchComponent, /event\.key !== "Enter"/);
+  assert.match(searchComponent, /onKeyDown=\{submitWithEnter\}/);
 });
 
 test("derives release metadata and install prompt from one tool record", () => {
@@ -141,12 +146,16 @@ test("ships a real candidate download without starter dependencies", async () =>
 
   const packageJson = await readFile(packageJsonUrl, "utf8");
   assert.doesNotMatch(packageJson, /react-loading-skeleton/);
+  assert.doesNotMatch(packageJson, /drizzle/);
   assert.match(packageJson, /"node": ">=22\.13\.0"/);
   assert.match(packageJson, /"build": "npm run validate:release && vinext build"/);
   assert.match(packageJson, /"start": "wrangler dev --config dist\/server\/wrangler\.json"/);
   assert.match(packageJson, /"validate:release": "node --experimental-strip-types scripts\/validate-release\.mjs"/);
   assert.match(packageJson, /"test": "npm run build && node --experimental-strip-types --test tests\/rendered-html\.test\.mjs"/);
   await assert.rejects(access(new URL("../app/_sites-preview/", import.meta.url)));
+  await assert.rejects(access(new URL("../app/chatgpt-auth.ts", import.meta.url)));
+  await assert.rejects(access(new URL("../db/", import.meta.url)));
+  await assert.rejects(access(new URL("../examples/d1/", import.meta.url)));
 });
 
 test("ships security and immutable download headers", async () => {

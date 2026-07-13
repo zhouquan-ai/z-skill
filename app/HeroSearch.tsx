@@ -1,16 +1,26 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { FormEvent, useState } from "react";
+import { FormEvent, KeyboardEvent, useState } from "react";
 
 export function HeroSearch() {
   const router = useRouter();
   const [query, setQuery] = useState("");
 
-  function submit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
+  function navigateToResults() {
     const value = query.trim();
     router.push(value ? `/tools?q=${encodeURIComponent(value)}` : "/tools");
+  }
+
+  function submit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    navigateToResults();
+  }
+
+  function submitWithEnter(event: KeyboardEvent<HTMLInputElement>) {
+    if (event.key !== "Enter") return;
+    event.preventDefault();
+    navigateToResults();
   }
 
   return (
@@ -22,6 +32,7 @@ export function HeroSearch() {
           type="search"
           value={query}
           onChange={(event) => setQuery(event.target.value)}
+          onKeyDown={submitWithEnter}
           placeholder="搜索工具名称或用途"
         />
       </label>

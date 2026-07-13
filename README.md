@@ -42,6 +42,7 @@ npm start
 npm run validate:release
 npm test
 npm run lint
+npm run audit
 ```
 
 `validate:release` 会检查：
@@ -55,7 +56,9 @@ npm run lint
 
 `npm test` 会先执行发布校验和生产构建，再运行服务端渲染测试。
 
-`npm run build` 本身也会先执行发布校验，因此 Cloudflare 自动构建不能绕过版本、下载包和 SHA-256 门禁。GitHub Actions 会在推送和 Pull Request 时重复运行测试与 ESLint。
+`npm run build` 本身也会先执行发布校验，因此 Cloudflare 自动构建不能绕过版本、下载包和 SHA-256 门禁。GitHub Actions 会在推送和 Pull Request 时重复运行依赖审计、测试与 ESLint；高等级依赖告警会阻止发布质量检查通过。
+
+当前依赖审计仅保留 Next.js 内嵌 PostCSS 的中等级上游提示。该问题要求把不受信任的 CSS 解析后重新嵌入 HTML，而本站不接收、解析或展示用户提交的 CSS，因此当前没有对应输入面。`npm audit fix --force` 会把 Next.js 错降到不兼容的旧版本，不应执行；后续在 Next.js 提供兼容修复时随正常依赖维护更新。
 
 ## 发布方式
 
