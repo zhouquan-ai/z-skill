@@ -163,7 +163,7 @@ export const tools: ToolRecord[] = [
         "https://raw.githubusercontent.com/zzzq8848-ai/z-skill/main/public/downloads/web-content-reader-v0.2.0-candidate.1.zip",
       label: "下载候选版 Workflow ZIP",
       fileType: "ZIP",
-      sha256: "cdfbf015b3e011dde566be51ffb9852613577ad10e664e9be6679be437e5eea3",
+      sha256: "7c946f4b691cb0c24706c5b9510875d80a6ad1a904f63df88da67d513dbfe45a",
     },
     overview: {
       title: "把混合网页读取变成可检查的流程",
@@ -255,7 +255,7 @@ export const tools: ToolRecord[] = [
         "https://raw.githubusercontent.com/zzzq8848-ai/z-skill/main/public/downloads/weixin-article-reader-v0.1.0-candidate.1.zip",
       label: "下载候选版 Skill ZIP",
       fileType: "ZIP",
-      sha256: "0fcb2038926e314fe645f83dc993f145bbc183cc18f985536cd2449a6b06412b",
+      sha256: "d1c559897c30630d8ff8bba2abb927ceb4cd7fd2e6ea72fb88b683e18f4edb2e",
     },
     overview: {
       title: "只安装公众号文章读取能力",

@@ -8,6 +8,7 @@ import test from "node:test";
 import {
   buildReleases,
   crc32,
+  normalizeReleaseContent,
 } from "../scripts/build-web-content-reader-releases.mjs";
 
 const repositoryRoot = dirname(dirname(fileURLToPath(import.meta.url)));
@@ -99,6 +100,15 @@ test("candidate archives are byte-for-byte reproducible", async () => {
       assert.equal(createHash("sha256").update(firstArchive).digest("hex"), artifact.sha256);
     }
   });
+});
+
+test("release text uses platform-independent LF line endings", () => {
+  assert.deepEqual(
+    normalizeReleaseContent("example.md", Buffer.from("first\r\nsecond\rthird\n")),
+    Buffer.from("first\nsecond\nthird\n"),
+  );
+  const binary = Buffer.from([0x00, 0x0d, 0x0a, 0xff]);
+  assert.deepEqual(normalizeReleaseContent("example.bin", binary), binary);
 });
 
 test("release builder refuses repository root and outside output paths", async () => {

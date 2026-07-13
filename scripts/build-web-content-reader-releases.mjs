@@ -47,6 +47,12 @@ function extensionOf(filePath) {
   return index < 0 ? "" : name.slice(index).toLowerCase();
 }
 
+export function normalizeReleaseContent(archivePath, content) {
+  const buffer = Buffer.from(content);
+  if (!textExtensions.has(extensionOf(archivePath))) return buffer;
+  return Buffer.from(buffer.toString("utf8").replace(/\r\n?/g, "\n"), "utf8");
+}
+
 function assertSafeArchivePath(archivePath) {
   if (!archivePath || archivePath.startsWith("/") || archivePath.includes("\\")) {
     throw new Error(`无效归档路径：${archivePath}`);
@@ -81,7 +87,7 @@ async function collectDirectory(sourceDirectory, archivePrefix) {
       continue;
     }
     if (!child.isFile()) continue;
-    const content = await readFile(sourcePath);
+    const content = normalizeReleaseContent(archivePath, await readFile(sourcePath));
     assertSafeArchivePath(archivePath);
     assertSafeContent(archivePath, content);
     entries.push({ archivePath, content });
@@ -96,7 +102,7 @@ async function collectFiles(packageRoot, filePaths, archiveRoot) {
     const sourceStat = await stat(sourcePath);
     if (!sourceStat.isFile()) throw new Error(`发布清单只允许文件：${relativePath}`);
     const archivePath = normalizeArchivePath(join(archiveRoot, basename(relativePath)));
-    const content = await readFile(sourcePath);
+    const content = normalizeReleaseContent(archivePath, await readFile(sourcePath));
     assertSafeArchivePath(archivePath);
     assertSafeContent(archivePath, content);
     entries.push({ archivePath, content });
