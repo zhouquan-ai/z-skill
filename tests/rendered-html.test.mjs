@@ -147,7 +147,7 @@ test("ships a real candidate download without starter dependencies", async () =>
   const packageJson = await readFile(packageJsonUrl, "utf8");
   assert.doesNotMatch(packageJson, /react-loading-skeleton/);
   assert.doesNotMatch(packageJson, /drizzle/);
-  assert.match(packageJson, /"node": ">=22\.13\.0"/);
+  assert.match(packageJson, /"node": ">=22\.15\.0"/);
   assert.match(packageJson, /"build": "npm run validate:release && vinext build"/);
   assert.match(packageJson, /"start": "wrangler dev --config dist\/server\/wrangler\.json"/);
   assert.match(packageJson, /"validate:release": "node --experimental-strip-types scripts\/validate-release\.mjs"/);

@@ -22,6 +22,8 @@
 
 ## 本地运行
 
+本项目要求 Node.js `22.15.0` 或更高版本；Cloudflare Vite Plugin 使用该版本开始提供的同步模块钩子。
+
 ```bash
 npm install
 npm run dev
