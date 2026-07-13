@@ -1,12 +1,14 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
 import { catalogUpdated, getVerifiedFormats, tools, toolStatuses, toolTypes } from "./tool-data";
 
 type SortMode = "recent" | "name";
 
 export function ToolCatalog({ initialQuery = "" }: { initialQuery?: string }) {
+  const router = useRouter();
   const [activeType, setActiveType] = useState<(typeof toolTypes)[number]>("全部");
   const [status, setStatus] = useState<(typeof toolStatuses)[number]>("全部状态");
   const [query, setQuery] = useState(initialQuery);
@@ -29,6 +31,7 @@ export function ToolCatalog({ initialQuery = "" }: { initialQuery?: string }) {
     setStatus("全部状态");
     setQuery("");
     setSort("recent");
+    router.replace("/tools");
   }
 
   return (

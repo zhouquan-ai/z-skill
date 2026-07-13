@@ -113,6 +113,7 @@ test("server-renders the About page and channel boundaries", async () => {
 test("keeps the mobile hero accent separate from the search panel", async () => {
   const css = await readFile(new URL("../app/globals.css", import.meta.url), "utf8");
   const searchComponent = await readFile(new URL("../app/HeroSearch.tsx", import.meta.url), "utf8");
+  const catalogComponent = await readFile(new URL("../app/ToolCatalog.tsx", import.meta.url), "utf8");
 
   assert.match(css, /\.hero-statement::before\s*\{/);
   assert.doesNotMatch(css, /\.hero-copy::before\s*\{/);
@@ -122,6 +123,7 @@ test("keeps the mobile hero accent separate from the search panel", async () => 
   assert.doesNotMatch(css, /rgb\(49 87 213 \/ 22%\)/);
   assert.match(searchComponent, /event\.key !== "Enter"/);
   assert.match(searchComponent, /onKeyDown=\{submitWithEnter\}/);
+  assert.match(catalogComponent, /router\.replace\("\/tools"\)/);
 });
 
 test("derives release metadata and install prompt from one tool record", () => {
