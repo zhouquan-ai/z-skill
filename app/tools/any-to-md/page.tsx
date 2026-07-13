@@ -29,7 +29,7 @@ export default function AnyToMdPage() {
           <div className="detail-title">
             <div className="tag-group"><span className="tag neutral">{tool.type}</span><span className="tag candidate">{tool.status}</span></div>
             <h1>{tool.name}</h1>
-            <p>{tool.summary} 让资料更适合跨平台调用与长期维护。</p>
+            <p>把常见文件转换为可维护、可复核的 Markdown 基础资料。</p>
             <div className="detail-meta"><strong>{tool.version}</strong><span>作者：周全</span><span>MIT License</span><span>更新于 {tool.updated}</span></div>
           </div>
           <a className="button primary large" href={tool.download} download>下载候选版 ZIP</a>
@@ -40,7 +40,7 @@ export default function AnyToMdPage() {
             <section>
               <p className="eyebrow">OVERVIEW</p>
               <h2>让基础资料脱离单一 AI 平台</h2>
-              <p>Any-to-MD 把格式识别、内容转换、结构修复和质量扫描组织成一条可复核流程。Markdown 是衍生资料，不替代原文件、签章、公式、批注、修订记录或法律证据原貌。</p>
+              <p>Any-to-MD 把格式识别、内容转换、结构修复和质量扫描组织成一条可复核流程。生成的 Markdown 是衍生资料，不能替代原文件、签章、公式、批注或修订记录。</p>
               <div className="scenario-grid">
                 <div>把研究报告与合同附件整理为可检索的 Markdown</div>
                 <div>为知识库准备可跨平台迁移的基础资料</div>
@@ -52,7 +52,7 @@ export default function AnyToMdPage() {
             <section>
               <p className="eyebrow">VERIFIED FORMATS</p>
               <h2>当前测试状态</h2>
-              <p>下列状态只对应本仓库已完成的测试，不外推为所有复杂文件均可无误转换。</p>
+              <p>状态仅对应本仓库测试，不代表所有复杂文件都能无误转换。</p>
               <div className="verification-table" role="table" aria-label="格式验证状态">
                 {tool.verified.map((format) => <div role="row" key={format}><code role="cell">{format}</code><strong role="cell">本仓库已验证</strong></div>)}
                 <div role="row"><code role="cell">DOCX</code><strong role="cell" className="pending">轻量接口本轮失败</strong></div>
@@ -74,14 +74,14 @@ export default function AnyToMdPage() {
             <section>
               <p className="eyebrow">INSTALL WITH AN AGENT</p>
               <h2>复制给 Agent 的安装 Prompt</h2>
-              <p>这段 Prompt 要求 Agent 先检查环境与说明文件，再执行安装。目标环境的实际触发仍需正式验收。</p>
+              <p>要求 Agent 先检查环境和说明文件，再执行安装；实际触发仍待目标环境验收。</p>
               <CopyPrompt prompt={installPrompt} />
             </section>
 
             <section>
               <p className="eyebrow">LIMITS</p>
               <h2>已知限制</h2>
-              <p>精准接口因现有私人 Token 返回 401，尚未完成本轮复验。Codex 与 Claude 目标环境的实际安装触发仍待验证。复杂合并表格、OCR 错误与语义结构必须回看原件。</p>
+              <p>精准接口因私人 Token 返回 401，尚未复验；Codex 与 Claude 的实际安装触发仍待验证。复杂表格、OCR 和语义结构必须回看原件。</p>
             </section>
           </article>
 
@@ -94,7 +94,7 @@ export default function AnyToMdPage() {
               <div><dt>许可证</dt><dd>MIT</dd></div>
               <div><dt>文件类型</dt><dd>ZIP</dd></div>
             </dl>
-            <div className="privacy-note"><strong>隐私提示</strong><p>默认转换路径可能把原文件上传至 MinerU。处理客户资料、案件材料或其他敏感信息前，应先脱敏并确认上传权限。</p></div>
+            <div className="privacy-note"><strong>隐私提示</strong><p>默认转换可能把原文件上传至 MinerU。处理客户、案件或其他敏感资料前，须先脱敏并确认上传权限。</p></div>
             <a className="button primary large" href={tool.download} download>下载候选版 ZIP</a>
             <p className="panel-footnote">版本、测试与限制以本页说明为准</p>
           </aside>

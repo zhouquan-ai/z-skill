@@ -22,10 +22,10 @@ export function HeroSearch() {
           type="search"
           value={query}
           onChange={(event) => setQuery(event.target.value)}
-          placeholder="搜索工具名称、用途或已验证格式"
+          placeholder="搜索工具名称或用途"
         />
       </label>
-      <button type="submit">搜索全部工具</button>
+      <button type="submit">搜索工具</button>
     </form>
   );
 }

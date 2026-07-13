@@ -12,13 +12,14 @@ export default function Home() {
       <main>
         <section className="home-hero site-wrap">
           <div className="hero-copy">
-            <p className="eyebrow">PERSONAL AI TOOL RELEASES</p>
-            <h1>把 <span>AI 工具</span><br />讲清楚，再交付</h1>
-            <p className="hero-lead">z-skill 收录由周全设计、整理并验证的 Skill、Workflow、Agent 与 AI 工具。每项成果都说明版本、测试、隐私与已知限制。</p>
+            <div className="hero-statement">
+              <p className="eyebrow">PERSONAL AI TOOL RELEASES</p>
+              <h1>把 <span>AI 工具</span><br />讲清楚，再交付</h1>
+              <p className="hero-lead">周全设计、整理并验证的 AI 工具发布站。每项成果均公开版本、测试、隐私与限制。</p>
+            </div>
             <HeroSearch />
             <ul className="hero-facts" aria-label="当前公开事实">
               <li>当前公开 1 项</li>
-              <li>候选版如实标注</li>
               <li>版本与限制公开</li>
             </ul>
           </div>
@@ -47,9 +48,9 @@ export default function Home() {
               <h2>发布少一点，说明完整一点</h2>
             </div>
             <div className="principle-grid">
-              <article><span>01</span><h3>用途明确</h3><p>先说明工具解决什么问题、适合哪些场景，再提供下载。</p></article>
+              <article><span>01</span><h3>用途明确</h3><p>说明解决什么问题、适合哪些场景。</p></article>
               <article><span>02</span><h3>版本可追溯</h3><p>页面、ZIP、GitHub 版本和更新记录保持一致。</p></article>
-              <article><span>03</span><h3>限制公开</h3><p>测试失败、隐私风险与尚未验证项不会被包装成成功。</p></article>
+              <article><span>03</span><h3>限制公开</h3><p>测试失败、隐私风险和待验证项如实呈现。</p></article>
             </div>
           </div>
         </section>

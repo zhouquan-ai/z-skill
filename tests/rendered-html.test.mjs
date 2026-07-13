@@ -33,8 +33,12 @@ test("server-renders the z-skill brand homepage", async () => {
   assert.match(html, /把\s*<span>AI 工具<\/span>/);
   assert.match(html, /Any-to-MD/);
   assert.match(html, /公开候选/);
-  assert.match(html, /搜索工具名称、用途或已验证格式/);
+  assert.match(html, /周全设计、整理并验证的 AI 工具发布站/);
+  assert.match(html, /搜索工具名称或用途/);
+  assert.match(html, />搜索工具</);
   assert.match(html, /发布少一点，说明完整一点/);
+  assert.doesNotMatch(html, /候选版如实标注/);
+  assert.doesNotMatch(html, /搜索工具名称、用途或已验证格式/);
   assert.doesNotMatch(html, /下载量|用户数|排行榜|评分/);
   assert.doesNotMatch(html, /codex-preview|SkeletonPreview|Your site is taking shape/i);
 });
@@ -66,6 +70,7 @@ test("server-renders the Any-to-MD detail page", async () => {
   assert.match(html, /raw\.githubusercontent\.com\/zzzq8848-ai\/z-skill/);
   assert.match(html, /隐私提示/);
   assert.match(html, /下载候选版 ZIP/);
+  assert.match(html, /不能替代原文件、签章、公式、批注或修订记录/);
 });
 
 test("server-renders the About page and channel boundaries", async () => {
@@ -77,7 +82,17 @@ test("server-renders the About page and channel boundaries", async () => {
   assert.match(html, /收录标准/);
   assert.match(html, /公众号/);
   assert.match(html, /GitHub/);
-  assert.match(html, /不扩展为文章站、社区、投稿平台或排行榜/);
+  assert.match(html, /不做文章站、社区、投稿平台或排行榜/);
+  assert.match(html, /当前仅公开 Any-to-MD v0\.1\.0-candidate/);
+});
+
+test("keeps the mobile hero accent separate from the search panel", async () => {
+  const css = await readFile(new URL("../app/globals.css", import.meta.url), "utf8");
+
+  assert.match(css, /\.hero-statement::before\s*\{/);
+  assert.doesNotMatch(css, /\.hero-copy::before\s*\{/);
+  assert.match(css, /\.hero-search:focus-within\s*\{/);
+  assert.match(css, /\.catalog-search:focus-within\s*\{/);
 });
 
 test("ships a real candidate download without starter dependencies", async () => {
