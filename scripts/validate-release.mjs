@@ -11,9 +11,8 @@ const seenSlugs = new Set();
 const seenDownloads = new Set();
 const toolsBySlug = new Map(tools.map((tool) => [tool.slug, tool]));
 const statusTones = {
-  已验证: "verified",
+  正式版: "stable",
   公开候选: "candidate",
-  尚未验证: "unverified",
 };
 
 function requireText(value, field, tool) {
@@ -34,6 +33,7 @@ for (const tool of tools) {
     category: tool.category,
     summary: tool.summary,
     detailSummary: tool.detailSummary,
+    releasedAt: tool.releasedAt,
     environmentNote: tool.environmentNote,
     privacy: tool.privacy,
     limitations: tool.limitations,
@@ -60,8 +60,17 @@ for (const tool of tools) {
   if (!/^v\d+\.\d+\.\d+(?:-[a-z0-9.-]+)?$/.test(tool.version)) {
     errors.push(`${tool.slug}: version 不符合 vX.Y.Z 格式`);
   }
+  if (Number.isNaN(Date.parse(tool.releasedAt))) {
+    errors.push(`${tool.slug}: releasedAt 必须是有效的 ISO 8601 时间`);
+  }
   if (!/^\d{4}-\d{2}-\d{2}$/.test(tool.updated)) {
     errors.push(`${tool.slug}: updated 必须使用 YYYY-MM-DD`);
+  }
+  if (tool.status === "正式版" && tool.version.includes("-")) {
+    errors.push(`${tool.slug}: 正式版不得使用候选版本号`);
+  }
+  if (tool.status === "公开候选" && !tool.version.includes("-candidate.")) {
+    errors.push(`${tool.slug}: 公开候选必须使用candidate版本号`);
   }
 
   const expectedFileStem = `${tool.slug}-${tool.version}`;
@@ -155,9 +164,6 @@ try {
 }
 
 if (tools.length === 0) errors.push("至少需要一项公开工具");
-if (tools.filter((tool) => tool.featured).length !== 1) {
-  errors.push("必须且只能有一项首页代表工具");
-}
 
 if (errors.length > 0) {
   console.error("发布校验失败：");

@@ -19,6 +19,14 @@ export default function AboutPage() {
         </section>
 
         <section className="about-section site-wrap">
+          <div className="about-copy"><h2>怎样理解发布阶段</h2><p>发布阶段说明版本处于什么位置；“已验证”只描述已经完成测试的具体格式或场景。</p></div>
+          <div className="release-stage-grid">
+            <article><span className="tag stable">正式版</span><h3>达到既定发布门槛</h3><p>使用稳定版本号，作为当前对外提供的正式版本。</p></article>
+            <article><span className="tag candidate">公开候选</span><h3>已经公开，可供使用</h3><p>版本、测试和限制均已公开，尚未转为正式版本号。</p></article>
+          </div>
+        </section>
+
+        <section className="about-section site-wrap">
           <div className="about-copy"><h2>收录标准</h2></div>
           <div className="standard-list">
             <article><span>01</span><div><h3>用途明确</h3><p>说明解决的问题、适用场景和不适用边界。</p></div></article>

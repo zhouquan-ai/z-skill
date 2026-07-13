@@ -1,7 +1,7 @@
 export type ToolType = "Skill" | "Workflow" | "Agent" | "Tool";
 export type PackageMode = "Standalone" | "Bundle";
-export type ReleaseStatus = "已验证" | "公开候选" | "尚未验证";
-export type StatusTone = "verified" | "candidate" | "unverified";
+export type ReleaseStatus = "正式版" | "公开候选";
+export type StatusTone = "stable" | "candidate";
 export type FormatTestStatus = "verified" | "failed" | "pending";
 
 export type ToolComponent = {
@@ -21,12 +21,12 @@ export type ToolRecord = {
   slug: string;
   name: string;
   glyph: string;
-  featured: boolean;
   type: ToolType;
   packageMode: PackageMode;
   status: ReleaseStatus;
   statusTone: StatusTone;
   version: string;
+  releasedAt: string;
   updated: string;
   author: string;
   license: string;
@@ -70,12 +70,12 @@ export const tools: ToolRecord[] = [
     slug: "any-to-md",
     name: "Any-to-MD",
     glyph: "MD",
-    featured: true,
     type: "Skill",
     packageMode: "Standalone",
-    status: "已验证",
-    statusTone: "verified",
+    status: "正式版",
+    statusTone: "stable",
     version: "v0.1.0",
+    releasedAt: "2026-07-13T21:19:00+08:00",
     updated: "2026-07-13",
     author: "周全",
     license: "MIT",
@@ -143,12 +143,12 @@ export const tools: ToolRecord[] = [
     slug: "web-content-reader",
     name: "Web Content Reader",
     glyph: "WEB",
-    featured: false,
     type: "Workflow",
     packageMode: "Bundle",
     status: "公开候选",
     statusTone: "candidate",
     version: "v0.2.0-candidate.1",
+    releasedAt: "2026-07-13T22:56:00+08:00",
     updated: "2026-07-13",
     author: "周全",
     license: "MIT",
@@ -235,12 +235,12 @@ export const tools: ToolRecord[] = [
     slug: "weixin-article-reader",
     name: "Weixin Article Reader",
     glyph: "WX",
-    featured: false,
     type: "Skill",
     packageMode: "Standalone",
     status: "公开候选",
     statusTone: "candidate",
     version: "v0.1.0-candidate.1",
+    releasedAt: "2026-07-13T22:56:00+08:00",
     updated: "2026-07-13",
     author: "周全",
     license: "MIT",
@@ -324,12 +324,29 @@ export function getPackageModeLabel(mode: PackageMode) {
   return mode === "Bundle" ? "组合包" : "独立包";
 }
 
+export function compareToolsByUpdated(left: ToolRecord, right: ToolRecord) {
+  return right.updated.localeCompare(left.updated)
+    || right.releasedAt.localeCompare(left.releasedAt)
+    || left.name.localeCompare(right.name, "en");
+}
+
+export function getRecentTools(limit = 3) {
+  return tools.toSorted((left, right) =>
+    right.releasedAt.localeCompare(left.releasedAt)
+      || left.name.localeCompare(right.name, "en"))
+    .slice(0, limit);
+}
+
+export function getReleaseDate(tool: ToolRecord) {
+  return tool.releasedAt.slice(0, 10);
+}
+
 export function buildInstallPrompt(tool: ToolRecord) {
   const steps = tool.install.steps
     .map((step, index) => `${index + 1}. ${step}`)
     .join("\n");
 
-  const addressLabel = tool.status === "已验证" ? "权威版本地址" : "权威候选包地址";
+  const addressLabel = tool.status === "正式版" ? "权威版本地址" : "权威候选包地址";
 
   return `请安装 ${tool.name} ${tool.version}。
 
@@ -341,7 +358,6 @@ ${steps}
 ${tool.install.fallback}`;
 }
 
-export const featuredTool = tools.find((tool) => tool.featured) ?? tools[0];
 export const catalogUpdated = tools
   .map((tool) => tool.updated)
   .toSorted()
@@ -349,4 +365,4 @@ export const catalogUpdated = tools
 
 export const toolTypes = ["全部", "Skill", "Workflow", "Agent", "Tool"] as const;
 export const toolEnvironments = ["全部环境", "Codex"] as const;
-export const toolStatuses = ["全部状态", "已验证", "公开候选", "尚未验证"] as const;
+export const toolStatuses = ["全部状态", "正式版", "公开候选"] as const;

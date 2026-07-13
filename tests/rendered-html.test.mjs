@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { access, readFile, stat } from "node:fs/promises";
 import test from "node:test";
-import { buildInstallPrompt, getIncludedIn, getVerifiedFormats, tools } from "../app/tool-data.ts";
+import { buildInstallPrompt, getIncludedIn, getRecentTools, getVerifiedFormats, tools } from "../app/tool-data.ts";
 
 async function render(pathname = "/") {
   const workerUrl = new URL("../dist/server/index.js", import.meta.url);
@@ -37,7 +37,12 @@ test("server-renders the z-skill brand homepage", async () => {
   assert.match(html, /<title>z-skill｜AI 工具与可复用工作流<\/title>/i);
   assert.match(html, /把\s*<span>AI 工具<\/span>/);
   assert.match(html, /Any-to-MD/);
-  assert.match(html, /class="tag verified">已验证/);
+  assert.match(html, /Web Content Reader/);
+  assert.match(html, /Weixin Article Reader/);
+  assert.match(html, /class="tag stable">正式版/);
+  assert.match(html, /最近发布/);
+  assert.match(html, /发布于[\s\S]{0,24}2026-07-13/);
+  assert.match(html, /href="\/tools"[^>]*>查看全部工具/);
   assert.match(html, /周全设计、整理并验证的 AI 工具发布站/);
   assert.match(html, /搜索工具名称或用途/);
   assert.match(html, />搜索工具</);
@@ -46,6 +51,7 @@ test("server-renders the z-skill brand homepage", async () => {
   assert.match(html, /href="#main-content"[^>]*>跳到主要内容</);
   assert.match(html, /href="\/"[^>]*aria-current="page"/);
   assert.doesNotMatch(html, /候选版如实标注/);
+  assert.doesNotMatch(html, /CURRENT RELEASE|当前代表工具/);
   assert.doesNotMatch(html, /搜索工具名称、用途或已验证格式/);
   assert.doesNotMatch(html, /下载量|用户数|排行榜|评分/);
   assert.doesNotMatch(html, /codex-preview|SkeletonPreview|Your site is taking shape/i);
@@ -66,6 +72,7 @@ test("server-renders the searchable tool directory", async () => {
   assert.match(html, /组合包/);
   assert.match(html, /独立包/);
   assert.match(html, /公开候选/);
+  assert.match(html, /正式版/);
   assert.match(html, /最近更新/);
   assert.match(html, /\/downloads\/any-to-md-v0\.1\.0\.zip/);
   assert.match(html, /\/downloads\/web-content-reader-v0\.2\.0-candidate\.1\.zip/);
@@ -151,6 +158,10 @@ test("server-renders the About page and channel boundaries", async () => {
   const html = await response.text();
   assert.match(html, /收录与验证原则/);
   assert.match(html, /收录标准/);
+  assert.match(html, /怎样理解发布阶段/);
+  assert.match(html, /“已验证”只描述已经完成测试的具体格式或场景/);
+  assert.match(html, /正式版/);
+  assert.match(html, /公开候选/);
   assert.match(html, /公众号/);
   assert.match(html, /GitHub/);
   assert.match(html, /不做文章站、社区、投稿平台或排行榜/);
@@ -181,10 +192,10 @@ test("derives release metadata and install prompt from one tool record", () => {
   const tool = tools[0];
   const prompt = buildInstallPrompt(tool);
 
-  assert.equal(tools.filter((item) => item.featured).length, 1);
-  assert.equal(tool.status, "已验证");
-  assert.equal(tool.statusTone, "verified");
+  assert.equal(tool.status, "正式版");
+  assert.equal(tool.statusTone, "stable");
   assert.equal(tool.version, "v0.1.0");
+  assert.equal(tool.releasedAt, "2026-07-13T21:19:00+08:00");
   assert.deepEqual(tool.environments, ["Codex"]);
   assert.equal(tool.packageMode, "Standalone");
   assert.deepEqual(getVerifiedFormats(tool), ["PDF", "XLSX", "PNG", "Markdown"]);
@@ -193,6 +204,11 @@ test("derives release metadata and install prompt from one tool record", () => {
   assert.ok(prompt.includes(tool.download.sourceUrl));
   assert.ok(prompt.includes(tool.install.fallback));
   assert.deepEqual(getIncludedIn("weixin-article-reader").map((item) => item.slug), ["web-content-reader"]);
+  assert.deepEqual(getRecentTools().map((item) => item.slug), [
+    "web-content-reader",
+    "weixin-article-reader",
+    "any-to-md",
+  ]);
 });
 
 test("ships all public downloads without starter dependencies", async () => {

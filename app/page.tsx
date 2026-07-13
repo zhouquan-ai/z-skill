@@ -1,9 +1,9 @@
 import Link from "next/link";
 import { HeroSearch } from "./HeroSearch";
 import { SiteFooter, SiteHeader } from "./SiteChrome";
-import { featuredTool as tool, getVerifiedFormats, tools } from "./tool-data";
+import { getPackageModeLabel, getRecentTools, getReleaseDate, tools } from "./tool-data";
 
-const verifiedFormats = getVerifiedFormats(tool);
+const recentTools = getRecentTools();
 
 export default function Home() {
   return (
@@ -23,22 +23,38 @@ export default function Home() {
               <li>版本与限制公开</li>
             </ul>
           </div>
+        </section>
 
-          <article className="release-card">
-            <div className="release-rule" aria-hidden="true" />
-            <div className="release-topline">
-              <span className="tool-glyph" aria-hidden="true">MD</span>
-              <div className="tag-group"><span className="tag neutral">{tool.type}</span><span className={`tag ${tool.statusTone}`}>{tool.status}</span></div>
+        <section className="recent-releases" aria-labelledby="recent-releases-title">
+          <div className="site-wrap">
+            <div className="recent-heading">
+              <div>
+                <p className="eyebrow">RECENT RELEASES</p>
+                <h2 id="recent-releases-title">最近发布</h2>
+              </div>
+              <Link className="text-link" href="/tools">查看全部工具</Link>
             </div>
-            <p className="eyebrow">CURRENT RELEASE</p>
-            <h2>{tool.name}</h2>
-            <p>{tool.summary}</p>
-            <div className="release-formats" aria-label="已验证格式">
-              {verifiedFormats.map((format) => <span key={format}>{format}</span>)}
+            <div className="recent-grid">
+              {recentTools.map((tool) => (
+                <Link className="recent-card" href={`/tools/${tool.slug}`} key={tool.slug}>
+                  <div className="recent-card-topline">
+                    <span className="tool-glyph" aria-hidden="true">{tool.glyph}</span>
+                    <div className="tag-group">
+                      <span className="tag neutral">{tool.type}</span>
+                      <span className="tag neutral">{getPackageModeLabel(tool.packageMode)}</span>
+                      <span className={`tag ${tool.statusTone}`}>{tool.status}</span>
+                    </div>
+                  </div>
+                  <h3>{tool.name}</h3>
+                  <p>{tool.summary}</p>
+                  <div className="recent-meta">
+                    <strong>{tool.version}</strong>
+                    <span>发布于 {getReleaseDate(tool)}</span>
+                  </div>
+                </Link>
+              ))}
             </div>
-            <div className="release-meta"><strong>{tool.version}</strong><span>更新于 {tool.updated}</span></div>
-            <Link className="button primary large" href={`/tools/${tool.slug}`}>查看工具详情</Link>
-          </article>
+          </div>
         </section>
 
         <section className="home-principles">

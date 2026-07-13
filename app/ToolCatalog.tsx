@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
-import { catalogUpdated, getPackageModeLabel, getVerifiedFormats, tools, toolStatuses, toolTypes } from "./tool-data";
+import { catalogUpdated, compareToolsByUpdated, getPackageModeLabel, getVerifiedFormats, tools, toolStatuses, toolTypes } from "./tool-data";
 
 type SortMode = "recent" | "name";
 
@@ -23,7 +23,7 @@ export function ToolCatalog({ initialQuery = "" }: { initialQuery?: string }) {
         const matchesStatus = status === "全部状态" || tool.status === status;
         return matchesType && matchesStatus && (!normalizedQuery || searchable.includes(normalizedQuery));
       })
-      .toSorted((a, b) => sort === "name" ? a.name.localeCompare(b.name) : b.updated.localeCompare(a.updated));
+      .toSorted((a, b) => sort === "name" ? a.name.localeCompare(b.name) : compareToolsByUpdated(a, b));
   }, [activeType, query, sort, status]);
 
   function clearFilters() {
