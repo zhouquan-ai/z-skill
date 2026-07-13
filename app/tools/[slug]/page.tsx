@@ -30,7 +30,7 @@ export default async function ToolDetailPage({ params }: ToolPageProps) {
   return (
     <>
       <SiteHeader active="tools" />
-      <main>
+      <main id="main-content">
         <div className="breadcrumb-row site-wrap"><Link href="/tools">全部工具</Link><span>/</span><span>{tool.name}</span></div>
 
         <section className="detail-hero site-wrap">
@@ -46,7 +46,16 @@ export default async function ToolDetailPage({ params }: ToolPageProps) {
 
         <div className="detail-layout site-wrap">
           <article className="detail-content">
-            <section>
+            <nav className="detail-nav" aria-label="本页内容">
+              <span>本页</span>
+              <a href="#overview">核心用途</a>
+              <a href="#testing">测试状态</a>
+              <a href="#usage">使用说明</a>
+              <a href="#install">安装 Prompt</a>
+              <a href="#limits">已知限制</a>
+            </nav>
+
+            <section id="overview">
               <p className="eyebrow">OVERVIEW</p>
               <h2>{tool.overview.title}</h2>
               <p>{tool.overview.description}</p>
@@ -55,7 +64,7 @@ export default async function ToolDetailPage({ params }: ToolPageProps) {
               </div>
             </section>
 
-            <section>
+            <section id="testing">
               <p className="eyebrow">VERIFIED FORMATS</p>
               <h2>当前测试状态</h2>
               <p>{tool.testNote}</p>
@@ -63,13 +72,13 @@ export default async function ToolDetailPage({ params }: ToolPageProps) {
                 {tool.formatTests.map((test) => (
                   <div role="row" key={test.format}>
                     <code role="cell">{test.format}</code>
-                    <strong role="cell" className={test.status === "verified" ? undefined : "pending"}>{test.label}</strong>
+                    <strong role="cell" className={test.status === "verified" ? undefined : test.status}>{test.label}</strong>
                   </div>
                 ))}
               </div>
             </section>
 
-            <section>
+            <section id="usage">
               <p className="eyebrow">HOW TO USE</p>
               <h2>下载后怎样使用</h2>
               <ol className="steps">
@@ -79,14 +88,14 @@ export default async function ToolDetailPage({ params }: ToolPageProps) {
               </ol>
             </section>
 
-            <section>
+            <section id="install">
               <p className="eyebrow">INSTALL WITH AN AGENT</p>
               <h2>复制给 Agent 的安装 Prompt</h2>
               <p>{tool.install.intro}</p>
               <CopyPrompt prompt={installPrompt} />
             </section>
 
-            <section>
+            <section id="limits">
               <p className="eyebrow">LIMITS</p>
               <h2>已知限制</h2>
               <p>{tool.limitations}</p>
@@ -101,7 +110,9 @@ export default async function ToolDetailPage({ params }: ToolPageProps) {
               <div><dt>作者</dt><dd>{tool.author}</dd></div>
               <div><dt>许可证</dt><dd>{tool.license}</dd></div>
               <div><dt>文件类型</dt><dd>{tool.download.fileType}</dd></div>
+              <div className="stacked"><dt>适配状态</dt><dd>{tool.environmentNote}</dd></div>
             </dl>
+            <div className="checksum-note"><strong>文件校验</strong><span>SHA-256</span><code>{tool.download.sha256}</code></div>
             <div className="privacy-note"><strong>隐私提示</strong><p>{tool.privacy}</p></div>
             <a className="button primary large" href={tool.download.path} download>{tool.download.label}</a>
             <p className="panel-footnote">版本、测试与限制以本页说明为准</p>

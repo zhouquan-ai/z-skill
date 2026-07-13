@@ -7,7 +7,7 @@ export default function AboutPage() {
   return (
     <>
       <SiteHeader active="about" />
-      <main className="about-page">
+      <main className="about-page" id="main-content">
         <section className="about-hero site-wrap">
           <p className="eyebrow">ABOUT Z-SKILL</p>
           <h1>一个人的工具发布站，也应有清楚的收录与验证原则</h1>

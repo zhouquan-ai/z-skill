@@ -9,7 +9,7 @@ export default function Home() {
   return (
     <>
       <SiteHeader active="home" />
-      <main>
+      <main id="main-content">
         <section className="home-hero site-wrap">
           <div className="hero-copy">
             <div className="hero-statement">

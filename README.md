@@ -27,6 +27,15 @@ npm install
 npm run dev
 ```
 
+如需按 Cloudflare Worker 的实际资源挂载方式预览生产构建：
+
+```bash
+npm run build
+npm start
+```
+
+`npm start` 使用构建产物中的 Wrangler 配置，同时加载服务端代码、样式、脚本和下载资源；不要用只启动应用服务的方式代替生产预览。
+
 ## 验证
 
 ```bash
@@ -46,6 +55,8 @@ npm run lint
 
 `npm test` 会先执行发布校验和生产构建，再运行服务端渲染测试。
 
+`npm run build` 本身也会先执行发布校验，因此 Cloudflare 自动构建不能绕过版本、下载包和 SHA-256 门禁。GitHub Actions 会在推送和 Pull Request 时重复运行测试与 ESLint。
+
 ## 发布方式
 
 站点源代码托管在 GitHub，并通过 Cloudflare Workers Builds 自动构建和发布：
@@ -55,4 +66,4 @@ npm run lint
 - 部署命令：`npx wrangler deploy`；
 - 每次推送 `main` 后自动更新线上网站。
 
-发布前应确保发布校验、构建、渲染测试和必要的浏览器回归全部通过。正式网站后续绑定不含账户标识的独立域名。
+静态响应使用 `_headers` 设置基础安全头；带版本号的 ZIP 下载使用长期不可变缓存和附件响应。发布前应确保发布校验、构建、渲染测试和必要的浏览器回归全部通过。正式网站后续绑定不含账户标识的独立域名。

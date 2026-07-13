@@ -38,6 +38,8 @@ test("server-renders the z-skill brand homepage", async () => {
   assert.match(html, /搜索工具名称或用途/);
   assert.match(html, />搜索工具</);
   assert.match(html, /发布少一点，说明完整一点/);
+  assert.match(html, /href="#main-content"[^>]*>跳到主要内容</);
+  assert.match(html, /href="\/"[^>]*aria-current="page"/);
   assert.doesNotMatch(html, /候选版如实标注/);
   assert.doesNotMatch(html, /搜索工具名称、用途或已验证格式/);
   assert.doesNotMatch(html, /下载量|用户数|排行榜|评分/);
@@ -73,11 +75,21 @@ test("server-renders the Any-to-MD detail page", async () => {
   assert.match(html, /下载候选版 ZIP/);
   assert.match(html, /不能替代原文件、签章、公式、批注或修订记录/);
   assert.match(html, /<title>Any-to-MD｜z-skill<\/title>/i);
+  assert.match(html, /aria-label="本页内容"/);
+  assert.match(html, /href="#install"/);
+  assert.match(html, /class="failed">轻量接口本轮失败/);
+  assert.match(html, new RegExp(tools[0].download.sha256));
+  assert.match(html, /适配状态/);
 });
 
 test("returns 404 for an unpublished tool slug", async () => {
   const response = await render("/tools/not-published");
   assert.equal(response.status, 404);
+
+  const html = await response.text();
+  assert.match(html, /这个工具页面还不存在/);
+  assert.match(html, /查看全部工具/);
+  assert.match(html, /z-skill 首页/);
 });
 
 test("server-renders the About page and channel boundaries", async () => {
@@ -125,5 +137,25 @@ test("ships a real candidate download without starter dependencies", async () =>
 
   const packageJson = await readFile(packageJsonUrl, "utf8");
   assert.doesNotMatch(packageJson, /react-loading-skeleton/);
+  assert.match(packageJson, /"build": "npm run validate:release && vinext build"/);
+  assert.match(packageJson, /"start": "wrangler dev --config dist\/server\/wrangler\.json"/);
   await assert.rejects(access(new URL("../app/_sites-preview/", import.meta.url)));
+});
+
+test("ships security and immutable download headers", async () => {
+  const sourceHeaders = await readFile(new URL("../public/_headers", import.meta.url), "utf8");
+  const builtHeaders = await readFile(new URL("../dist/client/_headers", import.meta.url), "utf8");
+
+  for (const header of [
+    "X-Content-Type-Options: nosniff",
+    "Referrer-Policy: strict-origin-when-cross-origin",
+    "Permissions-Policy: camera=(), microphone=(), geolocation=()",
+    "X-Frame-Options: DENY",
+    "Content-Disposition: attachment",
+  ]) {
+    assert.match(sourceHeaders, new RegExp(header.replace(/[()]/g, "\\$&")));
+    assert.match(builtHeaders, new RegExp(header.replace(/[()]/g, "\\$&")));
+  }
+  assert.match(builtHeaders, /\/downloads\/\*/);
+  assert.match(builtHeaders, /max-age=31536000, immutable/);
 });

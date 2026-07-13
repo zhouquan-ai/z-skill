@@ -6,7 +6,7 @@ export default async function ToolsPage({ searchParams }: { searchParams: Promis
   return (
     <>
       <SiteHeader active="tools" />
-      <main>
+      <main id="main-content">
         <section className="directory-hero site-wrap">
           <div>
             <p className="eyebrow">ALL RELEASES</p>

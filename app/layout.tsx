@@ -11,7 +11,7 @@ export async function generateMetadata(): Promise<Metadata> {
       type: "website",
     },
     twitter: {
-      card: "summary_large_image",
+      card: "summary",
       title: "z-skill｜AI 工具与可复用工作流",
       description: "把 AI 工具讲清楚，再交付。查看真实版本、测试状态、隐私说明与已知限制。",
     },
