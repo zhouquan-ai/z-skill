@@ -56,7 +56,7 @@ async function withBuilds(callback) {
 
 test("release manifest keeps public components and internal modules distinct", async () => {
   const manifest = JSON.parse(await readFile(join(packageRoot, "release-manifest.json"), "utf8"));
-  assert.equal(manifest.status, "internal-candidate");
+  assert.equal(manifest.status, "public-candidate");
   assert.equal(manifest.workflow.type, "Workflow");
   assert.equal(manifest.workflow.packageMode, "Bundle");
   assert.equal(manifest.standalone.type, "Skill");

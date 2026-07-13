@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { HeroSearch } from "./HeroSearch";
 import { SiteFooter, SiteHeader } from "./SiteChrome";
-import { featuredTool as tool, getVerifiedFormats } from "./tool-data";
+import { featuredTool as tool, getVerifiedFormats, tools } from "./tool-data";
 
 const verifiedFormats = getVerifiedFormats(tool);
 
@@ -19,7 +19,7 @@ export default function Home() {
             </div>
             <HeroSearch />
             <ul className="hero-facts" aria-label="当前公开事实">
-              <li>当前公开 1 项</li>
+              <li>当前公开 {tools.length} 项</li>
               <li>版本与限制公开</li>
             </ul>
           </div>

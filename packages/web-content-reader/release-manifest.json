@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "status": "internal-candidate",
+  "status": "public-candidate",
   "workflow": {
     "slug": "web-content-reader",
     "name": "Web Content Reader",

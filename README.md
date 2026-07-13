@@ -11,14 +11,18 @@
 - 通用工具详情路由 `/tools/[slug]`；
 - 定位与收录原则 `/about`；
 - Any-to-MD `v0.1.0` 详情、Agent 安装 Prompt 和 ZIP 下载。
+- Web Content Reader `v0.2.0-candidate.1` Workflow Bundle；
+- Weixin Article Reader `v0.1.0-candidate.1` 独立 Skill。
 
 当前临时线上地址：<https://z-skill.zzzq8848.workers.dev/>。该地址含账户标识，不作为最终正式域名。
 
 2026-07-13 发布验收确认：Any-to-MD 已由 Codex 实际触发，完成本地结构修复、严格 QA 和预期结果比对，正式发布 `v0.1.0`。
 
+2026-07-13 网页读取候选发布：Web Content Reader 与 Weixin Article Reader 从同一份权威 Skill 源码确定性构建，分别以 Workflow Bundle 和 Standalone Skill 公开。普通网页读取、路由和质量检查仍作为 Workflow 内部组件。
+
 ## 工具数据
 
-`app/tool-data.ts` 是公开工具元数据的单一事实源。首页代表工具、目录卡片、详情页、安装 Prompt 和发布校验均从该文件读取版本、状态、作者、许可证、下载地址、测试、隐私与已知限制。
+`app/tool-data.ts` 是公开工具元数据的单一事实源。首页代表工具、目录卡片、详情页、安装 Prompt 和发布校验均从该文件读取版本、状态、分发形式、组件关系、作者、许可证、下载地址、测试、隐私与已知限制。
 
 新增或更新工具时，应先更新工具记录和对应 ZIP，不在页面组件中重复填写版本及发布信息。
 
@@ -55,6 +59,7 @@ npm run audit
 - 版本与 ZIP 文件名；
 - 网站下载路径与 GitHub 权威地址；
 - ZIP 文件存在性、文件签名和 SHA-256；
+- Web Content Reader两项公开包与权威源码的确定性构建结果；
 - 已验证格式、适用场景、使用步骤、隐私与限制说明；
 - 首页代表工具数量和安装 Prompt 关键字段。
 

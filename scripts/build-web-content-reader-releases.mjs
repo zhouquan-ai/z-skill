@@ -274,8 +274,8 @@ export async function buildReleases({
   if (!relativeOutput || relativeOutput.startsWith("..") || isAbsolute(relativeOutput)) {
     throw new Error("构建输出目录必须位于仓库内");
   }
-  if (manifest.status !== "internal-candidate") {
-    throw new Error("当前构建脚本只处理internal-candidate状态");
+  if (!new Set(["internal-candidate", "public-candidate"]).has(manifest.status)) {
+    throw new Error("构建状态必须是internal-candidate或public-candidate");
   }
   await mkdir(resolvedOutput, { recursive: true });
 

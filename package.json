@@ -11,8 +11,9 @@
     "start": "wrangler dev --config dist/server/wrangler.json",
     "validate:release": "node --experimental-strip-types scripts/validate-release.mjs",
     "build:web-reader": "node scripts/build-web-content-reader-releases.mjs",
-    "test:web-reader": "node --test tests/web-content-reader-release.test.mjs && pwsh -NoProfile -File tests/web-content-reader-smoke.ps1",
-    "test": "npm run build && node --experimental-strip-types --test tests/rendered-html.test.mjs",
+    "test:web-reader": "node --test tests/web-content-reader-release.test.mjs",
+    "test:web-reader:smoke": "pwsh -NoProfile -File tests/web-content-reader-smoke.ps1",
+    "test": "npm run test:web-reader && npm run build && node --experimental-strip-types --test tests/rendered-html.test.mjs",
     "lint": "eslint . --ignore-pattern dist --ignore-pattern .next",
     "audit": "npm audit --audit-level=high"
   },

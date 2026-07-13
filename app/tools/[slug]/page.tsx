@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { CopyPrompt } from "../../CopyPrompt";
 import { SiteFooter, SiteHeader } from "../../SiteChrome";
-import { buildInstallPrompt, getToolBySlug, tools } from "../../tool-data";
+import { buildInstallPrompt, getIncludedIn, getPackageModeLabel, getToolBySlug, tools } from "../../tool-data";
 
 type ToolPageProps = { params: Promise<{ slug: string }> };
 
@@ -26,6 +26,8 @@ export default async function ToolDetailPage({ params }: ToolPageProps) {
   if (!tool) notFound();
 
   const installPrompt = buildInstallPrompt(tool);
+  const includedIn = getIncludedIn(tool.slug);
+  const hasComposition = tool.components.length > 0 || includedIn.length > 0;
 
   return (
     <>
@@ -36,7 +38,7 @@ export default async function ToolDetailPage({ params }: ToolPageProps) {
         <section className="detail-hero site-wrap">
           <div className="detail-glyph" aria-hidden="true">{tool.glyph}</div>
           <div className="detail-title">
-            <div className="tag-group"><span className="tag neutral">{tool.type}</span><span className={`tag ${tool.statusTone}`}>{tool.status}</span></div>
+            <div className="tag-group"><span className="tag neutral">{tool.type}</span><span className="tag neutral">{getPackageModeLabel(tool.packageMode)}</span><span className={`tag ${tool.statusTone}`}>{tool.status}</span></div>
             <h1>{tool.name}</h1>
             <p>{tool.detailSummary}</p>
             <div className="detail-meta"><strong>{tool.version}</strong><span>作者：{tool.author}</span><span>{tool.license} License</span><span>更新于 {tool.updated}</span></div>
@@ -49,6 +51,7 @@ export default async function ToolDetailPage({ params }: ToolPageProps) {
             <nav className="detail-nav" aria-label="本页内容">
               <span>本页</span>
               <a href="#overview">核心用途</a>
+              {hasComposition && <a href="#composition">组成关系</a>}
               <a href="#testing">测试状态</a>
               <a href="#usage">使用说明</a>
               <a href="#install">安装 Prompt</a>
@@ -63,6 +66,38 @@ export default async function ToolDetailPage({ params }: ToolPageProps) {
                 {tool.overview.scenarios.map((scenario) => <div key={scenario}>{scenario}</div>)}
               </div>
             </section>
+
+            {hasComposition && (
+              <section id="composition">
+                <p className="eyebrow">COMPOSITION</p>
+                <h2>组成与关系</h2>
+                {tool.components.length > 0 && (
+                  <div className="relation-grid">
+                    {tool.components.map((component) => {
+                      const content = (
+                        <>
+                          <div className="relation-card-head"><strong>{component.name}</strong><span>{component.type === "Internal" ? "内部组件" : component.type}</span></div>
+                          {component.version && <code>{component.version}</code>}
+                          <p>{component.summary}</p>
+                        </>
+                      );
+                      return component.slug
+                        ? <Link className="relation-card linked" href={`/tools/${component.slug}`} key={component.name}>{content}</Link>
+                        : <div className="relation-card" key={component.name}>{content}</div>;
+                    })}
+                  </div>
+                )}
+                {includedIn.length > 0 && (
+                  <div className="included-note"><strong>也包含在</strong>{includedIn.map((parent) => <Link href={`/tools/${parent.slug}`} key={parent.slug}>{parent.name} {parent.version}</Link>)}</div>
+                )}
+                {tool.dependencies.length > 0 && (
+                  <div className="dependency-list" aria-label="运行依赖">
+                    <strong>运行依赖</strong>
+                    {tool.dependencies.map((dependency) => <span key={dependency.name}>{dependency.name}<small>{dependency.role}</small></span>)}
+                  </div>
+                )}
+              </section>
+            )}
 
             <section id="testing">
               <p className="eyebrow">VERIFIED FORMATS</p>
@@ -107,6 +142,7 @@ export default async function ToolDetailPage({ params }: ToolPageProps) {
             <dl>
               <div><dt>当前版本</dt><dd>{tool.version}</dd></div>
               <div><dt>发布状态</dt><dd>{tool.status}</dd></div>
+              <div><dt>分发形式</dt><dd>{getPackageModeLabel(tool.packageMode)}</dd></div>
               <div><dt>作者</dt><dd>{tool.author}</dd></div>
               <div><dt>许可证</dt><dd>{tool.license}</dd></div>
               <div><dt>文件类型</dt><dd>{tool.download.fileType}</dd></div>

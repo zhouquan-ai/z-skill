@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
-import { catalogUpdated, getVerifiedFormats, tools, toolStatuses, toolTypes } from "./tool-data";
+import { catalogUpdated, getPackageModeLabel, getVerifiedFormats, tools, toolStatuses, toolTypes } from "./tool-data";
 
 type SortMode = "recent" | "name";
 
@@ -18,7 +18,7 @@ export function ToolCatalog({ initialQuery = "" }: { initialQuery?: string }) {
     const normalizedQuery = query.trim().toLowerCase();
     return tools
       .filter((tool) => {
-        const searchable = `${tool.name} ${tool.summary} ${tool.category} ${getVerifiedFormats(tool).join(" ")}`.toLowerCase();
+        const searchable = `${tool.name} ${tool.summary} ${tool.category} ${getVerifiedFormats(tool).join(" ")} ${tool.components.map((item) => item.name).join(" ")} ${tool.dependencies.map((item) => item.name).join(" ")}`.toLowerCase();
         const matchesType = activeType === "全部" || tool.type === activeType;
         const matchesStatus = status === "全部状态" || tool.status === status;
         return matchesType && matchesStatus && (!normalizedQuery || searchable.includes(normalizedQuery));
@@ -41,7 +41,7 @@ export function ToolCatalog({ initialQuery = "" }: { initialQuery?: string }) {
         <label className="catalog-search">
           <span className="search-icon" aria-hidden="true" />
           <span className="sr-only">搜索工具</span>
-          <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="搜索 Any-to-MD、Markdown 或用途" type="search" />
+          <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="搜索工具名称、用途或组件" type="search" />
         </label>
         <div className="filter-group" aria-label="按成果类型筛选">
           {toolTypes.map((type) => (
@@ -64,9 +64,9 @@ export function ToolCatalog({ initialQuery = "" }: { initialQuery?: string }) {
           <article className="tool-card" key={tool.slug}>
             <div className="tool-glyph" aria-hidden="true">{tool.glyph}</div>
             <div className="tool-copy">
-              <div className="tool-title-line"><h3>{tool.name}</h3><span className="tag neutral">{tool.type}</span><span className={`tag ${tool.statusTone}`}>{tool.status}</span></div>
+              <div className="tool-title-line"><h3>{tool.name}</h3><span className="tag neutral">{tool.type}</span><span className="tag neutral">{getPackageModeLabel(tool.packageMode)}</span><span className={`tag ${tool.statusTone}`}>{tool.status}</span></div>
               <p>{tool.summary}</p>
-              <div className="verified-row"><span>已验证格式</span>{getVerifiedFormats(tool).map((format) => <code key={format}>{format}</code>)}</div>
+              <div className="verified-row"><span>已验证</span>{getVerifiedFormats(tool).map((format) => <code key={format}>{format}</code>)}</div>
               <div className="tool-submeta"><span>{tool.category}</span><strong>{tool.version}</strong><span>更新于 {tool.updated}</span></div>
             </div>
             <div className="tool-actions"><Link className="button primary" href={`/tools/${tool.slug}`}>查看详情</Link><a className="text-link" href={tool.download.path} download>下载 ZIP</a></div>

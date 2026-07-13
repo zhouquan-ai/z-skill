@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { access, readFile, stat } from "node:fs/promises";
 import test from "node:test";
-import { buildInstallPrompt, getVerifiedFormats, tools } from "../app/tool-data.ts";
+import { buildInstallPrompt, getIncludedIn, getVerifiedFormats, tools } from "../app/tool-data.ts";
 
 async function render(pathname = "/") {
   const workerUrl = new URL("../dist/server/index.js", import.meta.url);
@@ -41,6 +41,7 @@ test("server-renders the z-skill brand homepage", async () => {
   assert.match(html, /周全设计、整理并验证的 AI 工具发布站/);
   assert.match(html, /搜索工具名称或用途/);
   assert.match(html, />搜索工具</);
+  assert.match(html, /当前公开[\s\S]{0,24}3[\s\S]{0,24}项/);
   assert.match(html, /发布少一点，说明完整一点/);
   assert.match(html, /href="#main-content"[^>]*>跳到主要内容</);
   assert.match(html, /href="\/"[^>]*aria-current="page"/);
@@ -57,9 +58,18 @@ test("server-renders the searchable tool directory", async () => {
   const html = await response.text();
   assert.match(html, /全部工具/);
   assert.match(html, /Any-to-MD/);
+  assert.match(html, /Web Content Reader/);
+  assert.match(html, /Weixin Article Reader/);
   assert.match(html, /知识管理 · 文件处理/);
+  assert.match(html, /信息获取 · 网页阅读/);
+  assert.match(html, /信息获取 · 微信公众号/);
+  assert.match(html, /组合包/);
+  assert.match(html, /独立包/);
+  assert.match(html, /公开候选/);
   assert.match(html, /最近更新/);
   assert.match(html, /\/downloads\/any-to-md-v0\.1\.0\.zip/);
+  assert.match(html, /\/downloads\/web-content-reader-v0\.2\.0-candidate\.1\.zip/);
+  assert.match(html, /\/downloads\/weixin-article-reader-v0\.1\.0-candidate\.1\.zip/);
 });
 
 test("server-renders the Any-to-MD detail page", async () => {
@@ -90,6 +100,40 @@ test("server-renders the Any-to-MD detail page", async () => {
   assert.doesNotMatch(html, /失败回报要求|目标 Agent 认可的 skills 目录/);
 });
 
+test("server-renders the Web Content Reader Workflow and component links", async () => {
+  const response = await render("/tools/web-content-reader");
+  assert.equal(response.status, 200);
+
+  const html = await response.text();
+  assert.match(html, /<title>Web Content Reader｜z-skill<\/title>/i);
+  assert.match(html, /Workflow/);
+  assert.match(html, /组合包/);
+  assert.match(html, /公开候选/);
+  assert.match(html, /组成与关系/);
+  assert.match(html, /href="\/tools\/weixin-article-reader"/);
+  assert.match(html, /Generic Web Reader/);
+  assert.match(html, /内部组件/);
+  assert.match(html, /运行依赖/);
+  assert.match(html, /权威候选包地址/);
+  assert.match(html, /下载候选版 Workflow ZIP/);
+  assert.match(html, new RegExp(tools[1].download.sha256));
+});
+
+test("server-renders the standalone Weixin Skill and reverse relationship", async () => {
+  const response = await render("/tools/weixin-article-reader");
+  assert.equal(response.status, 200);
+
+  const html = await response.text();
+  assert.match(html, /<title>Weixin Article Reader｜z-skill<\/title>/i);
+  assert.match(html, /Skill/);
+  assert.match(html, /独立包/);
+  assert.match(html, /也包含在/);
+  assert.match(html, /href="\/tools\/web-content-reader"/);
+  assert.match(html, /OpenCLI主路径/);
+  assert.match(html, /下载候选版 Skill ZIP/);
+  assert.match(html, new RegExp(tools[2].download.sha256));
+});
+
 test("returns 404 for an unpublished tool slug", async () => {
   const response = await render("/tools/not-published");
   assert.equal(response.status, 404);
@@ -112,7 +156,9 @@ test("server-renders the About page and channel boundaries", async () => {
   assert.match(html, /不做文章站、社区、投稿平台或排行榜/);
   assert.match(html, /当前仅公开/);
   assert.match(html, /Any-to-MD v0\.1\.0/);
-  assert.doesNotMatch(html, /v0\.1\.0-candidate|Claude/);
+  assert.match(html, /Web Content Reader v0\.2\.0-candidate\.1/);
+  assert.match(html, /Weixin Article Reader v0\.1\.0-candidate\.1/);
+  assert.doesNotMatch(html, /Claude/);
 });
 
 test("keeps the mobile hero accent separate from the search panel", async () => {
@@ -140,20 +186,24 @@ test("derives release metadata and install prompt from one tool record", () => {
   assert.equal(tool.statusTone, "verified");
   assert.equal(tool.version, "v0.1.0");
   assert.deepEqual(tool.environments, ["Codex"]);
+  assert.equal(tool.packageMode, "Standalone");
   assert.deepEqual(getVerifiedFormats(tool), ["PDF", "XLSX", "PNG", "Markdown"]);
   assert.match(tool.download.path, new RegExp(`${tool.slug}-${tool.version}\\.zip$`));
   assert.match(prompt, new RegExp(tool.version));
   assert.ok(prompt.includes(tool.download.sourceUrl));
   assert.ok(prompt.includes(tool.install.fallback));
+  assert.deepEqual(getIncludedIn("weixin-article-reader").map((item) => item.slug), ["web-content-reader"]);
 });
 
-test("ships a real formal download without starter dependencies", async () => {
-  const archive = new URL(`../public${tools[0].download.path}`, import.meta.url);
+test("ships all public downloads without starter dependencies", async () => {
   const packageJsonUrl = new URL("../package.json", import.meta.url);
 
-  await access(archive);
-  const archiveStat = await stat(archive);
-  assert.ok(archiveStat.size > 100_000);
+  for (const tool of tools) {
+    const archive = new URL(`../public${tool.download.path}`, import.meta.url);
+    await access(archive);
+    const archiveStat = await stat(archive);
+    assert.ok(archiveStat.size > 10_000, tool.slug);
+  }
 
   const packageJson = await readFile(packageJsonUrl, "utf8");
   assert.doesNotMatch(packageJson, /react-loading-skeleton/);
@@ -162,7 +212,8 @@ test("ships a real formal download without starter dependencies", async () => {
   assert.match(packageJson, /"build": "npm run validate:release && vinext build"/);
   assert.match(packageJson, /"start": "wrangler dev --config dist\/server\/wrangler\.json"/);
   assert.match(packageJson, /"validate:release": "node --experimental-strip-types scripts\/validate-release\.mjs"/);
-  assert.match(packageJson, /"test": "npm run build && node --experimental-strip-types --test tests\/rendered-html\.test\.mjs"/);
+  assert.match(packageJson, /"test:web-reader": "node --test tests\/web-content-reader-release\.test\.mjs"/);
+  assert.match(packageJson, /"test": "npm run test:web-reader && npm run build && node --experimental-strip-types --test tests\/rendered-html\.test\.mjs"/);
   await assert.rejects(access(new URL("../app/_sites-preview/", import.meta.url)));
   await assert.rejects(access(new URL("../app/chatgpt-auth.ts", import.meta.url)));
   await assert.rejects(access(new URL("../db/", import.meta.url)));
