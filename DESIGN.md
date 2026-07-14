@@ -374,8 +374,8 @@ box-shadow: 0 0 0 5px var(--blue-700);
 - 系统字体在 Windows、macOS、iOS 与 Android 上存在字重差异，需要跨设备复验；
 - Any-to-MD `v0.1.0` 已完成 Codex 实际触发验证；
 - Web Content Reader `v0.2.0`与Weixin Article Reader `v0.1.0`已完成Codex默认参数实际触发验证并转为正式版，组件关系由同一数据源维护；
-- 当前临时 Workers 地址含账户标识，不纳入品牌规范；
-- 视觉小样已落实到正式 `app/` 页面并部署至临时 Workers 地址。
+- 正式品牌入口为`https://z-skill.com/`，含账户标识的Workers地址只用于部署排查，不纳入品牌规范；
+- 视觉小样已落实到正式`app/`页面，并通过正式域名对外提供。
 
 ## 23. 实施检查清单
 
