@@ -51,6 +51,36 @@ try {
     $workflowSummary = Read-Summary -Output $workflowOutput
     Assert-FailedManifest -Summary $workflowSummary -Name 'Web Content Reader'
 
+    $mockBin = Join-Path $testRoot 'mock-bin'
+    New-Item -ItemType Directory -Path $mockBin -Force | Out-Null
+    @'
+Start-Sleep -Seconds 30
+'@ | Set-Content -LiteralPath (Join-Path $mockBin 'browser-act.ps1') -Encoding utf8
+    $originalPath = $env:PATH
+    try {
+        $env:PATH = "$mockBin$([IO.Path]::PathSeparator)$originalPath"
+        $stopwatch = [System.Diagnostics.Stopwatch]::StartNew()
+        $timeoutOutput = & (Join-Path $packageRoot 'skill\web-content-reader\scripts\batch_web_content.ps1') `
+            -Urls 'https://example.invalid/hanging-stealth' `
+            -OutputDirectory (Join-Path $testRoot 'workflow-timeout') `
+            -DisableDirectExtraction `
+            -DisableLocalBrowser `
+            -StealthAttempts 1 `
+            -StealthTimeoutSeconds 1
+        $stopwatch.Stop()
+        $timeoutSummary = Read-Summary -Output $timeoutOutput
+        Assert-FailedManifest -Summary $timeoutSummary -Name 'Web Content Reader hard timeout'
+        if ($stopwatch.Elapsed.TotalSeconds -gt 8) {
+            throw "Web Content Reader硬超时测试耗时$([math]::Round($stopwatch.Elapsed.TotalSeconds, 2))秒，未在预期时间内返回。"
+        }
+        $timeoutItem = @(Get-Content -LiteralPath $timeoutSummary.ManifestPath -Raw -Encoding UTF8 | ConvertFrom-Json)[0]
+        if ($timeoutItem.Error -notmatch '超过1秒，已终止') {
+            throw 'Web Content Reader硬超时失败结果未记录明确的终止诊断。'
+        }
+    } finally {
+        $env:PATH = $originalPath
+    }
+
     $weixinOutput = & (Join-Path $packageRoot 'skill\weixin-article-reader\scripts\batch_weixin_download.ps1') `
         -Urls 'https://mp.weixin.qq.com/s/example' `
         -OutputDirectory (Join-Path $testRoot 'weixin') `

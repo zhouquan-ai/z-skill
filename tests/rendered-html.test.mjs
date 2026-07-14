@@ -71,12 +71,11 @@ test("server-renders the searchable tool directory", async () => {
   assert.match(html, /信息获取 · 微信公众号/);
   assert.match(html, /组合包/);
   assert.match(html, /独立包/);
-  assert.match(html, /公开候选/);
   assert.match(html, /正式版/);
   assert.match(html, /最近更新/);
   assert.match(html, /\/downloads\/any-to-md-v0\.1\.0\.zip/);
-  assert.match(html, /\/downloads\/web-content-reader-v0\.2\.0-candidate\.1\.zip/);
-  assert.match(html, /\/downloads\/weixin-article-reader-v0\.1\.0-candidate\.1\.zip/);
+  assert.match(html, /\/downloads\/web-content-reader-v0\.2\.0\.zip/);
+  assert.match(html, /\/downloads\/weixin-article-reader-v0\.1\.0\.zip/);
 });
 
 test("server-renders the Any-to-MD detail page", async () => {
@@ -115,14 +114,14 @@ test("server-renders the Web Content Reader Workflow and component links", async
   assert.match(html, /<title>Web Content Reader｜z-skill<\/title>/i);
   assert.match(html, /Workflow/);
   assert.match(html, /组合包/);
-  assert.match(html, /公开候选/);
+  assert.match(html, /正式版/);
   assert.match(html, /组成与关系/);
   assert.match(html, /href="\/tools\/weixin-article-reader"/);
   assert.match(html, /Generic Web Reader/);
   assert.match(html, /内部组件/);
   assert.match(html, /运行依赖/);
-  assert.match(html, /权威候选包地址/);
-  assert.match(html, /下载候选版 Workflow ZIP/);
+  assert.match(html, /权威版本地址/);
+  assert.match(html, /下载 Workflow ZIP/);
   assert.match(html, new RegExp(tools[1].download.sha256));
 });
 
@@ -137,7 +136,7 @@ test("server-renders the standalone Weixin Skill and reverse relationship", asyn
   assert.match(html, /也包含在/);
   assert.match(html, /href="\/tools\/web-content-reader"/);
   assert.match(html, /OpenCLI主路径/);
-  assert.match(html, /下载候选版 Skill ZIP/);
+  assert.match(html, /下载 Skill ZIP/);
   assert.match(html, new RegExp(tools[2].download.sha256));
 });
 
@@ -167,8 +166,8 @@ test("server-renders the About page and channel boundaries", async () => {
   assert.match(html, /不做文章站、社区、投稿平台或排行榜/);
   assert.match(html, /当前仅公开/);
   assert.match(html, /Any-to-MD v0\.1\.0/);
-  assert.match(html, /Web Content Reader v0\.2\.0-candidate\.1/);
-  assert.match(html, /Weixin Article Reader v0\.1\.0-candidate\.1/);
+  assert.match(html, /Web Content Reader v0\.2\.0/);
+  assert.match(html, /Weixin Article Reader v0\.1\.0/);
   assert.doesNotMatch(html, /Claude/);
 });
 

@@ -57,7 +57,7 @@ async function withBuilds(callback) {
 
 test("release manifest keeps public components and internal modules distinct", async () => {
   const manifest = JSON.parse(await readFile(join(packageRoot, "release-manifest.json"), "utf8"));
-  assert.equal(manifest.status, "public-candidate");
+  assert.equal(manifest.status, "public-stable");
   assert.equal(manifest.workflow.type, "Workflow");
   assert.equal(manifest.workflow.packageMode, "Bundle");
   assert.equal(manifest.standalone.type, "Skill");
@@ -90,7 +90,7 @@ test("both Skill folders keep minimal valid frontmatter", async () => {
   }
 });
 
-test("candidate archives are byte-for-byte reproducible", async () => {
+test("release archives are byte-for-byte reproducible", async () => {
   await withBuilds(async (firstResult, secondResult) => {
     assert.deepEqual(firstResult.artifacts, secondResult.artifacts);
     for (const artifact of firstResult.artifacts) {

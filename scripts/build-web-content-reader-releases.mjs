@@ -280,8 +280,8 @@ export async function buildReleases({
   if (!relativeOutput || relativeOutput.startsWith("..") || isAbsolute(relativeOutput)) {
     throw new Error("构建输出目录必须位于仓库内");
   }
-  if (!new Set(["internal-candidate", "public-candidate"]).has(manifest.status)) {
-    throw new Error("构建状态必须是internal-candidate或public-candidate");
+  if (!new Set(["internal-candidate", "public-candidate", "public-stable"]).has(manifest.status)) {
+    throw new Error("构建状态必须是internal-candidate、public-candidate或public-stable");
   }
   await mkdir(resolvedOutput, { recursive: true });
 

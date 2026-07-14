@@ -145,11 +145,11 @@ export const tools: ToolRecord[] = [
     glyph: "WEB",
     type: "Workflow",
     packageMode: "Bundle",
-    status: "公开候选",
-    statusTone: "candidate",
-    version: "v0.2.0-candidate.1",
-    releasedAt: "2026-07-13T22:56:00+08:00",
-    updated: "2026-07-13",
+    status: "正式版",
+    statusTone: "stable",
+    version: "v0.2.0",
+    releasedAt: "2026-07-14T12:02:00+08:00",
+    updated: "2026-07-14",
     author: "周全",
     license: "MIT",
     category: "信息获取 · 网页阅读",
@@ -158,12 +158,12 @@ export const tools: ToolRecord[] = [
     environments: ["Codex"],
     environmentNote: "Codex · Windows PowerShell",
     download: {
-      path: "/downloads/web-content-reader-v0.2.0-candidate.1.zip",
+      path: "/downloads/web-content-reader-v0.2.0.zip",
       sourceUrl:
-        "https://raw.githubusercontent.com/zzzq8848-ai/z-skill/main/public/downloads/web-content-reader-v0.2.0-candidate.1.zip",
-      label: "下载候选版 Workflow ZIP",
+        "https://raw.githubusercontent.com/zzzq8848-ai/z-skill/main/public/downloads/web-content-reader-v0.2.0.zip",
+      label: "下载 Workflow ZIP",
       fileType: "ZIP",
-      sha256: "7c946f4b691cb0c24706c5b9510875d80a6ad1a904f63df88da67d513dbfe45a",
+      sha256: "d68ff0e192fbb0e533e30fda1469dcf62c895e934425e33c5dadc3b3fc5e11e6",
     },
     overview: {
       title: "把混合网页读取变成可检查的流程",
@@ -176,11 +176,11 @@ export const tools: ToolRecord[] = [
         "保留失败路径，快速定位需要人工处理的页面",
       ],
     },
-    testNote: "公众号完整分享链接7/7，普通网页混合批次3/3；候选包构建、解压和失败诊断已验证。",
+    testNote: "Codex按默认参数实际触发4条混合链接：3条正文成功，1条不可达地址如实失败并完成收尾；硬超时回归已通过。",
     formatTests: [
       { format: "微信公众号完整分享链接", status: "verified", label: "7篇样本7/7" },
       { format: "普通公开网页混合批次", status: "verified", label: "3篇样本3/3" },
-      { format: "浏览器回退与正文清洗", status: "verified", label: "当前样本已验证" },
+      { format: "浏览器回退与正文清洗", status: "verified", label: "含硬超时回归" },
       { format: "访问验证页面", status: "pending", label: "必要时重试" },
       { format: "macOS / Linux", status: "pending", label: "尚未验证" },
     ],
@@ -191,9 +191,9 @@ export const tools: ToolRecord[] = [
       "提供公开 URL 运行批量脚本，结束后逐条检查 manifest.json。",
     ],
     install: {
-      intro: "候选包包含两个 Skill、组件清单和多级提取路径。可以复制 Prompt 安装，也可以直接下载 ZIP。",
+      intro: "正式包包含两个 Skill、组件清单和多级提取路径。可以复制 Prompt 安装，也可以直接下载 ZIP。",
       steps: [
-        "下载并解压候选版 Workflow ZIP，阅读 README.md、PRIVACY.md、KNOWN_LIMITATIONS.md 和 COMPONENTS.json。",
+        "下载并解压 v0.2.0 Workflow ZIP，阅读 README.md、PRIVACY.md、KNOWN_LIMITATIONS.md 和 COMPONENTS.json。",
         "将 skill/web-content-reader 与 skill/weixin-article-reader 复制到当前 Agent 的 skills 目录。",
         "确认 Windows PowerShell 可用，再根据实际需要配置 OpenCLI、Trafilatura 或 BrowserAct。",
         "不要把 API Key、Cookie 或浏览器 Profile 写入 Skill 或公开文件。",
@@ -206,7 +206,7 @@ export const tools: ToolRecord[] = [
         slug: "weixin-article-reader",
         name: "Weixin Article Reader",
         type: "Skill",
-        version: "v0.1.0-candidate.1",
+        version: "v0.1.0",
         summary: "微信公众号文章专用读取能力，可单独安装。",
       },
       {
@@ -229,7 +229,7 @@ export const tools: ToolRecord[] = [
     privacy:
       "BrowserAct远程路径会把公开URL交给第三方服务。不要提交私有链接、敏感查询参数、Cookie或浏览器Profile。",
     limitations:
-      "访问验证页面可能需要重试；微信公众号短链接应保留完整分享参数；浏览器整页结果仍需检查正文边界。当前主要验证Windows PowerShell环境。",
+      "访问验证页面可能需要重试；隐身提取单次硬超时45秒、默认最多3次；微信公众号短链接应保留完整分享参数；浏览器整页结果仍需检查正文边界。当前主要验证Windows PowerShell环境。",
   },
   {
     slug: "weixin-article-reader",
@@ -237,11 +237,11 @@ export const tools: ToolRecord[] = [
     glyph: "WX",
     type: "Skill",
     packageMode: "Standalone",
-    status: "公开候选",
-    statusTone: "candidate",
-    version: "v0.1.0-candidate.1",
-    releasedAt: "2026-07-13T22:56:00+08:00",
-    updated: "2026-07-13",
+    status: "正式版",
+    statusTone: "stable",
+    version: "v0.1.0",
+    releasedAt: "2026-07-14T12:02:00+08:00",
+    updated: "2026-07-14",
     author: "周全",
     license: "MIT",
     category: "信息获取 · 微信公众号",
@@ -250,12 +250,12 @@ export const tools: ToolRecord[] = [
     environments: ["Codex"],
     environmentNote: "Codex · Windows PowerShell",
     download: {
-      path: "/downloads/weixin-article-reader-v0.1.0-candidate.1.zip",
+      path: "/downloads/weixin-article-reader-v0.1.0.zip",
       sourceUrl:
-        "https://raw.githubusercontent.com/zzzq8848-ai/z-skill/main/public/downloads/weixin-article-reader-v0.1.0-candidate.1.zip",
-      label: "下载候选版 Skill ZIP",
+        "https://raw.githubusercontent.com/zzzq8848-ai/z-skill/main/public/downloads/weixin-article-reader-v0.1.0.zip",
+      label: "下载 Skill ZIP",
       fileType: "ZIP",
-      sha256: "d1c559897c30630d8ff8bba2abb927ceb4cd7fd2e6ea72fb88b683e18f4edb2e",
+      sha256: "94f5c4ae0f9e0022a8e3436460ee9bae53965ca710cc35193cb770c7e3601084",
     },
     overview: {
       title: "只安装公众号文章读取能力",
@@ -268,7 +268,7 @@ export const tools: ToolRecord[] = [
         "单独使用公众号能力，不安装完整网页Workflow",
       ],
     },
-    testNote: "微信公众号完整分享链接7篇样本7/7，BrowserAct单篇回退与批量清单已验证。",
+    testNote: "微信公众号完整分享链接7篇样本7/7；Codex实际触发的默认混合批次中公众号路径成功，BrowserAct单篇回退与批量清单已验证。",
     formatTests: [
       { format: "完整分享链接", status: "verified", label: "7篇样本7/7" },
       { format: "批量读取与去重", status: "verified", label: "当前样本已验证" },
@@ -285,7 +285,7 @@ export const tools: ToolRecord[] = [
     install: {
       intro: "这是可独立安装的公众号文章读取Skill，也包含在Web Content Reader Workflow中。",
       steps: [
-        "下载并解压候选版 Skill ZIP，阅读 README.md、PRIVACY.md、KNOWN_LIMITATIONS.md 和 COMPONENTS.json。",
+        "下载并解压 v0.1.0 Skill ZIP，阅读 README.md、PRIVACY.md、KNOWN_LIMITATIONS.md 和 COMPONENTS.json。",
         "将 skill/weixin-article-reader 复制到当前 Agent 的 skills 目录。",
         "确认 OpenCLI 微信公众号适配器可用；需要回退时再配置 BrowserAct。",
         "不要写入 API Key、Cookie 或浏览器 Profile。",

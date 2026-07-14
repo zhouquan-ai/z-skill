@@ -17,6 +17,9 @@ param(
     [ValidateRange(1, 5)]
     [int]$StealthAttempts = 3,
 
+    [ValidateRange(1, 300)]
+    [int]$StealthTimeoutSeconds = 45,
+
     [ValidateRange(1, 20)]
     [int]$MaxItems = 20,
 
@@ -189,15 +192,61 @@ function Invoke-StealthExtraction {
     param(
         [Parameter(Mandatory = $true)][string]$BrowserActPath,
         [Parameter(Mandatory = $true)][string]$Url,
-        $DirectRuntime
+        $DirectRuntime,
+        [Parameter(Mandatory = $true)][int]$TimeoutSeconds
     )
 
-    if ($DirectRuntime) {
-        $html = (& $BrowserActPath stealth-extract $Url --content-type html 2>&1 | Out-String).Trim()
-        if ($LASTEXITCODE -ne 0) {
-            throw "BrowserAct隐身提取失败：$html"
+    $contentType = if ($DirectRuntime) { 'html' } else { 'markdown' }
+    $processInfo = [System.Diagnostics.ProcessStartInfo]::new()
+    $processInfo.UseShellExecute = $false
+    $processInfo.CreateNoWindow = $true
+    $processInfo.RedirectStandardOutput = $true
+    $processInfo.RedirectStandardError = $true
+
+    if ([System.IO.Path]::GetExtension($BrowserActPath) -eq '.ps1') {
+        $processInfo.FileName = (Get-Process -Id $PID).Path
+        $processInfo.ArgumentList.Add('-NoProfile')
+        $processInfo.ArgumentList.Add('-NonInteractive')
+        $processInfo.ArgumentList.Add('-File')
+        $processInfo.ArgumentList.Add($BrowserActPath)
+    } else {
+        $processInfo.FileName = $BrowserActPath
+    }
+    foreach ($argument in @('stealth-extract', $Url, '--content-type', $contentType)) {
+        $processInfo.ArgumentList.Add($argument)
+    }
+
+    $process = [System.Diagnostics.Process]::new()
+    $process.StartInfo = $processInfo
+    try {
+        if (-not $process.Start()) {
+            throw 'BrowserAct隐身提取进程未能启动。'
         }
-        $json = ($html | & $DirectRuntime.PythonPath -X utf8 $DirectRuntime.ExtractorPath $Url --stdin-html 2>&1 | Out-String).Trim()
+        $standardOutput = $process.StandardOutput.ReadToEndAsync()
+        $standardError = $process.StandardError.ReadToEndAsync()
+        if (-not $process.WaitForExit($TimeoutSeconds * 1000)) {
+            try {
+                $process.Kill($true)
+            } catch {
+                $process.Kill()
+            }
+            $null = $process.WaitForExit(5000)
+            throw "BrowserAct隐身提取超过${TimeoutSeconds}秒，已终止该次尝试。"
+        }
+        $output = @(
+            $standardOutput.GetAwaiter().GetResult()
+            $standardError.GetAwaiter().GetResult()
+        ) -join "`n"
+        $output = $output.Trim()
+        if ($process.ExitCode -ne 0) {
+            throw "BrowserAct隐身提取失败：$output"
+        }
+    } finally {
+        $process.Dispose()
+    }
+
+    if ($DirectRuntime) {
+        $json = ($output | & $DirectRuntime.PythonPath -X utf8 $DirectRuntime.ExtractorPath $Url --stdin-html 2>&1 | Out-String).Trim()
         $exitCode = $LASTEXITCODE
         try {
             $payload = $json | ConvertFrom-Json
@@ -217,13 +266,9 @@ function Invoke-StealthExtraction {
         }
     }
 
-    $markdown = (& $BrowserActPath stealth-extract $Url --content-type markdown 2>&1 | Out-String).Trim()
-    if ($LASTEXITCODE -ne 0) {
-        throw "BrowserAct隐身提取失败：$markdown"
-    }
     [pscustomobject]@{
-        Title = Get-MarkdownHeading -Markdown $markdown
-        Markdown = $markdown
+        Title = Get-MarkdownHeading -Markdown $output
+        Markdown = $output
         ContentScope = 'full-page:stealth'
     }
 }
@@ -567,7 +612,7 @@ if ($genericItems.Count -gt 0) {
             for ($attempt = 1; $attempt -le $StealthAttempts; $attempt++) {
                 $result.Attempts++
                 try {
-                    $stealth = Invoke-StealthExtraction -BrowserActPath $browserAct.Source -Url $item.Url -DirectRuntime $directRuntime
+                    $stealth = Invoke-StealthExtraction -BrowserActPath $browserAct.Source -Url $item.Url -DirectRuntime $directRuntime -TimeoutSeconds $StealthTimeoutSeconds
                     $check = Test-ExtractedContent -Title $stealth.Title -Markdown $stealth.Markdown -MinimumLength $MinContentLength
                     if (-not $check.IsValid) {
                         throw $check.Error
