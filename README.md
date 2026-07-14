@@ -14,7 +14,7 @@
 - Web Content Reader `v0.2.0-candidate.1` Workflow Bundle；
 - Weixin Article Reader `v0.1.0-candidate.1` 独立 Skill。
 
-当前临时线上地址：<https://z-skill.zzzq8848.workers.dev/>。该地址含账户标识，不作为最终正式域名。
+正式线上地址：<https://z-skill.com/>。Cloudflare Workers 地址 <https://z-skill.zzzq8848.workers.dev/> 仅作为部署排查入口，不作为对外正式域名。
 
 2026-07-13 发布验收确认：Any-to-MD 已由 Codex 实际触发，完成本地结构修复、严格 QA 和预期结果比对，正式发布 `v0.1.0`。
 
