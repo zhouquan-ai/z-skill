@@ -69,10 +69,10 @@ export function ToolCatalog({ initialQuery = "" }: { initialQuery?: string }) {
               <div className="verified-row"><span>已验证</span>{getVerifiedFormats(tool).map((format) => <code key={format}>{format}</code>)}</div>
               <div className="tool-submeta"><span>{tool.category}</span><strong>{tool.version}</strong><span>更新于 {tool.updated}</span></div>
             </div>
-            <div className="tool-actions"><Link className="button primary" href={`/tools/${tool.slug}`}>查看详情</Link><a className="text-link" href={tool.download.path} download>下载 ZIP</a></div>
+            <div className="tool-actions"><Link className="button primary" href={`/tools/${tool.slug}`}>查看详情</Link><a className="button secondary" href={tool.download.path} download>下载 ZIP</a></div>
           </article>
         ))}
-        {visibleTools.length === 0 && <div className="empty-result"><p>没有找到匹配的工具。</p><button type="button" onClick={clearFilters}>清除搜索与筛选</button></div>}
+        {visibleTools.length === 0 && <div className="empty-result"><p>没有找到匹配的工具。</p><button className="button secondary" type="button" onClick={clearFilters}>清除搜索与筛选</button></div>}
       </div>
     </section>
   );

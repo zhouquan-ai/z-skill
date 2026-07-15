@@ -32,7 +32,7 @@ export default function Home() {
                 <p className="eyebrow">RELEASES</p>
                 <h2 id="recent-releases-title">最近发布</h2>
               </div>
-              <Link className="text-link" href="/tools">查看全部工具</Link>
+              <Link className="button secondary section-action" href="/tools">查看全部工具</Link>
             </div>
             <div className="recent-grid">
               {recentTools.map((tool) => (
@@ -49,7 +49,7 @@ export default function Home() {
                   <p>{tool.summary}</p>
                   <div className="recent-meta">
                     <strong>{tool.version}</strong>
-                    <span>发布于 {getReleaseDate(tool)}</span>
+                    <span>发布于 {getReleaseDate(tool)} <span className="card-arrow" aria-hidden="true">→</span></span>
                   </div>
                 </Link>
               ))}
