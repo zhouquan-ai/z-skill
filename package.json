@@ -9,6 +9,7 @@
     "dev": "vinext dev",
     "build": "npm run validate:release && vinext build",
     "start": "wrangler dev --config dist/server/wrangler.json",
+    "typecheck": "tsc --noEmit --incremental false",
     "validate:release": "node --experimental-strip-types scripts/validate-release.mjs",
     "build:web-reader": "node scripts/build-web-content-reader-releases.mjs",
     "test:web-reader": "node --test tests/web-content-reader-release.test.mjs",
@@ -24,6 +25,7 @@
   },
   "devDependencies": {
     "@cloudflare/vite-plugin": "1.44.0",
+    "@cloudflare/workers-types": "5.20260715.1",
     "@tailwindcss/postcss": "4.2.1",
     "@types/node": "22.19.19",
     "@types/react": "19.2.14",
