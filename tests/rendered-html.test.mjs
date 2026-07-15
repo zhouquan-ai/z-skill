@@ -43,11 +43,11 @@ test("server-renders the z-skill brand homepage", async () => {
   assert.match(html, /最近发布/);
   assert.match(html, /发布于[\s\S]{0,24}2026-07-13/);
   assert.match(html, /href="\/tools"[^>]*>查看全部工具/);
-  assert.match(html, /周全设计、整理并验证的 AI 工具发布站/);
+  assert.match(html, /这里发布我制作并实际验证过的 AI 工具/);
   assert.match(html, /搜索工具名称或用途/);
   assert.match(html, />搜索工具</);
-  assert.match(html, /当前公开[\s\S]{0,24}3[\s\S]{0,24}项/);
-  assert.match(html, /发布少一点，说明完整一点/);
+  assert.match(html, /已发布[\s\S]{0,24}3[\s\S]{0,24}项/);
+  assert.match(html, /每项工具都会说明/);
   assert.match(html, /href="#main-content"[^>]*>跳到主要内容</);
   assert.match(html, /href="\/"[^>]*aria-current="page"/);
   assert.doesNotMatch(html, /候选版如实标注/);
@@ -72,7 +72,7 @@ test("server-renders the searchable tool directory", async () => {
   assert.match(html, /组合包/);
   assert.match(html, /独立包/);
   assert.match(html, /正式版/);
-  assert.match(html, /最近更新/);
+  assert.match(html, /更新于/);
   assert.match(html, /\/downloads\/any-to-md-v0\.1\.0\.zip/);
   assert.match(html, /\/downloads\/web-content-reader-v0\.2\.0\.zip/);
   assert.match(html, /\/downloads\/weixin-article-reader-v0\.1\.0\.zip/);
@@ -84,15 +84,15 @@ test("server-renders the Any-to-MD detail page", async () => {
 
   const html = await response.text();
   assert.match(html, /Any-to-MD/);
-  assert.match(html, /当前测试状态/);
+  assert.match(html, /测试与验证/);
   assert.match(html, /已知限制/);
   assert.match(html, /DOCX/);
   assert.match(html, /PPT \/ PPTX/);
   assert.match(html, /轻量接口本轮失败/);
-  assert.match(html, /复制给 Agent 的安装 Prompt/);
+  assert.match(html, /Agent 安装 Prompt/);
   assert.match(html, /包含下载地址、安装步骤和隐私提示/);
   assert.match(html, /raw\.githubusercontent\.com\/zzzq8848-ai\/z-skill/);
-  assert.match(html, /隐私提示/);
+  assert.match(html, /隐私与数据处理/);
   assert.match(html, /下载 ZIP/);
   assert.match(html, /不能替代原文件、签章、公式、批注或修订记录/);
   assert.match(html, /<title>Any-to-MD｜z-skill<\/title>/i);
@@ -115,7 +115,7 @@ test("server-renders the Web Content Reader Workflow and component links", async
   assert.match(html, /Workflow/);
   assert.match(html, /组合包/);
   assert.match(html, /正式版/);
-  assert.match(html, /组成与关系/);
+  assert.match(html, /组成与依赖/);
   assert.match(html, /href="\/tools\/weixin-article-reader"/);
   assert.match(html, /Generic Web Reader/);
   assert.match(html, /内部组件/);
@@ -155,16 +155,16 @@ test("server-renders the About page and channel boundaries", async () => {
   assert.equal(response.status, 200);
 
   const html = await response.text();
-  assert.match(html, /收录与验证原则/);
+  assert.match(html, /周全的 AI 工具发布页/);
   assert.match(html, /收录标准/);
-  assert.match(html, /怎样理解发布阶段/);
-  assert.match(html, /“已验证”只描述已经完成测试的具体格式或场景/);
+  assert.match(html, /发布阶段/);
+  assert.match(html, /“已验证”仅适用于已经完成测试的具体格式或场景/);
   assert.match(html, /正式版/);
   assert.match(html, /公开候选/);
   assert.match(html, /公众号/);
   assert.match(html, /GitHub/);
-  assert.match(html, /不做文章站、社区、投稿平台或排行榜/);
-  assert.match(html, /当前仅公开/);
+  assert.match(html, /网站不承担文章发布、用户投稿、社区或排行功能/);
+  assert.match(html, /当前发布/);
   assert.match(html, /Any-to-MD v0\.1\.0/);
   assert.match(html, /Web Content Reader v0\.2\.0/);
   assert.match(html, /Weixin Article Reader v0\.1\.0/);

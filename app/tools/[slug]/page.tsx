@@ -51,9 +51,9 @@ export default async function ToolDetailPage({ params }: ToolPageProps) {
             <nav className="detail-nav" aria-label="本页内容">
               <span>本页</span>
               <a href="#overview">核心用途</a>
-              {hasComposition && <a href="#composition">组成关系</a>}
-              <a href="#testing">测试状态</a>
-              <a href="#usage">使用说明</a>
+              {hasComposition && <a href="#composition">组成与依赖</a>}
+              <a href="#testing">测试与验证</a>
+              <a href="#usage">使用步骤</a>
               <a href="#install">安装 Prompt</a>
               <a href="#limits">已知限制</a>
             </nav>
@@ -70,7 +70,7 @@ export default async function ToolDetailPage({ params }: ToolPageProps) {
             {hasComposition && (
               <section id="composition">
                 <p className="eyebrow">COMPOSITION</p>
-                <h2>组成与关系</h2>
+                <h2>组成与依赖</h2>
                 {tool.components.length > 0 && (
                   <div className="relation-grid">
                     {tool.components.map((component) => {
@@ -101,7 +101,7 @@ export default async function ToolDetailPage({ params }: ToolPageProps) {
 
             <section id="testing">
               <p className="eyebrow">VERIFIED FORMATS</p>
-              <h2>当前测试状态</h2>
+              <h2>测试与验证</h2>
               <p>{tool.testNote}</p>
               <div className="verification-table" role="table" aria-label="格式验证状态">
                 {tool.formatTests.map((test) => (
@@ -115,7 +115,7 @@ export default async function ToolDetailPage({ params }: ToolPageProps) {
 
             <section id="usage">
               <p className="eyebrow">HOW TO USE</p>
-              <h2>下载后怎样使用</h2>
+              <h2>使用步骤</h2>
               <ol className="steps">
                 {tool.usageSteps.map((step, index) => (
                   <li key={step}><span>{String(index + 1).padStart(2, "0")}</span><p>{step}</p></li>
@@ -125,7 +125,7 @@ export default async function ToolDetailPage({ params }: ToolPageProps) {
 
             <section id="install">
               <p className="eyebrow">INSTALL WITH AN AGENT</p>
-              <h2>复制给 Agent 的安装 Prompt</h2>
+              <h2>Agent 安装 Prompt</h2>
               <p>{tool.install.intro}</p>
               <CopyPrompt prompt={installPrompt} />
             </section>
@@ -149,7 +149,7 @@ export default async function ToolDetailPage({ params }: ToolPageProps) {
               <div className="stacked"><dt>验证环境</dt><dd>{tool.environmentNote}</dd></div>
             </dl>
             <div className="checksum-note"><strong>文件校验</strong><span>SHA-256</span><code>{tool.download.sha256}</code></div>
-            <div className="privacy-note"><strong>隐私提示</strong><p>{tool.privacy}</p></div>
+            <div className="privacy-note"><strong>隐私与数据处理</strong><p>{tool.privacy}</p></div>
             <a className="button primary large" href={tool.download.path} download>{tool.download.label}</a>
             <p className="panel-footnote">版本、测试与限制以本页说明为准</p>
           </aside>

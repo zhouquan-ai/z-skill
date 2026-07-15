@@ -13,14 +13,14 @@ export default function Home() {
         <section className="home-hero site-wrap">
           <div className="hero-copy">
             <div className="hero-statement">
-              <p className="eyebrow">PERSONAL AI TOOL RELEASES</p>
+              <p className="eyebrow">PERSONAL AI TOOLS</p>
               <h1>把 <span>AI 工具</span><br />讲清楚，再交付</h1>
-              <p className="hero-lead">周全设计、整理并验证的 AI 工具发布站。每项成果均公开版本、测试、隐私与限制。</p>
+              <p className="hero-lead">这里发布我制作并实际验证过的 AI 工具，提供清楚的使用说明和可下载版本。</p>
             </div>
             <HeroSearch />
             <ul className="hero-facts" aria-label="当前公开事实">
-              <li>当前公开 {tools.length} 项</li>
-              <li>版本与限制公开</li>
+              <li>已发布 {tools.length} 项</li>
+              <li>支持 Agent 安装与 ZIP 下载</li>
             </ul>
           </div>
         </section>
@@ -29,7 +29,7 @@ export default function Home() {
           <div className="site-wrap">
             <div className="recent-heading">
               <div>
-                <p className="eyebrow">RECENT RELEASES</p>
+                <p className="eyebrow">RELEASES</p>
                 <h2 id="recent-releases-title">最近发布</h2>
               </div>
               <Link className="text-link" href="/tools">查看全部工具</Link>
@@ -60,13 +60,13 @@ export default function Home() {
         <section className="home-principles">
           <div className="site-wrap">
             <div className="section-heading">
-              <p className="eyebrow">RELEASE PRINCIPLES</p>
-              <h2>发布少一点，说明完整一点</h2>
+              <p className="eyebrow">PRINCIPLES</p>
+              <h2>每项工具都会说明</h2>
             </div>
             <div className="principle-grid">
-              <article><span>01</span><h3>用途明确</h3><p>说明解决什么问题、适合哪些场景。</p></article>
-              <article><span>02</span><h3>版本可追溯</h3><p>页面、ZIP、GitHub 版本和更新记录保持一致。</p></article>
-              <article><span>03</span><h3>限制公开</h3><p>测试失败、隐私风险和待验证项如实呈现。</p></article>
+              <article><span>01</span><h3>适用范围</h3><p>说明用途、运行环境和必要依赖。</p></article>
+              <article><span>02</span><h3>测试记录</h3><p>列明已通过、失败和待验证的测试项。</p></article>
+              <article><span>03</span><h3>隐私与限制</h3><p>说明数据处理方式、已知问题和使用边界。</p></article>
             </div>
           </div>
         </section>

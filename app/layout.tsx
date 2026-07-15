@@ -5,20 +5,20 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     metadataBase: new URL("https://z-skill.com"),
     title: "z-skill｜AI 工具与可复用工作流",
-    description: "周全设计、整理并验证的 Skill、Workflow、Agent 与 AI 工具发布站。查看版本、测试、隐私、限制与下载方式。",
+    description: "周全的 AI 工具发布页，提供 Skill、Workflow、Agent 等作品的安装说明、测试记录和版本下载。",
     alternates: {
       canonical: "/",
     },
     openGraph: {
       title: "z-skill｜AI 工具与可复用工作流",
-      description: "把 AI 工具讲清楚，再交付。查看真实版本、测试状态、隐私说明与已知限制。",
+      description: "查看 AI 工具的用途、安装方式、测试记录和已知限制。",
       type: "website",
       url: "/",
     },
     twitter: {
       card: "summary",
       title: "z-skill｜AI 工具与可复用工作流",
-      description: "把 AI 工具讲清楚，再交付。查看真实版本、测试状态、隐私说明与已知限制。",
+      description: "查看 AI 工具的用途、安装方式、测试记录和已知限制。",
     },
   };
 }

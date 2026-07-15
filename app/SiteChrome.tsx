@@ -29,7 +29,7 @@ export function SiteFooter() {
       <div className="site-wrap footer-inner">
         <div>
           <strong>z-skill</strong>
-          <p>周全设计、整理并验证的个人 AI 工具发布站</p>
+          <p>周全的 AI 工具发布页</p>
         </div>
         <nav aria-label="页脚导航">
           <Link href="/">首页</Link>

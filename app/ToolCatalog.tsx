@@ -57,7 +57,7 @@ export function ToolCatalog({ initialQuery = "" }: { initialQuery?: string }) {
         </select>
       </div>
 
-      <div className="results-heading"><span>找到 {visibleTools.length} 项公开工具</span><span>最近更新 {catalogUpdated}</span></div>
+      <div className="results-heading"><span>共 {visibleTools.length} 项</span><span>更新于 {catalogUpdated}</span></div>
 
       <div className="tool-list" aria-live="polite">
         {visibleTools.map((tool) => (
@@ -72,7 +72,7 @@ export function ToolCatalog({ initialQuery = "" }: { initialQuery?: string }) {
             <div className="tool-actions"><Link className="button primary" href={`/tools/${tool.slug}`}>查看详情</Link><a className="text-link" href={tool.download.path} download>下载 ZIP</a></div>
           </article>
         ))}
-        {visibleTools.length === 0 && <div className="empty-result"><p>没有匹配的公开工具。</p><button type="button" onClick={clearFilters}>清除搜索与筛选</button></div>}
+        {visibleTools.length === 0 && <div className="empty-result"><p>没有找到匹配的工具。</p><button type="button" onClick={clearFilters}>清除搜索与筛选</button></div>}
       </div>
     </section>
   );
