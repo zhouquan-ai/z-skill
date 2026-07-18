@@ -82,4 +82,6 @@ npm run audit
 - 部署命令：`npx wrangler deploy`；
 - 每次推送 `main` 后自动更新线上网站。
 
+这是项目唯一的正式发布链路。本项目不使用 Codex Sites，也不保留 `.openai/hosting.json` 项目标识；除非明确迁移托管架构，否则不应重新创建 Sites 项目或恢复该绑定。
+
 动态页面通过 `next.config.ts` 设置基础安全头，静态资源由 `_headers` 补齐；带版本号的 ZIP 下载使用长期不可变缓存和附件响应。发布前应确保发布校验、构建、渲染测试和必要的浏览器回归全部通过。正式网站已绑定独立域名`z-skill.com`，Workers地址只用于部署排查。

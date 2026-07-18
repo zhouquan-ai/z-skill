@@ -248,6 +248,9 @@ test("ships all public downloads without starter dependencies", async () => {
   await assert.rejects(access(new URL("../app/chatgpt-auth.ts", import.meta.url)));
   await assert.rejects(access(new URL("../db/", import.meta.url)));
   await assert.rejects(access(new URL("../examples/d1/", import.meta.url)));
+  await assert.rejects(access(new URL("../.openai/hosting.json", import.meta.url)));
+  await assert.rejects(access(new URL("../build/sites-vite-plugin.ts", import.meta.url)));
+  await assert.rejects(access(new URL("../dist/.openai/hosting.json", import.meta.url)));
 });
 
 test("ships security and immutable download headers", async () => {

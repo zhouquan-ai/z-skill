@@ -14,6 +14,7 @@
 ## 测试与 Git
 
 - 按改动范围运行最快相关检查；正式发布前至少运行 `npm test` 和 `npm run lint`，并按 `DESIGN.md` 做桌面端和移动端浏览器验收。
+- 唯一正式发布链路是 GitHub `main` → Cloudflare Workers Builds → `z-skill.com`；本项目不使用 Codex Sites，不得恢复 `.openai/hosting.json` 或新建 Sites 项目，除非用户明确确认迁移托管架构。
 - 完成一次边界明确、检查通过的写入任务后，默认创建仅包含本轮文件的本地提交。
 - 不执行 `git push`，除非用户明确要求推送或部署。
 - 不提交密钥、账号、本地缓存、依赖目录或构建中间产物。
