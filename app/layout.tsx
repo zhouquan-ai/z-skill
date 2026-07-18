@@ -5,7 +5,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     metadataBase: new URL("https://z-skill.com"),
     title: "z-skill｜AI 工具与可复用工作流",
-    description: "周全的 AI 工具发布页，提供 Skill、Workflow、Agent 等作品的安装说明、测试记录和版本下载。",
+    description: "周全的个人 AI 工具发布站，提供 Skill、Workflow、Agent 等作品的安装说明、测试记录和版本下载。",
     alternates: {
       canonical: "/",
     },

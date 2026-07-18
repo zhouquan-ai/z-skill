@@ -10,12 +10,16 @@ export default function AboutPage() {
       <main className="about-page" id="main-content">
         <section className="about-hero site-wrap">
           <p className="eyebrow">ABOUT</p>
-          <h1>周全的 AI 工具发布页</h1>
-          <p>这里仅发布已完成基本测试、可以公开交付的作品。网站不承担文章发布、用户投稿、社区或排行功能。</p>
+          <h1>关于 z-skill</h1>
+          <p>z-skill 是周全的个人 AI 工具发布站，仅发布已完成基本测试、可以公开交付的作品。网站不承担文章发布、用户投稿、社区或排行功能。</p>
         </section>
 
         <section className="about-section site-wrap">
           <div className="about-copy"><h2>发布什么</h2><p>公开作品须具备用途说明、可交付版本、测试记录和边界说明。当前发布 {currentReleases}。</p></div>
+        </section>
+
+        <section className="about-section site-wrap">
+          <div className="about-copy"><h2>作者与时效</h2><p>公开作品由周全设计、整理或验证。每项工具的作者、版本、更新时间、测试记录和已知限制，以对应详情页为准。</p></div>
         </section>
 
         <section className="about-section site-wrap">

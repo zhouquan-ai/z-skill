@@ -43,7 +43,7 @@ test("server-renders the z-skill brand homepage", async () => {
   assert.match(html, /最近发布/);
   assert.match(html, /发布于[\s\S]{0,24}2026-07-13/);
   assert.match(html, /href="\/tools"[^>]*>查看全部工具/);
-  assert.match(html, /这里发布我制作并实际验证过的 AI 工具/);
+  assert.match(html, /z-skill 发布由周全制作并实际验证过的 AI 工具/);
   assert.match(html, /搜索工具名称或用途/);
   assert.match(html, />搜索工具</);
   assert.match(html, /已发布[\s\S]{0,24}3[\s\S]{0,24}项/);
@@ -155,7 +155,10 @@ test("server-renders the About page and channel boundaries", async () => {
   assert.equal(response.status, 200);
 
   const html = await response.text();
-  assert.match(html, /周全的 AI 工具发布页/);
+  assert.match(html, /关于 z-skill/);
+  assert.match(html, /z-skill 是周全的个人 AI 工具发布站/);
+  assert.match(html, /作者与时效/);
+  assert.match(html, /公开作品由周全设计、整理或验证/);
   assert.match(html, /收录标准/);
   assert.match(html, /发布阶段/);
   assert.match(html, /“已验证”仅适用于已经完成测试的具体格式或场景/);

@@ -15,7 +15,7 @@ export default function Home() {
             <div className="hero-statement">
               <p className="eyebrow">PERSONAL AI TOOLS</p>
               <h1>把 <span>AI 工具</span><br />讲清楚，再交付</h1>
-              <p className="hero-lead">这里发布我制作并实际验证过的 AI 工具，提供清楚的使用说明和可下载版本。</p>
+              <p className="hero-lead">z-skill 发布由周全制作并实际验证过的 AI 工具，提供清晰的使用说明和可下载版本。</p>
             </div>
             <HeroSearch />
             <ul className="hero-facts" aria-label="当前公开事实">
