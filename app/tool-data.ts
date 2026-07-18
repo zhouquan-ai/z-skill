@@ -88,7 +88,7 @@ export const tools: ToolRecord[] = [
     download: {
       path: "/downloads/any-to-md-v0.1.0.zip",
       sourceUrl:
-        "https://raw.githubusercontent.com/zzzq8848-ai/z-skill/main/public/downloads/any-to-md-v0.1.0.zip",
+        "https://raw.githubusercontent.com/zhouquan-ai/z-skill/main/public/downloads/any-to-md-v0.1.0.zip",
       label: "下载 ZIP",
       fileType: "ZIP",
       sha256: "0ecc35a9957d7756ee36e27d503018036f1b118960e0832f5d25b32275160f80",
@@ -160,7 +160,7 @@ export const tools: ToolRecord[] = [
     download: {
       path: "/downloads/web-content-reader-v0.2.0.zip",
       sourceUrl:
-        "https://raw.githubusercontent.com/zzzq8848-ai/z-skill/main/public/downloads/web-content-reader-v0.2.0.zip",
+        "https://raw.githubusercontent.com/zhouquan-ai/z-skill/main/public/downloads/web-content-reader-v0.2.0.zip",
       label: "下载 Workflow ZIP",
       fileType: "ZIP",
       sha256: "d68ff0e192fbb0e533e30fda1469dcf62c895e934425e33c5dadc3b3fc5e11e6",
@@ -252,7 +252,7 @@ export const tools: ToolRecord[] = [
     download: {
       path: "/downloads/weixin-article-reader-v0.1.0.zip",
       sourceUrl:
-        "https://raw.githubusercontent.com/zzzq8848-ai/z-skill/main/public/downloads/weixin-article-reader-v0.1.0.zip",
+        "https://raw.githubusercontent.com/zhouquan-ai/z-skill/main/public/downloads/weixin-article-reader-v0.1.0.zip",
       label: "下载 Skill ZIP",
       fileType: "ZIP",
       sha256: "94f5c4ae0f9e0022a8e3436460ee9bae53965ca710cc35193cb770c7e3601084",

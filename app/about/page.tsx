@@ -14,11 +14,18 @@ export default function AboutPage() {
         </section>
 
         <section className="about-section site-wrap">
-          <div className="about-copy"><h2>发布什么</h2><p>公开作品须具备用途说明、可交付版本、测试记录和边界说明。当前发布 {currentReleases}。</p></div>
+          <div className="about-copy"><h2>发布什么</h2></div>
+          <div className="about-body">
+            <p>公开作品须具备用途说明、可交付版本、测试记录和边界说明。</p>
+            <p>当前发布：{currentReleases}。</p>
+          </div>
         </section>
 
         <section className="about-section site-wrap">
-          <div className="about-copy"><h2>作者与时效</h2><p>公开作品由周全设计、整理或验证。每项工具的作者、版本、更新时间、测试记录和已知限制，以对应详情页为准。</p></div>
+          <div className="about-copy"><h2>作者与时效</h2></div>
+          <div className="about-body">
+            <p>公开作品由周全设计、整理或验证。每项工具的作者、版本、更新时间、测试记录和已知限制，以对应详情页为准。</p>
+          </div>
         </section>
 
         <section className="about-section site-wrap">
@@ -30,7 +37,7 @@ export default function AboutPage() {
         </section>
 
         <section className="about-section site-wrap">
-          <div className="about-copy"><h2>收录标准</h2></div>
+          <div className="about-copy"><h2>收录标准</h2><p>只有同时满足以下四项，工具才进入公开目录。</p></div>
           <div className="standard-list">
             <article><span>01</span><div><h3>用途明确</h3><p>说明解决的问题、适用场景和不适用边界。</p></div></article>
             <article><span>02</span><div><h3>版本可追溯</h3><p>页面、ZIP、GitHub 版本和更新记录保持一致。</p></div></article>
@@ -40,11 +47,26 @@ export default function AboutPage() {
         </section>
 
         <section className="about-section site-wrap channel-section">
-          <div className="about-copy"><h2>渠道分工</h2></div>
+          <div className="about-copy"><h2>渠道分工</h2><p>公众号解释过程，GitHub 保存版本，z-skill 完成交付。</p></div>
           <div className="channel-grid">
-            <article><span>公众号</span><h3>解释问题与过程</h3><p>记录为什么做、怎样判断，以及真实建设经历。</p></article>
-            <article><span>GitHub</span><h3>保存权威版本</h3><p>承载代码、包、许可证、测试与精确技术差异。</p></article>
-            <article><span>z-skill</span><h3>提供说明与下载</h3><p>集中提供作品说明、安装入口和当前版本下载。</p></article>
+            <article>
+              <span className="channel-label">微信公众号</span>
+              <h3>法律人周全</h3>
+              <p>发布与本站工具相关的实践文章、测试复盘和建设记录。</p>
+              <div className="channel-meta">微信搜索「法律人周全」</div>
+            </article>
+            <article>
+              <span className="channel-label">GitHub</span>
+              <h3 className="channel-technical">zhouquan-ai / z-skill</h3>
+              <p>保存代码、发布包、许可证、测试记录和版本差异。</p>
+              <a className="channel-link" href="https://github.com/zhouquan-ai/z-skill" target="_blank" rel="noopener noreferrer">查看 GitHub 仓库 <span aria-hidden="true">↗</span></a>
+            </article>
+            <article>
+              <span className="channel-label">网站</span>
+              <h3 className="channel-technical">z-skill.com</h3>
+              <p>集中提供工具说明、安装指令和当前版本下载。</p>
+              <div className="channel-meta">当前站点</div>
+            </article>
           </div>
         </section>
       </main>

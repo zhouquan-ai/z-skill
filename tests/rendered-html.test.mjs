@@ -96,7 +96,7 @@ test("server-renders the Any-to-MD detail page", async () => {
   assert.match(html, /轻量接口本轮失败/);
   assert.match(html, /Agent 安装指令/);
   assert.match(html, /包含下载地址、安装步骤和隐私提示/);
-  assert.match(html, /raw\.githubusercontent\.com\/zzzq8848-ai\/z-skill/);
+  assert.match(html, /raw\.githubusercontent\.com\/zhouquan-ai\/z-skill/);
   assert.match(html, /隐私与数据处理/);
   assert.match(html, /下载 ZIP/);
   assert.match(html, /不能替代原文件、签章、公式、批注或修订记录/);
@@ -172,12 +172,18 @@ test("server-renders the About page and channel boundaries", async () => {
   assert.match(html, /公开候选/);
   assert.match(html, /公众号/);
   assert.match(html, /GitHub/);
+  assert.match(html, /法律人周全/);
+  assert.match(html, /微信搜索「法律人周全」/);
+  assert.match(html, /zhouquan-ai \/ z-skill/);
+  assert.match(html, /href="https:\/\/github\.com\/zhouquan-ai\/z-skill"[^>]*target="_blank"/);
+  assert.match(html, /只有同时满足以下四项/);
   assert.match(html, /网站不承担文章发布、用户投稿、社区或排行功能/);
   assert.match(html, /当前发布/);
   assert.match(html, /Any-to-MD v0\.1\.0/);
   assert.match(html, /Web Content Reader v0\.2\.0/);
   assert.match(html, /Weixin Article Reader v0\.1\.0/);
   assert.doesNotMatch(html, /Claude/);
+  assert.doesNotMatch(html, /zzzq8848-ai/);
 });
 
 test("keeps the mobile hero accent separate from the search panel", async () => {
