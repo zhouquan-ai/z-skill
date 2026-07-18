@@ -9,7 +9,6 @@ export default function AboutPage() {
       <SiteHeader active="about" />
       <main className="about-page" id="main-content">
         <section className="about-hero site-wrap">
-          <p className="eyebrow">ABOUT</p>
           <h1>关于 z-skill</h1>
           <p>z-skill 是周全的个人 AI 工具发布站，仅发布已完成基本测试、可以公开交付的作品。网站不承担文章发布、用户投稿、社区或排行功能。</p>
         </section>

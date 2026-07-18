@@ -13,14 +13,14 @@ export default function Home() {
         <section className="home-hero site-wrap">
           <div className="hero-copy">
             <div className="hero-statement">
-              <p className="eyebrow">PERSONAL AI TOOLS</p>
               <h1>把 <span>AI 工具</span><br />讲清楚，再交付</h1>
-              <p className="hero-lead">z-skill 发布由周全制作并实际验证过的 AI 工具，提供清晰的使用说明和可下载版本。</p>
+              <p className="hero-lead">z-skill 发布周全制作、整理或验证的 AI 工具，并说明用途、测试、安装和下载方式。</p>
             </div>
             <HeroSearch />
             <ul className="hero-facts" aria-label="当前公开事实">
-              <li>已发布 {tools.length} 项</li>
-              <li>支持 Agent 安装与 ZIP 下载</li>
+              <li>已发布 <strong>{tools.length}</strong> 项工具</li>
+              <li>Agent 安装指令</li>
+              <li>ZIP 下载</li>
             </ul>
           </div>
         </section>
@@ -28,10 +28,7 @@ export default function Home() {
         <section className="recent-releases" aria-labelledby="recent-releases-title">
           <div className="site-wrap">
             <div className="recent-heading">
-              <div>
-                <p className="eyebrow">RELEASES</p>
-                <h2 id="recent-releases-title">最近发布</h2>
-              </div>
+              <h2 id="recent-releases-title">最近发布</h2>
               <Link className="button secondary section-action" href="/tools">查看全部工具</Link>
             </div>
             <div className="recent-grid">
@@ -60,8 +57,7 @@ export default function Home() {
         <section className="home-principles">
           <div className="site-wrap">
             <div className="section-heading">
-              <p className="eyebrow">PRINCIPLES</p>
-              <h2>每项工具都会说明</h2>
+              <h2>每项工具都说明三件事</h2>
             </div>
             <div className="principle-grid">
               <article><span>01</span><h3>适用范围</h3><p>说明用途、运行环境和必要依赖。</p></article>

@@ -54,12 +54,11 @@ export default async function ToolDetailPage({ params }: ToolPageProps) {
               {hasComposition && <a href="#composition">组成与依赖</a>}
               <a href="#testing">测试与验证</a>
               <a href="#usage">使用步骤</a>
-              <a href="#install">安装 Prompt</a>
+              <a href="#install">安装指令</a>
               <a href="#limits">已知限制</a>
             </nav>
 
             <section id="overview">
-              <p className="eyebrow">OVERVIEW</p>
               <h2>{tool.overview.title}</h2>
               <p>{tool.overview.description}</p>
               <div className="scenario-grid">
@@ -69,7 +68,6 @@ export default async function ToolDetailPage({ params }: ToolPageProps) {
 
             {hasComposition && (
               <section id="composition">
-                <p className="eyebrow">COMPOSITION</p>
                 <h2>组成与依赖</h2>
                 {tool.components.length > 0 && (
                   <div className="relation-grid">
@@ -100,7 +98,6 @@ export default async function ToolDetailPage({ params }: ToolPageProps) {
             )}
 
             <section id="testing">
-              <p className="eyebrow">VERIFIED FORMATS</p>
               <h2>测试与验证</h2>
               <p>{tool.testNote}</p>
               <div className="verification-table" role="table" aria-label="格式验证状态">
@@ -114,7 +111,6 @@ export default async function ToolDetailPage({ params }: ToolPageProps) {
             </section>
 
             <section id="usage">
-              <p className="eyebrow">HOW TO USE</p>
               <h2>使用步骤</h2>
               <ol className="steps">
                 {tool.usageSteps.map((step, index) => (
@@ -124,14 +120,12 @@ export default async function ToolDetailPage({ params }: ToolPageProps) {
             </section>
 
             <section id="install">
-              <p className="eyebrow">INSTALL WITH AN AGENT</p>
-              <h2>Agent 安装 Prompt</h2>
+              <h2>Agent 安装指令</h2>
               <p>{tool.install.intro}</p>
               <CopyPrompt prompt={installPrompt} />
             </section>
 
             <section id="limits">
-              <p className="eyebrow">LIMITS</p>
               <h2>已知限制</h2>
               <p>{tool.limitations}</p>
             </section>

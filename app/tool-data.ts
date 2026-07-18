@@ -120,7 +120,7 @@ export const tools: ToolRecord[] = [
       "转换后运行本地修复和质量扫描，并逐项对照原文件。",
     ],
     install: {
-      intro: "Codex 已完成实际触发。可以复制 Prompt 安装，也可以直接下载 ZIP。",
+      intro: "Codex 已完成实际触发。可以复制安装指令，也可以直接下载 ZIP。",
       steps: [
         "从上述地址下载并解压 v0.1.0 ZIP，阅读 README、PRIVACY.md 和 KNOWN_LIMITATIONS.md。",
         "将 skill/any-to-md 放入当前 Agent 的 skills 目录。",
@@ -191,7 +191,7 @@ export const tools: ToolRecord[] = [
       "提供公开 URL 运行批量脚本，结束后逐条检查 manifest.json。",
     ],
     install: {
-      intro: "正式包包含两个 Skill、组件清单和多级提取路径。可以复制 Prompt 安装，也可以直接下载 ZIP。",
+      intro: "正式包包含两个 Skill、组件清单和多级提取路径。可以复制安装指令，也可以直接下载 ZIP。",
       steps: [
         "下载并解压 v0.2.0 Workflow ZIP，阅读 README.md、PRIVACY.md、KNOWN_LIMITATIONS.md 和 COMPONENTS.json。",
         "将 skill/web-content-reader 与 skill/weixin-article-reader 复制到当前 Agent 的 skills 目录。",

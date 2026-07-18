@@ -4,7 +4,7 @@ import { useRef, useState } from "react";
 
 export function CopyPrompt({ prompt }: { prompt: string }) {
   const promptRef = useRef<HTMLPreElement>(null);
-  const [label, setLabel] = useState("复制 Prompt");
+  const [label, setLabel] = useState("复制安装指令");
   const [status, setStatus] = useState("");
 
   async function copy() {
@@ -15,8 +15,8 @@ export function CopyPrompt({ prompt }: { prompt: string }) {
         new Promise((_, reject) => setTimeout(() => reject(new Error("Clipboard timeout")), 800)),
       ]);
       setLabel("已复制");
-      setStatus("安装 Prompt 已复制到剪贴板");
-      setTimeout(() => setLabel("复制 Prompt"), 2000);
+      setStatus("安装指令已复制到剪贴板");
+      setTimeout(() => setLabel("复制安装指令"), 2000);
     } catch {
       const selection = window.getSelection();
       const range = document.createRange();
@@ -26,7 +26,7 @@ export function CopyPrompt({ prompt }: { prompt: string }) {
         selection.addRange(range);
       }
       setLabel("请手动复制");
-      setStatus("浏览器未允许自动复制，Prompt 文本已选中");
+      setStatus("浏览器未允许自动复制，安装指令文本已选中");
     }
   }
 

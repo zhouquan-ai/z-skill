@@ -9,7 +9,6 @@ export default async function ToolsPage({ searchParams }: { searchParams: Promis
       <main id="main-content">
         <section className="directory-hero site-wrap">
           <div>
-            <p className="eyebrow">TOOLS</p>
             <h1>全部工具</h1>
             <p>按名称或用途搜索，并按类型和发布状态筛选。</p>
           </div>
