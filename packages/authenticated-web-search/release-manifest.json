@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "status": "public-candidate",
+  "release": {
+    "slug": "authenticated-web-search",
+    "name": "登录态网页检索",
+    "type": "Skill",
+    "packageMode": "Standalone",
+    "version": "v0.1.0-candidate.3",
+    "archiveName": "authenticated-web-search-v0.1.0-candidate.3.zip",
+    "archiveRoot": "authenticated-web-search",
+    "source": "skill/authenticated-web-search",
+    "bundleFiles": [
+      "README.md",
+      "PRIVACY.md",
+      "KNOWN_LIMITATIONS.md",
+      "TEST_MATRIX.md",
+      "LICENSE",
+      "THIRD_PARTY_NOTICES.md"
+    ]
+  },
+  "build": {
+    "outputDirectory": "outputs/authenticated-web-search",
+    "artifactManifest": "artifacts.json",
+    "fixedZipTimestamp": "1980-01-01T00:00:00Z"
+  }
+}

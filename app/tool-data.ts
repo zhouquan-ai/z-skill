@@ -20,6 +20,8 @@ export type ToolDependency = {
 export type ToolRecord = {
   slug: string;
   name: string;
+  aliases: string[];
+  legacySlugs?: string[];
   glyph: string;
   type: ToolType;
   packageMode: PackageMode;
@@ -68,7 +70,8 @@ export type ToolRecord = {
 export const tools: ToolRecord[] = [
   {
     slug: "any-to-md",
-    name: "Any-to-MD",
+    name: "多格式转 Markdown",
+    aliases: ["Any-to-MD", "Any to Markdown"],
     glyph: "MD",
     type: "Skill",
     packageMode: "Standalone",
@@ -76,7 +79,7 @@ export const tools: ToolRecord[] = [
     statusTone: "stable",
     version: "v0.1.0",
     releasedAt: "2026-07-13T21:19:00+08:00",
-    updated: "2026-07-13",
+    updated: "2026-07-19",
     author: "周全",
     license: "MIT",
     category: "知识管理 · 文件处理",
@@ -96,7 +99,7 @@ export const tools: ToolRecord[] = [
     overview: {
       title: "让基础资料脱离单一 AI 平台",
       description:
-        "Any-to-MD 把格式识别、内容转换、结构修复和质量扫描组织成一条可复核流程。生成的 Markdown 是衍生资料，不能替代原文件、签章、公式、批注或修订记录。",
+        "多格式转 Markdown 把格式识别、内容转换、结构修复和质量扫描组织成一条可复核流程。生成的 Markdown 是衍生资料，不能替代原文件、签章、公式、批注或修订记录。",
       scenarios: [
         "把研究报告与合同附件整理为可检索的 Markdown",
         "为知识库准备可跨平台迁移的基础资料",
@@ -141,7 +144,8 @@ export const tools: ToolRecord[] = [
   },
   {
     slug: "web-content-reader",
-    name: "Web Content Reader",
+    name: "网页内容批量读取",
+    aliases: ["Web Content Reader", "web-content-reader"],
     glyph: "WEB",
     type: "Workflow",
     packageMode: "Bundle",
@@ -149,7 +153,7 @@ export const tools: ToolRecord[] = [
     statusTone: "stable",
     version: "v0.2.0",
     releasedAt: "2026-07-14T12:02:00+08:00",
-    updated: "2026-07-14",
+    updated: "2026-07-19",
     author: "周全",
     license: "MIT",
     category: "信息获取 · 网页阅读",
@@ -204,18 +208,18 @@ export const tools: ToolRecord[] = [
     components: [
       {
         slug: "weixin-article-reader",
-        name: "Weixin Article Reader",
+        name: "微信公众号文章读取",
         type: "Skill",
         version: "v0.1.0",
         summary: "微信公众号文章专用读取能力，可单独安装。",
       },
       {
-        name: "Generic Web Reader",
+        name: "普通网页读取",
         type: "Internal",
         summary: "普通网页直接提取与正文清洗模块。",
       },
       {
-        name: "Routing / Fallback / Quality Check",
+        name: "路由、回退与质量检查",
         type: "Internal",
         summary: "链接路由、失败回退和逐条验收模块。",
       },
@@ -233,7 +237,8 @@ export const tools: ToolRecord[] = [
   },
   {
     slug: "weixin-article-reader",
-    name: "Weixin Article Reader",
+    name: "微信公众号文章读取",
+    aliases: ["Weixin Article Reader", "weixin-article-reader"],
     glyph: "WX",
     type: "Skill",
     packageMode: "Standalone",
@@ -241,7 +246,7 @@ export const tools: ToolRecord[] = [
     statusTone: "stable",
     version: "v0.1.0",
     releasedAt: "2026-07-14T12:02:00+08:00",
-    updated: "2026-07-14",
+    updated: "2026-07-19",
     author: "周全",
     license: "MIT",
     category: "信息获取 · 微信公众号",
@@ -283,7 +288,7 @@ export const tools: ToolRecord[] = [
       "提供完整分享链接运行脚本，并检查 manifest.json。",
     ],
     install: {
-      intro: "这是可独立安装的公众号文章读取Skill，也包含在Web Content Reader Workflow中。",
+      intro: "这是可独立安装的公众号文章读取Skill，也包含在网页内容批量读取 Workflow中。",
       steps: [
         "下载并解压 v0.1.0 Skill ZIP，阅读 README.md、PRIVACY.md、KNOWN_LIMITATIONS.md 和 COMPONENTS.json。",
         "将 skill/weixin-article-reader 复制到当前 Agent 的 skills 目录。",
@@ -305,30 +310,32 @@ export const tools: ToolRecord[] = [
       "短链接或被截断的分享参数可能读取失败；BrowserAct回退结果可能缺少元数据或混入附属内容。当前主要验证Windows PowerShell环境。",
   },
   {
-    slug: "authenticated-browser-workbench",
-    name: "登录态增强检索",
+    slug: "authenticated-web-search",
+    name: "登录态网页检索",
+    aliases: ["登录态增强检索", "Authenticated Browser Workbench", "authenticated-browser-workbench", "authenticated-web-search"],
+    legacySlugs: ["authenticated-browser-workbench"],
     glyph: "R+",
     type: "Skill",
     packageMode: "Standalone",
     status: "公开候选",
     statusTone: "candidate",
-    version: "v0.1.0-candidate.2",
-    releasedAt: "2026-07-19T18:30:00+08:00",
+    version: "v0.1.0-candidate.3",
+    releasedAt: "2026-07-19T14:42:43+08:00",
     updated: "2026-07-19",
     author: "周全",
     license: "MIT",
-    category: "信息获取 · 登录态增强检索",
+    category: "信息获取 · 登录态网页检索",
     summary: "普通网页搜索不够时，让AI安全复用你已登录的网站继续收集和交叉核验资料。",
     detailSummary: "先用AI默认网页搜索；信息不足时，再按问题类型选择登录态内容平台或AI搜索网页，并管理浏览器、账号、隐私边界和失败回退。",
     environments: ["Codex"],
     environmentNote: "Codex · Windows · Chrome / Chromium",
     download: {
-      path: "/downloads/authenticated-browser-workbench-v0.1.0-candidate.2.zip",
+      path: "/downloads/authenticated-web-search-v0.1.0-candidate.3.zip",
       sourceUrl:
-        "https://raw.githubusercontent.com/zhouquan-ai/z-skill/main/public/downloads/authenticated-browser-workbench-v0.1.0-candidate.2.zip",
+        "https://raw.githubusercontent.com/zhouquan-ai/z-skill/main/public/downloads/authenticated-web-search-v0.1.0-candidate.3.zip",
       label: "下载候选版 ZIP",
       fileType: "ZIP",
-      sha256: "e1bc4aaf5546a6c879e224659d1a226b8163e108598c7a376b39ef9dd633017b",
+      sha256: "77937d44f9356a19f73169135dc499304cae5ca9acdb111c4e330e4d1e33b7f9",
     },
     overview: {
       title: "让AI默认搜索在信息不足时继续向前",
@@ -354,16 +361,16 @@ export const tools: ToolRecord[] = [
     ],
     usageSteps: [
       "先按BrowserSkill官方说明安装bsk CLI、浏览器扩展和上游browser-skill。",
-      "解压候选包，把skill/authenticated-browser-workbench复制到当前Agent的skills目录。",
+      "解压候选包，把skill/authenticated-web-search复制到当前Agent的skills目录。",
       "填写browser-profile.md和site-matrix.md，定义公开搜索不足后应选择的登录态渠道；不写凭据和私密页面内容。",
       "回放一次无需浏览器的充分搜索和一次登录态补充检索，再验证实例选择、可见结果和会话停止。",
     ],
     install: {
-      intro: "候选包提供AI默认搜索之外的登录态增强检索层，不捆绑BrowserSkill本体。可以复制安装指令，也可以直接下载ZIP。",
+      intro: "候选包提供AI默认搜索之外的登录态网页检索层，不捆绑BrowserSkill本体。可以复制安装指令，也可以直接下载ZIP。",
       steps: [
-        "下载并解压v0.1.0-candidate.2 ZIP，阅读README.md、PRIVACY.md、KNOWN_LIMITATIONS.md和TEST_MATRIX.md。",
+        "下载并解压v0.1.0-candidate.3 ZIP，阅读README.md、PRIVACY.md、KNOWN_LIMITATIONS.md和TEST_MATRIX.md。",
         "按https://github.com/Tencent/BrowserSkill的当前说明安装bsk CLI、扩展和上游browser-skill。",
-        "将skill/authenticated-browser-workbench复制到当前Agent的skills目录。",
+        "将skill/authenticated-web-search复制到当前Agent的skills目录。",
         "填写浏览器用途、账号硬边界、站点矩阵和检索升级条件；不要写入密码、Cookie、Token、本机Profile路径或实例ID。",
         "重新加载Agent，验证公开搜索充分时不启动浏览器、信息不足时只选择必要渠道，并确认登录态任务结束后活动会话为零。",
       ],
@@ -387,6 +394,10 @@ export function getToolBySlug(slug: string) {
   return tools.find((tool) => tool.slug === slug);
 }
 
+export function getToolByLegacySlug(slug: string) {
+  return tools.find((tool) => tool.legacySlugs?.includes(slug));
+}
+
 export function getVerifiedFormats(tool: ToolRecord) {
   return tool.formatTests
     .filter((test) => test.status === "verified")
@@ -401,16 +412,31 @@ export function getPackageModeLabel(mode: PackageMode) {
   return mode === "Bundle" ? "组合包" : "独立包";
 }
 
+export function getToolSearchText(tool: ToolRecord) {
+  return [
+    tool.name,
+    tool.slug,
+    ...tool.aliases,
+    tool.summary,
+    tool.category,
+    ...getVerifiedFormats(tool),
+    ...tool.components.map((item) => item.name),
+    ...tool.dependencies.map((item) => item.name),
+  ].join(" ").toLowerCase();
+}
+
+const toolNameCollator = new Intl.Collator("zh-CN", { numeric: true, sensitivity: "base" });
+
 export function compareToolsByUpdated(left: ToolRecord, right: ToolRecord) {
   return right.updated.localeCompare(left.updated)
     || right.releasedAt.localeCompare(left.releasedAt)
-    || left.name.localeCompare(right.name, "en");
+    || toolNameCollator.compare(left.name, right.name);
 }
 
 export function getRecentTools(limit = 3) {
   return tools.toSorted((left, right) =>
     right.releasedAt.localeCompare(left.releasedAt)
-      || left.name.localeCompare(right.name, "en"))
+      || toolNameCollator.compare(left.name, right.name))
     .slice(0, limit);
 }
 

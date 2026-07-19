@@ -15,7 +15,8 @@ const forbiddenFilePatterns = [
   /(^|\/)\.env(?:\.|$)/i,
   /(^|\/)(?:id_rsa|id_ed25519)(?:\.|$)/i,
   /\.(?:pem|p12|pfx|key)$/i,
-  /(^|\/)(?:cookies?|browser-profile)(?:\.|\/|$)/i,
+  /(^|\/)cookies?(?:\.|\/|$)/i,
+  /(^|\/)browser-profile(?:\/|$)/i,
 ];
 
 const forbiddenTextPatterns = [
@@ -73,7 +74,7 @@ function assertSafeContent(archivePath, content) {
   }
 }
 
-async function collectDirectory(sourceDirectory, archivePrefix) {
+export async function collectDirectory(sourceDirectory, archivePrefix) {
   const entries = [];
   const children = await readdir(sourceDirectory, { withFileTypes: true });
   children.sort((left, right) => left.name.localeCompare(right.name, "en"));
@@ -95,7 +96,7 @@ async function collectDirectory(sourceDirectory, archivePrefix) {
   return entries;
 }
 
-async function collectFiles(packageRoot, filePaths, archiveRoot) {
+export async function collectFiles(packageRoot, filePaths, archiveRoot) {
   const entries = [];
   for (const relativePath of filePaths) {
     const sourcePath = join(packageRoot, relativePath);
@@ -110,7 +111,7 @@ async function collectFiles(packageRoot, filePaths, archiveRoot) {
   return entries;
 }
 
-function generatedJsonEntry(archivePath, value) {
+export function generatedJsonEntry(archivePath, value) {
   const content = Buffer.from(`${JSON.stringify(value, null, 2)}\n`, "utf8");
   assertSafeArchivePath(archivePath);
   assertSafeContent(archivePath, content);
@@ -201,7 +202,7 @@ export function createDeterministicZip(inputEntries) {
   return Buffer.concat([...localParts, centralDirectory, end]);
 }
 
-function artifactRecord(target, archiveBuffer) {
+export function artifactRecord(target, archiveBuffer) {
   return {
     slug: target.slug,
     type: target.type,

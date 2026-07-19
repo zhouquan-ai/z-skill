@@ -1,6 +1,0 @@
-interface:
-  display_name: "登录态增强检索"
-  short_description: "公开搜索不足时安全调用登录态网站继续检索并交叉核验"
-  default_prompt: "Use $authenticated-browser-workbench to search the public web first, then use only the necessary logged-in sources when the evidence is insufficient."
-policy:
-  allow_implicit_invocation: true

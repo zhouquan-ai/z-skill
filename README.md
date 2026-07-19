@@ -10,20 +10,17 @@
 - 可搜索、筛选和排序的工具目录 `/tools`；
 - 通用工具详情路由 `/tools/[slug]`；
 - 定位与收录原则 `/about`；
-- Any-to-MD `v0.1.0` 详情、Agent 安装 Prompt 和 ZIP 下载。
-- Web Content Reader `v0.2.0` Workflow Bundle；
-- Weixin Article Reader `v0.1.0` 独立 Skill。
-- 登录态增强检索 `v0.1.0-candidate.2` 公开候选 Skill。
+- Agent 安装 Prompt、ZIP 下载、版本、测试、隐私和限制说明。
 
 正式线上地址：<https://z-skill.com/>。Cloudflare Workers 地址 <https://z-skill.zzzq8848.workers.dev/> 仅作为部署排查入口，不作为对外正式域名。
 
-2026-07-13 发布验收确认：Any-to-MD 已由 Codex 实际触发，完成本地结构修复、严格 QA 和预期结果比对，正式发布 `v0.1.0`。
+全部公开作品、当前版本与发布阶段以`/tools`及对应详情页为准，README不维护第二份作品清单或发布流水。
 
-2026-07-13 网页读取候选发布：Web Content Reader 与 Weixin Article Reader 从同一份权威 Skill 源码确定性构建，分别以 Workflow Bundle 和 Standalone Skill 公开。普通网页读取、路由和质量检查仍作为 Workflow 内部组件。
+## 作品命名
 
-2026-07-14 正式发布验收：修复 BrowserAct 隐身提取可能无限挂起的问题，新增父进程硬超时和受控挂起回归测试；Codex 按默认参数实际触发4条混合链接，3条正文成功、1条不可达地址如实失败并正常生成完整清单。Web Content Reader 发布`v0.2.0`，Weixin Article Reader 发布`v0.1.0`。
+公开界面统一使用中文正式名称；Skill文件夹、frontmatter、URL、安装调用和ZIP文件名使用英文技术标识。英文旧名和历史标识只作为搜索别名，不在卡片中重复展示。候选阶段调整技术标识时保留旧链接迁移，已经发布的ZIP不以原版本号覆盖。
 
-2026-07-19 候选版迭代：登录态增强检索升级至`v0.1.0-candidate.2`。它先使用AI默认网页搜索，在公开信息不足、需要真实体验或登录后内容时，再通过BrowserSkill选择最少必要的登录态渠道，并保留账号边界、证据分层、故障回退和验收规则。候选版不捆绑或自动修改BrowserSkill，长期任务、休眠唤醒和跨平台验证仍待补充。
+`登录态网页检索 v0.1.0-candidate.3`的技术标识为`authenticated-web-search`；旧候选标识`authenticated-browser-workbench`仅用于历史搜索和链接迁移。
 
 ## 工具数据
 
@@ -66,7 +63,8 @@ npm run audit
 - 版本与 ZIP 文件名；
 - 网站下载路径与 GitHub 权威地址；
 - ZIP 文件存在性、文件签名和 SHA-256；
-- Web Content Reader两项公开包与权威源码的确定性构建结果；
+- 网页内容批量读取两项正式包及登录态网页检索候选包与权威源码的确定性构建结果；
+- 中文展示名、技术标识、搜索别名及可用源码中的Agent界面名称；
 - 已验证格式、适用场景、使用步骤、隐私与限制说明；
 - 正式版／公开候选与版本号的一致性、最近发布时间和安装 Prompt 关键字段。
 

@@ -1,7 +1,5 @@
+import Link from "next/link";
 import { SiteFooter, SiteHeader } from "../SiteChrome";
-import { tools } from "../tool-data";
-
-const currentReleases = tools.map((tool) => `${tool.name} ${tool.version}`).join("、");
 
 export default function AboutPage() {
   return (
@@ -17,7 +15,7 @@ export default function AboutPage() {
           <div className="about-copy"><h2>发布什么</h2></div>
           <div className="about-body">
             <p>公开作品须具备用途说明、可交付版本、测试记录和边界说明。</p>
-            <p>当前发布：{currentReleases}。</p>
+            <p>全部公开作品、当前版本与发布阶段，以<Link href="/tools">工具目录</Link>和各作品详情页为准。</p>
           </div>
         </section>
 

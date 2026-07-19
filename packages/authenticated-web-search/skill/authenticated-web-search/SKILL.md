@@ -1,9 +1,9 @@
 ---
-name: authenticated-browser-workbench
+name: authenticated-web-search
 description: Extend ordinary AI web research with logged-in Chromium sources. Use after public-web search is insufficient, stale, inaccessible, repetitive, or lacks first-hand experience; when a task needs current discussion, reviews, platform-native content, logged-in AI search, account-backend reading, or browser interaction; and when multiple browsers or accounts require explicit routing. Do not use when public sources are sufficient or for native desktop apps.
 ---
 
-# Logged-in Research Extension
+# 登录态网页检索
 
 Search the public web first. When the evidence is insufficient, use the installed BrowserSkill as the browser executor and select the smallest useful logged-in source. Use this Skill as the adequacy, channel-routing, privacy, troubleshooting, and acceptance layer. Do not copy credentials or browser data into the Skill.
 

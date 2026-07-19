@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
-import { catalogUpdated, compareToolsByUpdated, getPackageModeLabel, getVerifiedFormats, tools, toolStatuses, toolTypes } from "./tool-data";
+import { catalogUpdated, compareToolsByUpdated, getPackageModeLabel, getToolSearchText, getVerifiedFormats, tools, toolStatuses, toolTypes } from "./tool-data";
 
 type SortMode = "recent" | "name";
 
@@ -18,12 +18,12 @@ export function ToolCatalog({ initialQuery = "" }: { initialQuery?: string }) {
     const normalizedQuery = query.trim().toLowerCase();
     return tools
       .filter((tool) => {
-        const searchable = `${tool.name} ${tool.summary} ${tool.category} ${getVerifiedFormats(tool).join(" ")} ${tool.components.map((item) => item.name).join(" ")} ${tool.dependencies.map((item) => item.name).join(" ")}`.toLowerCase();
+        const searchable = getToolSearchText(tool);
         const matchesType = activeType === "全部" || tool.type === activeType;
         const matchesStatus = status === "全部状态" || tool.status === status;
         return matchesType && matchesStatus && (!normalizedQuery || searchable.includes(normalizedQuery));
       })
-      .toSorted((a, b) => sort === "name" ? a.name.localeCompare(b.name) : compareToolsByUpdated(a, b));
+      .toSorted((a, b) => sort === "name" ? a.name.localeCompare(b.name, "zh-CN") : compareToolsByUpdated(a, b));
   }, [activeType, query, sort, status]);
 
   function clearFilters() {

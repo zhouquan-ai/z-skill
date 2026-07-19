@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { access, readFile, stat } from "node:fs/promises";
 import test from "node:test";
-import { buildInstallPrompt, getIncludedIn, getRecentTools, getVerifiedFormats, tools } from "../app/tool-data.ts";
+import { buildInstallPrompt, getIncludedIn, getRecentTools, getToolSearchText, getVerifiedFormats, tools } from "../app/tool-data.ts";
 
 async function render(pathname = "/") {
   const workerUrl = new URL("../dist/server/index.js", import.meta.url);
@@ -37,9 +37,9 @@ test("server-renders the z-skill brand homepage", async () => {
   assert.match(html, /<title>z-skill｜AI 工具与可复用工作流<\/title>/i);
   assert.match(html, /把\s*<span>AI 工具<\/span>/);
   assert.doesNotMatch(html, /Any-to-MD/);
-  assert.match(html, /Web Content Reader/);
-  assert.match(html, /Weixin Article Reader/);
-  assert.match(html, /登录态增强检索/);
+  assert.match(html, /网页内容批量读取/);
+  assert.match(html, /微信公众号文章读取/);
+  assert.match(html, /登录态网页检索/);
   assert.match(html, /class="tag stable">正式版/);
   assert.match(html, /class="tag candidate">公开候选/);
   assert.match(html, /最近发布/);
@@ -70,14 +70,14 @@ test("server-renders the searchable tool directory", async () => {
 
   const html = await response.text();
   assert.match(html, /全部工具/);
-  assert.match(html, /Any-to-MD/);
-  assert.match(html, /Web Content Reader/);
-  assert.match(html, /Weixin Article Reader/);
-  assert.match(html, /登录态增强检索/);
+  assert.match(html, /多格式转 Markdown/);
+  assert.match(html, /网页内容批量读取/);
+  assert.match(html, /微信公众号文章读取/);
+  assert.match(html, /登录态网页检索/);
   assert.match(html, /知识管理 · 文件处理/);
   assert.match(html, /信息获取 · 网页阅读/);
   assert.match(html, /信息获取 · 微信公众号/);
-  assert.match(html, /信息获取 · 登录态增强检索/);
+  assert.match(html, /信息获取 · 登录态网页检索/);
   assert.match(html, /组合包/);
   assert.match(html, /独立包/);
   assert.match(html, /正式版/);
@@ -85,15 +85,15 @@ test("server-renders the searchable tool directory", async () => {
   assert.match(html, /\/downloads\/any-to-md-v0\.1\.0\.zip/);
   assert.match(html, /\/downloads\/web-content-reader-v0\.2\.0\.zip/);
   assert.match(html, /\/downloads\/weixin-article-reader-v0\.1\.0\.zip/);
-  assert.match(html, /\/downloads\/authenticated-browser-workbench-v0\.1\.0-candidate\.2\.zip/);
+  assert.match(html, /\/downloads\/authenticated-web-search-v0\.1\.0-candidate\.3\.zip/);
 });
 
-test("server-renders the Any-to-MD detail page", async () => {
+test("server-renders the 多格式转 Markdown detail page", async () => {
   const response = await render("/tools/any-to-md");
   assert.equal(response.status, 200);
 
   const html = await response.text();
-  assert.match(html, /Any-to-MD/);
+  assert.match(html, /多格式转 Markdown/);
   assert.match(html, /测试与验证/);
   assert.match(html, /已知限制/);
   assert.match(html, /DOCX/);
@@ -105,7 +105,7 @@ test("server-renders the Any-to-MD detail page", async () => {
   assert.match(html, /隐私与数据处理/);
   assert.match(html, /下载 ZIP/);
   assert.match(html, /不能替代原文件、签章、公式、批注或修订记录/);
-  assert.match(html, /<title>Any-to-MD｜z-skill<\/title>/i);
+  assert.match(html, /<title>多格式转 Markdown｜z-skill<\/title>/i);
   assert.match(html, /aria-label="本页内容"/);
   assert.match(html, /href="#install"/);
   assert.doesNotMatch(html, /OVERVIEW|VERIFIED FORMATS|HOW TO USE|INSTALL WITH AN AGENT|LIMITS/);
@@ -117,18 +117,18 @@ test("server-renders the Any-to-MD detail page", async () => {
   assert.doesNotMatch(html, /失败回报要求|目标 Agent 认可的 skills 目录/);
 });
 
-test("server-renders the Web Content Reader Workflow and component links", async () => {
+test("server-renders the 网页内容批量读取 Workflow and component links", async () => {
   const response = await render("/tools/web-content-reader");
   assert.equal(response.status, 200);
 
   const html = await response.text();
-  assert.match(html, /<title>Web Content Reader｜z-skill<\/title>/i);
+  assert.match(html, /<title>网页内容批量读取｜z-skill<\/title>/i);
   assert.match(html, /Workflow/);
   assert.match(html, /组合包/);
   assert.match(html, /正式版/);
   assert.match(html, /组成与依赖/);
   assert.match(html, /href="\/tools\/weixin-article-reader"/);
-  assert.match(html, /Generic Web Reader/);
+  assert.match(html, /普通网页读取/);
   assert.match(html, /内部组件/);
   assert.match(html, /运行依赖/);
   assert.match(html, /权威版本地址/);
@@ -136,12 +136,12 @@ test("server-renders the Web Content Reader Workflow and component links", async
   assert.match(html, new RegExp(tools[1].download.sha256));
 });
 
-test("server-renders the standalone Weixin Skill and reverse relationship", async () => {
+test("server-renders the standalone 微信公众号文章读取 Skill and reverse relationship", async () => {
   const response = await render("/tools/weixin-article-reader");
   assert.equal(response.status, 200);
 
   const html = await response.text();
-  assert.match(html, /<title>Weixin Article Reader｜z-skill<\/title>/i);
+  assert.match(html, /<title>微信公众号文章读取｜z-skill<\/title>/i);
   assert.match(html, /Skill/);
   assert.match(html, /独立包/);
   assert.match(html, /也包含在/);
@@ -152,13 +152,13 @@ test("server-renders the standalone Weixin Skill and reverse relationship", asyn
 });
 
 test("server-renders the authenticated browser public candidate", async () => {
-  const response = await render("/tools/authenticated-browser-workbench");
+  const response = await render("/tools/authenticated-web-search");
   assert.equal(response.status, 200);
 
   const html = await response.text();
-  assert.match(html, /<title>登录态增强检索｜z-skill<\/title>/i);
+  assert.match(html, /<title>登录态网页检索｜z-skill<\/title>/i);
   assert.match(html, /公开候选/);
-  assert.match(html, /v0\.1\.0-candidate\.2/);
+  assert.match(html, /v0\.1\.0-candidate\.3/);
   assert.match(html, /BrowserSkill/);
   assert.match(html, /默认网页搜索/);
   assert.match(html, /公开搜索充分性与渠道路由/);
@@ -166,6 +166,12 @@ test("server-renders the authenticated browser public candidate", async () => {
   assert.match(html, /候选期继续观察/);
   assert.match(html, /权威候选包地址/);
   assert.match(html, new RegExp(tools[3].download.sha256));
+});
+
+test("redirects the authenticated browser candidate legacy slug", async () => {
+  const response = await render("/tools/authenticated-browser-workbench");
+  assert.ok([307, 308].includes(response.status));
+  assert.equal(response.headers.get("location"), "http://localhost/tools/authenticated-web-search");
 });
 
 test("returns 404 for an unpublished tool slug", async () => {
@@ -200,11 +206,10 @@ test("server-renders the About page and channel boundaries", async () => {
   assert.match(html, /href="https:\/\/github\.com\/zhouquan-ai\/z-skill"[^>]*target="_blank"/);
   assert.match(html, /只有同时满足以下四项/);
   assert.match(html, /网站不承担文章发布、用户投稿、社区或排行功能/);
-  assert.match(html, /当前发布/);
-  assert.match(html, /Any-to-MD v0\.1\.0/);
-  assert.match(html, /Web Content Reader v0\.2\.0/);
-  assert.match(html, /Weixin Article Reader v0\.1\.0/);
-  assert.match(html, /登录态增强检索 v0\.1\.0-candidate\.2/);
+  assert.doesNotMatch(html, /当前发布/);
+  assert.match(html, /全部公开作品、当前版本与发布阶段/);
+  assert.match(html, /href="\/tools"[^>]*>工具目录/);
+  assert.doesNotMatch(html, /多格式转 Markdown v0\.1\.0/);
   assert.doesNotMatch(html, /Claude/);
   assert.doesNotMatch(html, /zzzq8848-ai/);
 });
@@ -244,10 +249,14 @@ test("derives release metadata and install prompt from one tool record", () => {
   assert.ok(prompt.includes(tool.install.fallback));
   assert.deepEqual(getIncludedIn("weixin-article-reader").map((item) => item.slug), ["web-content-reader"]);
   assert.deepEqual(getRecentTools().map((item) => item.slug), [
-    "authenticated-browser-workbench",
+    "authenticated-web-search",
     "web-content-reader",
     "weixin-article-reader",
   ]);
+  assert.match(getToolSearchText(tools[0]), /any-to-md/);
+  assert.match(getToolSearchText(tools[1]), /web content reader/);
+  assert.match(getToolSearchText(tools[2]), /weixin article reader/);
+  assert.match(getToolSearchText(tools[3]), /authenticated-browser-workbench/);
 });
 
 test("ships all public downloads without starter dependencies", async () => {
@@ -267,8 +276,9 @@ test("ships all public downloads without starter dependencies", async () => {
   assert.match(packageJson, /"build": "npm run validate:release && vinext build"/);
   assert.match(packageJson, /"start": "wrangler dev --config dist\/server\/wrangler\.json"/);
   assert.match(packageJson, /"validate:release": "node --experimental-strip-types scripts\/validate-release\.mjs"/);
+  assert.match(packageJson, /"test:authenticated-search": "node --test tests\/authenticated-web-search-release\.test\.mjs"/);
   assert.match(packageJson, /"test:web-reader": "node --test tests\/web-content-reader-release\.test\.mjs"/);
-  assert.match(packageJson, /"test": "npm run test:web-reader && npm run build && node --experimental-strip-types --test tests\/rendered-html\.test\.mjs"/);
+  assert.match(packageJson, /"test": "npm run test:web-reader && npm run test:authenticated-search && npm run build && node --experimental-strip-types --test tests\/rendered-html\.test\.mjs"/);
   await assert.rejects(access(new URL("../app/_sites-preview/", import.meta.url)));
   await assert.rejects(access(new URL("../app/chatgpt-auth.ts", import.meta.url)));
   await assert.rejects(access(new URL("../db/", import.meta.url)));

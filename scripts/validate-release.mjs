@@ -3,11 +3,13 @@ import { readFile, stat } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { buildInstallPrompt, tools } from "../app/tool-data.ts";
+import { buildAuthenticatedWebSearchRelease } from "./build-authenticated-web-search-release.mjs";
 import { buildReleases } from "./build-web-content-reader-releases.mjs";
 
 const repositoryRoot = dirname(dirname(fileURLToPath(import.meta.url)));
 const errors = [];
 const seenSlugs = new Set();
+const seenLegacySlugs = new Set();
 const seenDownloads = new Set();
 const toolsBySlug = new Map(tools.map((tool) => [tool.slug, tool]));
 const statusTones = {
@@ -47,6 +49,29 @@ for (const tool of tools) {
   }
   if (seenSlugs.has(tool.slug)) errors.push(`${tool.slug}: slug 重复`);
   seenSlugs.add(tool.slug);
+
+  if (!Array.isArray(tool.aliases) || tool.aliases.length === 0) {
+    errors.push(`${tool.slug}: aliases 至少需要包含一个技术标识或历史名称`);
+  } else {
+    const normalizedAliases = new Set();
+    for (const alias of tool.aliases) {
+      requireText(alias, "aliases", tool);
+      const normalized = alias.trim().toLowerCase();
+      if (normalizedAliases.has(normalized)) errors.push(`${tool.slug}: aliases 存在重复项（${alias}）`);
+      normalizedAliases.add(normalized);
+    }
+    if (!normalizedAliases.has(tool.slug)) errors.push(`${tool.slug}: aliases 必须包含当前 slug`);
+  }
+
+  for (const legacySlug of tool.legacySlugs ?? []) {
+    if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(legacySlug)) {
+      errors.push(`${tool.slug}: legacySlugs 包含无效标识（${legacySlug}）`);
+    }
+    if (legacySlug === tool.slug || seenLegacySlugs.has(legacySlug) || toolsBySlug.has(legacySlug)) {
+      errors.push(`${tool.slug}: legacySlug 重复或与当前 slug 冲突（${legacySlug}）`);
+    }
+    seenLegacySlugs.add(legacySlug);
+  }
 
   if (statusTones[tool.status] !== tool.statusTone) {
     errors.push(`${tool.slug}: 发布状态与状态色不匹配`);
@@ -161,6 +186,51 @@ try {
   }
 } catch (error) {
   errors.push(`Web Content Reader源码构建校验失败（${error.message}）`);
+}
+
+try {
+  const sourceBuild = await buildAuthenticatedWebSearchRelease({
+    repositoryRoot,
+    outputDirectory: "outputs/authenticated-search-validation",
+  });
+  for (const artifact of sourceBuild.artifacts) {
+    const tool = toolsBySlug.get(artifact.slug);
+    if (!tool) {
+      errors.push(`确定性构建产物没有对应公开作品（${artifact.slug}）`);
+      continue;
+    }
+    if (tool.version !== artifact.version) {
+      errors.push(`${artifact.slug}: 网站版本与源码构建版本不一致`);
+    }
+    if (tool.download.path !== `/downloads/${artifact.file}`) {
+      errors.push(`${artifact.slug}: 网站下载路径与源码构建文件名不一致`);
+    }
+    if (tool.download.sha256 !== artifact.sha256) {
+      errors.push(`${artifact.slug}: 网站SHA-256与源码确定性构建结果不一致`);
+    }
+  }
+} catch (error) {
+  errors.push(`登录态网页检索源码构建校验失败（${error.message}）`);
+}
+
+for (const { slug, source } of [
+  { slug: "web-content-reader", source: "packages/web-content-reader/skill/web-content-reader" },
+  { slug: "weixin-article-reader", source: "packages/web-content-reader/skill/weixin-article-reader" },
+  { slug: "authenticated-web-search", source: "packages/authenticated-web-search/skill/authenticated-web-search" },
+]) {
+  const tool = toolsBySlug.get(slug);
+  if (!tool) continue;
+  try {
+    const skill = await readFile(join(repositoryRoot, source, "SKILL.md"), "utf8");
+    const interfaceYaml = await readFile(join(repositoryRoot, source, "agents", "openai.yaml"), "utf8");
+    if (!skill.includes(`name: ${slug}`)) errors.push(`${slug}: SKILL.md技术标识与目录不一致`);
+    if (!skill.includes(`# ${tool.name}`)) errors.push(`${slug}: SKILL.md标题与公开展示名不一致`);
+    if (!interfaceYaml.includes(`display_name: "${tool.name}"`)) {
+      errors.push(`${slug}: openai.yaml展示名与公开展示名不一致`);
+    }
+  } catch (error) {
+    errors.push(`${slug}: 无法核对Skill名称元数据（${error.message}）`);
+  }
 }
 
 if (tools.length === 0) errors.push("至少需要一项公开工具");

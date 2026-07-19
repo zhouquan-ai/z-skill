@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { CopyPrompt } from "../../CopyPrompt";
 import { SiteFooter, SiteHeader } from "../../SiteChrome";
-import { buildInstallPrompt, getIncludedIn, getPackageModeLabel, getToolBySlug, tools } from "../../tool-data";
+import { buildInstallPrompt, getIncludedIn, getPackageModeLabel, getToolByLegacySlug, getToolBySlug, tools } from "../../tool-data";
 
 type ToolPageProps = { params: Promise<{ slug: string }> };
 
@@ -12,7 +12,8 @@ export function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: ToolPageProps): Promise<Metadata> {
-  const tool = getToolBySlug((await params).slug);
+  const slug = (await params).slug;
+  const tool = getToolBySlug(slug) ?? getToolByLegacySlug(slug);
   if (!tool) return {};
 
   return {
@@ -22,7 +23,10 @@ export async function generateMetadata({ params }: ToolPageProps): Promise<Metad
 }
 
 export default async function ToolDetailPage({ params }: ToolPageProps) {
-  const tool = getToolBySlug((await params).slug);
+  const slug = (await params).slug;
+  const tool = getToolBySlug(slug);
+  const migratedTool = getToolByLegacySlug(slug);
+  if (!tool && migratedTool) redirect(`/tools/${migratedTool.slug}`);
   if (!tool) notFound();
 
   const installPrompt = buildInstallPrompt(tool);
@@ -135,6 +139,7 @@ export default async function ToolDetailPage({ params }: ToolPageProps) {
             <h2>下载与发布信息</h2>
             <dl>
               <div><dt>当前版本</dt><dd>{tool.version}</dd></div>
+              <div><dt>技术标识</dt><dd><code>{tool.slug}</code></dd></div>
               <div><dt>发布状态</dt><dd>{tool.status}</dd></div>
               <div><dt>分发形式</dt><dd>{getPackageModeLabel(tool.packageMode)}</dd></div>
               <div><dt>作者</dt><dd>{tool.author}</dd></div>
