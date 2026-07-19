@@ -3,6 +3,7 @@ import { readFile, stat } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { buildInstallPrompt, tools } from "../app/tool-data.ts";
+import { toolIconKeys, toolIconTones } from "../app/tool-icon-registry.ts";
 import { buildAuthenticatedWebSearchRelease } from "./build-authenticated-web-search-release.mjs";
 import { buildReleases } from "./build-web-content-reader-releases.mjs";
 
@@ -11,6 +12,8 @@ const errors = [];
 const seenSlugs = new Set();
 const seenLegacySlugs = new Set();
 const seenDownloads = new Set();
+const allowedIconKeys = new Set(toolIconKeys);
+const allowedIconTones = new Set(toolIconTones);
 const toolsBySlug = new Map(tools.map((tool) => [tool.slug, tool]));
 const statusTones = {
   正式版: "stable",
@@ -27,7 +30,8 @@ for (const tool of tools) {
   for (const [field, value] of Object.entries({
     slug: tool.slug,
     name: tool.name,
-    glyph: tool.glyph,
+    iconKey: tool.iconKey,
+    iconTone: tool.iconTone,
     version: tool.version,
     updated: tool.updated,
     author: tool.author,
@@ -42,6 +46,18 @@ for (const tool of tools) {
     testNote: tool.testNote,
   })) {
     requireText(value, field, tool);
+  }
+
+  if (!allowedIconKeys.has(tool.iconKey)) {
+    errors.push(`${tool.slug}: iconKey 未在中央图标注册表登记`);
+  }
+
+  if (!allowedIconTones.has(tool.iconTone)) {
+    errors.push(`${tool.slug}: iconTone 未在中央色板登记`);
+  }
+
+  if ("glyph" in tool) {
+    errors.push(`${tool.slug}: 不得继续使用旧 glyph 字母标识`);
   }
 
   if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(tool.slug)) {

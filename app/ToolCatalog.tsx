@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
+import { ToolIcon } from "./ToolIcon";
 import { catalogUpdated, compareToolsByUpdated, getPackageModeLabel, getToolSearchText, getVerifiedFormats, tools, toolStatuses, toolTypes } from "./tool-data";
 
 type SortMode = "recent" | "name";
@@ -62,7 +63,7 @@ export function ToolCatalog({ initialQuery = "" }: { initialQuery?: string }) {
       <div className="tool-list" aria-live="polite">
         {visibleTools.map((tool) => (
           <article className="tool-card" key={tool.slug}>
-            <div className="tool-glyph" aria-hidden="true">{tool.glyph}</div>
+            <ToolIcon className="tool-glyph" iconKey={tool.iconKey} iconTone={tool.iconTone} />
             <div className="tool-copy">
               <div className="tool-title-line"><h3>{tool.name}</h3><span className="tag neutral">{tool.type}</span><span className="tag neutral">{getPackageModeLabel(tool.packageMode)}</span><span className={`tag ${tool.statusTone}`}>{tool.status}</span></div>
               <p>{tool.summary}</p>

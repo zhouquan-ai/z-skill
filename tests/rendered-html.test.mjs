@@ -62,6 +62,11 @@ test("server-renders the z-skill brand homepage", async () => {
   assert.doesNotMatch(html, /搜索工具名称、用途或已验证格式/);
   assert.doesNotMatch(html, /下载量|用户数|排行榜|评分/);
   assert.doesNotMatch(html, /codex-preview|SkeletonPreview|Your site is taking shape/i);
+  assert.match(html, /data-icon-key="secure-search"/);
+  assert.match(html, /data-icon-tone="violet"/);
+  assert.match(html, /data-icon-key="web-read"/);
+  assert.match(html, /data-icon-key="article-read"/);
+  assert.doesNotMatch(html, />R\+<|>WEB<|>WX</);
 });
 
 test("server-renders the searchable tool directory", async () => {
@@ -86,6 +91,14 @@ test("server-renders the searchable tool directory", async () => {
   assert.match(html, /\/downloads\/web-content-reader-v0\.2\.0\.zip/);
   assert.match(html, /\/downloads\/weixin-article-reader-v0\.1\.0\.zip/);
   assert.match(html, /\/downloads\/authenticated-web-search-v0\.1\.0-candidate\.3\.zip/);
+  assert.match(html, /data-icon-key="file-convert"/);
+  assert.match(html, /data-icon-tone="indigo"/);
+  assert.match(html, /data-icon-key="web-read"/);
+  assert.match(html, /data-icon-tone="sky"/);
+  assert.match(html, /data-icon-key="article-read"/);
+  assert.match(html, /data-icon-tone="teal"/);
+  assert.match(html, /data-icon-key="secure-search"/);
+  assert.match(html, /data-icon-tone="violet"/);
 });
 
 test("server-renders the 多格式转 Markdown detail page", async () => {
@@ -107,6 +120,7 @@ test("server-renders the 多格式转 Markdown detail page", async () => {
   assert.match(html, /不能替代原文件、签章、公式、批注或修订记录/);
   assert.match(html, /<title>多格式转 Markdown｜z-skill<\/title>/i);
   assert.match(html, /aria-label="本页内容"/);
+  assert.match(html, /data-icon-key="file-convert"/);
   assert.match(html, /href="#install"/);
   assert.doesNotMatch(html, /OVERVIEW|VERIFIED FORMATS|HOW TO USE|INSTALL WITH AN AGENT|LIMITS/);
   assert.match(html, /class="failed">轻量接口本轮失败/);

@@ -1,3 +1,5 @@
+import type { ToolIconKey, ToolIconTone } from "./tool-icon-registry";
+
 export type ToolType = "Skill" | "Workflow" | "Agent" | "Tool";
 export type PackageMode = "Standalone" | "Bundle";
 export type ReleaseStatus = "正式版" | "公开候选";
@@ -22,7 +24,8 @@ export type ToolRecord = {
   name: string;
   aliases: string[];
   legacySlugs?: string[];
-  glyph: string;
+  iconKey: ToolIconKey;
+  iconTone: ToolIconTone;
   type: ToolType;
   packageMode: PackageMode;
   status: ReleaseStatus;
@@ -72,7 +75,8 @@ export const tools: ToolRecord[] = [
     slug: "any-to-md",
     name: "多格式转 Markdown",
     aliases: ["Any-to-MD", "Any to Markdown"],
-    glyph: "MD",
+    iconKey: "file-convert",
+    iconTone: "indigo",
     type: "Skill",
     packageMode: "Standalone",
     status: "正式版",
@@ -146,7 +150,8 @@ export const tools: ToolRecord[] = [
     slug: "web-content-reader",
     name: "网页内容批量读取",
     aliases: ["Web Content Reader", "web-content-reader"],
-    glyph: "WEB",
+    iconKey: "web-read",
+    iconTone: "sky",
     type: "Workflow",
     packageMode: "Bundle",
     status: "正式版",
@@ -239,7 +244,8 @@ export const tools: ToolRecord[] = [
     slug: "weixin-article-reader",
     name: "微信公众号文章读取",
     aliases: ["Weixin Article Reader", "weixin-article-reader"],
-    glyph: "WX",
+    iconKey: "article-read",
+    iconTone: "teal",
     type: "Skill",
     packageMode: "Standalone",
     status: "正式版",
@@ -314,7 +320,8 @@ export const tools: ToolRecord[] = [
     name: "登录态网页检索",
     aliases: ["登录态增强检索", "Authenticated Browser Workbench", "authenticated-browser-workbench", "authenticated-web-search"],
     legacySlugs: ["authenticated-browser-workbench"],
-    glyph: "R+",
+    iconKey: "secure-search",
+    iconTone: "violet",
     type: "Skill",
     packageMode: "Standalone",
     status: "公开候选",

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { CopyPrompt } from "../../CopyPrompt";
 import { SiteFooter, SiteHeader } from "../../SiteChrome";
+import { ToolIcon } from "../../ToolIcon";
 import { buildInstallPrompt, getIncludedIn, getPackageModeLabel, getToolByLegacySlug, getToolBySlug, tools } from "../../tool-data";
 
 type ToolPageProps = { params: Promise<{ slug: string }> };
@@ -40,7 +41,7 @@ export default async function ToolDetailPage({ params }: ToolPageProps) {
         <div className="breadcrumb-row site-wrap"><Link href="/tools">全部工具</Link><span>/</span><span>{tool.name}</span></div>
 
         <section className="detail-hero site-wrap">
-          <div className="detail-glyph" aria-hidden="true">{tool.glyph}</div>
+          <ToolIcon className="detail-glyph" iconKey={tool.iconKey} iconTone={tool.iconTone} />
           <div className="detail-title">
             <div className="tag-group"><span className="tag neutral">{tool.type}</span><span className="tag neutral">{getPackageModeLabel(tool.packageMode)}</span><span className={`tag ${tool.statusTone}`}>{tool.status}</span></div>
             <h1>{tool.name}</h1>

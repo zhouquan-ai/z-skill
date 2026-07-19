@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { HeroSearch } from "./HeroSearch";
 import { SiteFooter, SiteHeader } from "./SiteChrome";
+import { ToolIcon } from "./ToolIcon";
 import { getPackageModeLabel, getRecentTools, getReleaseDate, tools } from "./tool-data";
 
 const recentTools = getRecentTools();
@@ -35,7 +36,7 @@ export default function Home() {
               {recentTools.map((tool) => (
                 <Link className="recent-card" href={`/tools/${tool.slug}`} key={tool.slug}>
                   <div className="recent-card-topline">
-                    <span className="tool-glyph" aria-hidden="true">{tool.glyph}</span>
+                    <ToolIcon className="tool-glyph" iconKey={tool.iconKey} iconTone={tool.iconTone} />
                     <div className="tag-group">
                       <span className="tag neutral">{tool.type}</span>
                       <span className="tag neutral">{getPackageModeLabel(tool.packageMode)}</span>
