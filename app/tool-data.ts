@@ -304,6 +304,81 @@ export const tools: ToolRecord[] = [
     limitations:
       "短链接或被截断的分享参数可能读取失败；BrowserAct回退结果可能缺少元数据或混入附属内容。当前主要验证Windows PowerShell环境。",
   },
+  {
+    slug: "authenticated-browser-workbench",
+    name: "Authenticated Browser Workbench",
+    glyph: "AUTH",
+    type: "Skill",
+    packageMode: "Standalone",
+    status: "公开候选",
+    statusTone: "candidate",
+    version: "v0.1.0-candidate.1",
+    releasedAt: "2026-07-19T18:30:00+08:00",
+    updated: "2026-07-19",
+    author: "周全",
+    license: "MIT",
+    category: "信息获取 · 登录态浏览",
+    summary: "把通用BrowserSkill改造成带浏览器路由、账号边界、站点矩阵和验收规则的个人工作台。",
+    detailSummary: "用可填写模板把登录态浏览的个人差异、隐私边界和失败经验沉淀为可维护的Skill。",
+    environments: ["Codex"],
+    environmentNote: "Codex · Windows · Chrome / Chromium",
+    download: {
+      path: "/downloads/authenticated-browser-workbench-v0.1.0-candidate.1.zip",
+      sourceUrl:
+        "https://raw.githubusercontent.com/zhouquan-ai/z-skill/main/public/downloads/authenticated-browser-workbench-v0.1.0-candidate.1.zip",
+      label: "下载候选版 ZIP",
+      fileType: "ZIP",
+      sha256: "caa9930c4bcb5381bf2fe5fb6753d483165f3a2da116b1b0c5cd7e923007b6cb",
+    },
+    overview: {
+      title: "让通用浏览器能力适应真实个人环境",
+      description:
+        "BrowserSkill解决浏览器连接和页面操作，本Skill在外层补充任务分流、浏览器与账号选择、站点验证矩阵、停止条件和结果验收。个人版与公开模板分离，不把登录信息或私有站点记录打包发布。",
+      scenarios: [
+        "复用已登录浏览器进行站内搜索和后台只读检查",
+        "在多个浏览器和账号之间建立明确的使用边界",
+        "把站点差异、失败经验和替代路径写成长期规则",
+        "从个人Skill提炼脱敏、可公开复用的配置模板",
+      ],
+    },
+    testNote: "Chrome 150与豆包浏览器Chromium 135均完成180秒连接监测、登录态只读检索、完整重启和会话清理；验证的是工作台方法，不代表所有登录网站兼容。",
+    formatTests: [
+      { format: "Chrome 150登录态只读检索", status: "verified", label: "当前Windows环境通过" },
+      { format: "豆包浏览器Chromium 135", status: "verified", label: "当前Windows环境通过" },
+      { format: "浏览器完整重启", status: "verified", label: "两款浏览器均通过" },
+      { format: "多实例显式选择与会话清理", status: "verified", label: "当前样本通过" },
+      { format: "休眠唤醒与长任务", status: "pending", label: "候选期继续观察" },
+      { format: "macOS / Linux", status: "pending", label: "尚未验证" },
+    ],
+    usageSteps: [
+      "先按BrowserSkill官方说明安装bsk CLI、浏览器扩展和上游browser-skill。",
+      "解压候选包，把skill/authenticated-browser-workbench复制到当前Agent的skills目录。",
+      "填写browser-profile.md和site-matrix.md，只记录路由与边界，不写凭据和私密页面内容。",
+      "使用一个无副作用的登录态搜索任务验证实例选择、可见结果和会话停止。",
+    ],
+    install: {
+      intro: "候选包只提供个人化编排层，不捆绑BrowserSkill本体。可以复制安装指令，也可以直接下载ZIP。",
+      steps: [
+        "下载并解压v0.1.0-candidate.1 ZIP，阅读README.md、PRIVACY.md、KNOWN_LIMITATIONS.md和TEST_MATRIX.md。",
+        "按https://github.com/Tencent/BrowserSkill的当前说明安装bsk CLI、扩展和上游browser-skill。",
+        "将skill/authenticated-browser-workbench复制到当前Agent的skills目录。",
+        "填写浏览器用途、账号硬边界和站点矩阵；不要写入密码、Cookie、Token、本机Profile路径或实例ID。",
+        "重新加载Agent，用只读任务验证登录态复用，并确认结束后活动会话为零。",
+      ],
+      fallback: "如果当前环境不能安装BrowserSkill，本模板只能作为个性化设计参考，不能单独控制浏览器。",
+    },
+    components: [],
+    dependencies: [
+      { name: "BrowserSkill", role: "上游浏览器执行能力" },
+      { name: "bsk CLI", role: "本地会话与浏览器控制" },
+      { name: "Chromium浏览器", role: "承载使用者已有登录态" },
+      { name: "Windows PowerShell", role: "候选包连接诊断脚本" },
+    ],
+    privacy:
+      "不保存Cookie、Token、密码、验证码、账号标识、浏览器Profile、聊天历史或后台数据；实际页面访问由本地BrowserSkill、浏览器和目标网站完成。",
+    limitations:
+      "必须另行安装BrowserSkill；其他Chromium浏览器需逐机验证；休眠唤醒、长任务、macOS和Linux尚未测试。候选包不分发或自动修改第三方扩展，也不承诺所有登录网站可用。",
+  },
 ];
 
 export function getToolBySlug(slug: string) {

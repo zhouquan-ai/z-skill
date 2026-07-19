@@ -36,17 +36,19 @@ test("server-renders the z-skill brand homepage", async () => {
   const html = await response.text();
   assert.match(html, /<title>z-skill｜AI 工具与可复用工作流<\/title>/i);
   assert.match(html, /把\s*<span>AI 工具<\/span>/);
-  assert.match(html, /Any-to-MD/);
+  assert.doesNotMatch(html, /Any-to-MD/);
   assert.match(html, /Web Content Reader/);
   assert.match(html, /Weixin Article Reader/);
+  assert.match(html, /Authenticated Browser Workbench/);
   assert.match(html, /class="tag stable">正式版/);
+  assert.match(html, /class="tag candidate">公开候选/);
   assert.match(html, /最近发布/);
-  assert.match(html, /发布于[\s\S]{0,24}2026-07-13/);
+  assert.match(html, /发布于[\s\S]{0,24}2026-07-19/);
   assert.match(html, /href="\/tools"[^>]*>查看全部工具/);
   assert.match(html, /z-skill 发布周全制作、整理或验证的 AI 工具，并说明用途、测试、安装和下载方式/);
   assert.match(html, /搜索工具名称或用途/);
   assert.match(html, />搜索工具</);
-  assert.match(html, /已发布[\s\S]{0,24}<strong>3<\/strong>[\s\S]{0,24}项工具/);
+  assert.match(html, /已发布[\s\S]{0,24}<strong>4<\/strong>[\s\S]{0,24}项工具/);
   assert.match(html, /Agent 安装指令/);
   assert.match(html, /ZIP 下载/);
   assert.doesNotMatch(html, /支持 Agent 安装，也可下载 ZIP/);
@@ -71,9 +73,11 @@ test("server-renders the searchable tool directory", async () => {
   assert.match(html, /Any-to-MD/);
   assert.match(html, /Web Content Reader/);
   assert.match(html, /Weixin Article Reader/);
+  assert.match(html, /Authenticated Browser Workbench/);
   assert.match(html, /知识管理 · 文件处理/);
   assert.match(html, /信息获取 · 网页阅读/);
   assert.match(html, /信息获取 · 微信公众号/);
+  assert.match(html, /信息获取 · 登录态浏览/);
   assert.match(html, /组合包/);
   assert.match(html, /独立包/);
   assert.match(html, /正式版/);
@@ -81,6 +85,7 @@ test("server-renders the searchable tool directory", async () => {
   assert.match(html, /\/downloads\/any-to-md-v0\.1\.0\.zip/);
   assert.match(html, /\/downloads\/web-content-reader-v0\.2\.0\.zip/);
   assert.match(html, /\/downloads\/weixin-article-reader-v0\.1\.0\.zip/);
+  assert.match(html, /\/downloads\/authenticated-browser-workbench-v0\.1\.0-candidate\.1\.zip/);
 });
 
 test("server-renders the Any-to-MD detail page", async () => {
@@ -146,6 +151,22 @@ test("server-renders the standalone Weixin Skill and reverse relationship", asyn
   assert.match(html, new RegExp(tools[2].download.sha256));
 });
 
+test("server-renders the authenticated browser public candidate", async () => {
+  const response = await render("/tools/authenticated-browser-workbench");
+  assert.equal(response.status, 200);
+
+  const html = await response.text();
+  assert.match(html, /<title>Authenticated Browser Workbench｜z-skill<\/title>/i);
+  assert.match(html, /公开候选/);
+  assert.match(html, /v0\.1\.0-candidate\.1/);
+  assert.match(html, /BrowserSkill/);
+  assert.match(html, /账号硬边界/);
+  assert.match(html, /休眠唤醒与长任务/);
+  assert.match(html, /候选期继续观察/);
+  assert.match(html, /权威候选包地址/);
+  assert.match(html, new RegExp(tools[3].download.sha256));
+});
+
 test("returns 404 for an unpublished tool slug", async () => {
   const response = await render("/tools/not-published");
   assert.equal(response.status, 404);
@@ -182,6 +203,7 @@ test("server-renders the About page and channel boundaries", async () => {
   assert.match(html, /Any-to-MD v0\.1\.0/);
   assert.match(html, /Web Content Reader v0\.2\.0/);
   assert.match(html, /Weixin Article Reader v0\.1\.0/);
+  assert.match(html, /Authenticated Browser Workbench v0\.1\.0-candidate\.1/);
   assert.doesNotMatch(html, /Claude/);
   assert.doesNotMatch(html, /zzzq8848-ai/);
 });
@@ -195,6 +217,8 @@ test("keeps the mobile hero accent separate from the search panel", async () => 
   assert.doesNotMatch(css, /\.hero-copy::before\s*\{/);
   assert.match(css, /\.hero-search:focus-within\s*\{/);
   assert.match(css, /\.catalog-search:focus-within\s*\{/);
+  assert.match(css, /\.detail-title\s*\{\s*min-width:\s*0/);
+  assert.match(css, /\.detail-title h1\s*\{[^}]*overflow-wrap:\s*anywhere/);
   assert.match(css, /box-shadow: 0 0 0 5px var\(--blue-700\)/);
   assert.doesNotMatch(css, /rgb\(49 87 213 \/ 22%\)/);
   assert.match(searchComponent, /event\.key !== "Enter"/);
@@ -219,9 +243,9 @@ test("derives release metadata and install prompt from one tool record", () => {
   assert.ok(prompt.includes(tool.install.fallback));
   assert.deepEqual(getIncludedIn("weixin-article-reader").map((item) => item.slug), ["web-content-reader"]);
   assert.deepEqual(getRecentTools().map((item) => item.slug), [
+    "authenticated-browser-workbench",
     "web-content-reader",
     "weixin-article-reader",
-    "any-to-md",
   ]);
 });
 

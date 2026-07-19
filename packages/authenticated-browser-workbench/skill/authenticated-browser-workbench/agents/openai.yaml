@@ -1,0 +1,4 @@
+interface:
+  display_name: "登录态浏览工作台"
+  short_description: "按浏览器、账号边界和站点经验安全复用登录态"
+  default_prompt: "Use $authenticated-browser-workbench to choose the correct logged-in browser and complete this browser research task with visible evidence."

@@ -166,14 +166,16 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .empty-result { padding: 56px 20px; color: var(--ink-600); background: var(--surface); border: 1px solid var(--line-200); border-radius: 14px; text-align: center; }
 .empty-result p { margin: 0 0 18px; }
 
-.breadcrumb-row { min-height: 64px; display: flex; align-items: center; gap: 10px; color: var(--ink-400); font-size: 13px; }
+.breadcrumb-row { min-height: 64px; display: flex; align-items: center; gap: 10px; overflow: hidden; color: var(--ink-400); font-size: 13px; }
 .breadcrumb-row a { min-height: 44px; display: grid; place-items: center; color: var(--blue-600); }
-.detail-hero { display: grid; grid-template-columns: 84px minmax(0, 1fr) auto; align-items: center; gap: 24px; padding-block: 32px 48px; }
-.detail-title h1 { margin: 10px 0 8px; font-size: 48px; font-weight: 700; line-height: 1.1; letter-spacing: -.02em; }
+.breadcrumb-row > span:last-child { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.detail-hero { min-width: 0; display: grid; grid-template-columns: 84px minmax(0, 1fr) auto; align-items: center; gap: 24px; padding-block: 32px 48px; }
+.detail-title { min-width: 0; }
+.detail-title h1 { margin: 10px 0 8px; overflow-wrap: anywhere; font-size: 48px; font-weight: 700; line-height: 1.1; letter-spacing: -.02em; }
 .detail-title > p { max-width: 720px; margin: 0; color: var(--ink-600); font-size: 16px; line-height: 1.7; }
 .detail-meta { display: flex; flex-wrap: wrap; gap: 8px 18px; margin-top: 14px; color: var(--ink-400); font-size: 12px; }
 .detail-meta strong { color: var(--ink-600); font-family: var(--mono); font-weight: 500; font-variant-numeric: tabular-nums; }
-.detail-layout { display: grid; grid-template-columns: minmax(0, 1fr) 320px; align-items: start; gap: 32px; padding-bottom: 96px; }
+.detail-layout { min-width: 0; display: grid; grid-template-columns: minmax(0, 1fr) 320px; align-items: start; gap: 32px; padding-bottom: 96px; }
 .detail-content { min-width: 0; background: var(--surface); border: 1px solid var(--line-200); border-radius: 16px; }
 .detail-nav { position: sticky; z-index: 4; top: 0; min-height: 54px; display: flex; align-items: center; gap: 6px; padding: 7px 14px; overflow-x: auto; background: rgb(255 255 255 / 94%); border-bottom: 1px solid var(--line-200); border-radius: 16px 16px 0 0; backdrop-filter: blur(12px); scrollbar-width: none; }
 .detail-nav::-webkit-scrollbar { display: none; }
@@ -224,7 +226,7 @@ code { padding: 2px 6px; background: var(--canvas); border-radius: 5px; font-fam
 .prompt-head button { min-height: 44px; padding: 0 14px; color: #fff; background: #26375c; border: 1px solid #3a4a6b; border-radius: 9px; font-size: 12px; cursor: pointer; }
 .prompt-head button:hover { background: #30456f; }
 .prompt-panel pre { margin: 0; padding: 22px; overflow-wrap: anywhere; white-space: pre-wrap; color: #d8deea; font-family: var(--mono); font-size: 13px; line-height: 1.75; }
-.download-panel { position: sticky; top: 24px; padding: 24px; background: var(--surface); border: 1px solid var(--line-200); border-radius: 14px; }
+.download-panel { min-width: 0; position: sticky; top: 24px; padding: 24px; background: var(--surface); border: 1px solid var(--line-200); border-radius: 14px; }
 .download-panel h2 { margin: 0 0 12px; font-size: 18px; }
 .download-panel dl { margin: 0; }
 .download-panel dl > div { display: flex; justify-content: space-between; gap: 14px; padding: 12px 0; border-bottom: 1px solid var(--line-100); font-size: 12px; }
@@ -343,6 +345,7 @@ code { padding: 2px 6px; background: var(--canvas); border-radius: 5px; font-fam
   .detail-content section { padding: 34px 20px; }
   .detail-nav { padding-inline: 8px; border-radius: 14px 14px 0 0; }
   .detail-content h2 { font-size: 27px; }
+  .detail-content h2, .scenario-grid div, .steps p, .verification-table code { overflow-wrap: anywhere; }
   .scenario-grid { grid-template-columns: 1fr; }
   .relation-grid { grid-template-columns: 1fr; }
   .dependency-list span { width: 100%; justify-content: space-between; }

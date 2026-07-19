@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "status": "public-candidate",
+  "release": {
+    "slug": "authenticated-browser-workbench",
+    "name": "Authenticated Browser Workbench",
+    "type": "Skill",
+    "packageMode": "Standalone",
+    "version": "v0.1.0-candidate.1",
+    "archiveName": "authenticated-browser-workbench-v0.1.0-candidate.1.zip",
+    "archiveRoot": "authenticated-browser-workbench",
+    "source": "skill/authenticated-browser-workbench",
+    "bundleFiles": [
+      "README.md",
+      "PRIVACY.md",
+      "KNOWN_LIMITATIONS.md",
+      "TEST_MATRIX.md",
+      "LICENSE",
+      "THIRD_PARTY_NOTICES.md"
+    ]
+  }
+}

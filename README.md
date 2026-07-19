@@ -13,6 +13,7 @@
 - Any-to-MD `v0.1.0` 详情、Agent 安装 Prompt 和 ZIP 下载。
 - Web Content Reader `v0.2.0` Workflow Bundle；
 - Weixin Article Reader `v0.1.0` 独立 Skill。
+- Authenticated Browser Workbench `v0.1.0-candidate.1` 公开候选 Skill。
 
 正式线上地址：<https://z-skill.com/>。Cloudflare Workers 地址 <https://z-skill.zzzq8848.workers.dev/> 仅作为部署排查入口，不作为对外正式域名。
 
@@ -21,6 +22,8 @@
 2026-07-13 网页读取候选发布：Web Content Reader 与 Weixin Article Reader 从同一份权威 Skill 源码确定性构建，分别以 Workflow Bundle 和 Standalone Skill 公开。普通网页读取、路由和质量检查仍作为 Workflow 内部组件。
 
 2026-07-14 正式发布验收：修复 BrowserAct 隐身提取可能无限挂起的问题，新增父进程硬超时和受控挂起回归测试；Codex 按默认参数实际触发4条混合链接，3条正文成功、1条不可达地址如实失败并正常生成完整清单。Web Content Reader 发布`v0.2.0`，Weixin Article Reader 发布`v0.1.0`。
+
+2026-07-19 公开候选：Authenticated Browser Workbench以`v0.1.0-candidate.1`进入目录，提供BrowserSkill外层的浏览器路由、账号边界、站点矩阵、故障回退和验收模板。候选版不捆绑或自动修改BrowserSkill，长期任务、休眠唤醒和跨平台验证仍待补充。
 
 ## 工具数据
 
