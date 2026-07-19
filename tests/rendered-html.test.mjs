@@ -39,7 +39,7 @@ test("server-renders the z-skill brand homepage", async () => {
   assert.doesNotMatch(html, /Any-to-MD/);
   assert.match(html, /Web Content Reader/);
   assert.match(html, /Weixin Article Reader/);
-  assert.match(html, /Authenticated Browser Workbench/);
+  assert.match(html, /登录态增强检索/);
   assert.match(html, /class="tag stable">正式版/);
   assert.match(html, /class="tag candidate">公开候选/);
   assert.match(html, /最近发布/);
@@ -73,11 +73,11 @@ test("server-renders the searchable tool directory", async () => {
   assert.match(html, /Any-to-MD/);
   assert.match(html, /Web Content Reader/);
   assert.match(html, /Weixin Article Reader/);
-  assert.match(html, /Authenticated Browser Workbench/);
+  assert.match(html, /登录态增强检索/);
   assert.match(html, /知识管理 · 文件处理/);
   assert.match(html, /信息获取 · 网页阅读/);
   assert.match(html, /信息获取 · 微信公众号/);
-  assert.match(html, /信息获取 · 登录态浏览/);
+  assert.match(html, /信息获取 · 登录态增强检索/);
   assert.match(html, /组合包/);
   assert.match(html, /独立包/);
   assert.match(html, /正式版/);
@@ -85,7 +85,7 @@ test("server-renders the searchable tool directory", async () => {
   assert.match(html, /\/downloads\/any-to-md-v0\.1\.0\.zip/);
   assert.match(html, /\/downloads\/web-content-reader-v0\.2\.0\.zip/);
   assert.match(html, /\/downloads\/weixin-article-reader-v0\.1\.0\.zip/);
-  assert.match(html, /\/downloads\/authenticated-browser-workbench-v0\.1\.0-candidate\.1\.zip/);
+  assert.match(html, /\/downloads\/authenticated-browser-workbench-v0\.1\.0-candidate\.2\.zip/);
 });
 
 test("server-renders the Any-to-MD detail page", async () => {
@@ -156,11 +156,12 @@ test("server-renders the authenticated browser public candidate", async () => {
   assert.equal(response.status, 200);
 
   const html = await response.text();
-  assert.match(html, /<title>Authenticated Browser Workbench｜z-skill<\/title>/i);
+  assert.match(html, /<title>登录态增强检索｜z-skill<\/title>/i);
   assert.match(html, /公开候选/);
-  assert.match(html, /v0\.1\.0-candidate\.1/);
+  assert.match(html, /v0\.1\.0-candidate\.2/);
   assert.match(html, /BrowserSkill/);
-  assert.match(html, /账号硬边界/);
+  assert.match(html, /默认网页搜索/);
+  assert.match(html, /公开搜索充分性与渠道路由/);
   assert.match(html, /休眠唤醒与长任务/);
   assert.match(html, /候选期继续观察/);
   assert.match(html, /权威候选包地址/);
@@ -203,7 +204,7 @@ test("server-renders the About page and channel boundaries", async () => {
   assert.match(html, /Any-to-MD v0\.1\.0/);
   assert.match(html, /Web Content Reader v0\.2\.0/);
   assert.match(html, /Weixin Article Reader v0\.1\.0/);
-  assert.match(html, /Authenticated Browser Workbench v0\.1\.0-candidate\.1/);
+  assert.match(html, /登录态增强检索 v0\.1\.0-candidate\.2/);
   assert.doesNotMatch(html, /Claude/);
   assert.doesNotMatch(html, /zzzq8848-ai/);
 });

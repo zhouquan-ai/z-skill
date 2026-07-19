@@ -1,25 +1,28 @@
 ---
 name: authenticated-browser-workbench
-description: Reuse an existing logged-in Chromium browser safely for site search, account-backend reading, AI web research, and browser interaction. Use when a task depends on the user's current browser login state, when multiple browsers or accounts require explicit routing, or when maintaining a personal matrix of verified sites and failure experience. Do not use for public URLs that can be read without login or for native desktop apps.
+description: Extend ordinary AI web research with logged-in Chromium sources. Use after public-web search is insufficient, stale, inaccessible, repetitive, or lacks first-hand experience; when a task needs current discussion, reviews, platform-native content, logged-in AI search, account-backend reading, or browser interaction; and when multiple browsers or accounts require explicit routing. Do not use when public sources are sufficient or for native desktop apps.
 ---
 
-# Authenticated Browser Workbench
+# Logged-in Research Extension
 
-Use the installed BrowserSkill as the browser executor. Use this Skill as the personal routing, privacy, troubleshooting, and acceptance layer. Do not copy credentials or browser data into the Skill.
+Search the public web first. When the evidence is insufficient, use the installed BrowserSkill as the browser executor and select the smallest useful logged-in source. Use this Skill as the adequacy, channel-routing, privacy, troubleshooting, and acceptance layer. Do not copy credentials or browser data into the Skill.
 
 ## Route the task
 
 1. Use a public-web reader for an ordinary public URL that does not require login.
-2. Use this Skill for a logged-in site search, account backend, existing-session page, or browser interaction.
-3. Use a desktop-control tool for a native application.
-4. Respect a user-named browser tool when it is available and authorized.
+2. For ordinary research, search the public web once and assess whether the result supports the answer. Read `references/research-routing.md`.
+3. If public results are insufficient or the task needs reviews, current platform discussion, first-hand experience, or login-only content, choose one or two logged-in channels that can fill the stated gap.
+4. Use this Skill directly for an account backend, existing-session page, or user-requested browser interaction.
+5. Use a desktop-control tool for a native application.
+6. Respect a user-named browser tool when it is available and authorized.
 
 ## Load local boundaries
 
-1. Read `references/browser-profile.md` before selecting a browser or account.
-2. Read `references/site-matrix.md` before operating on a recorded site.
-3. Treat blank or placeholder fields as unverified. Inspect current browser state instead of inventing a preference.
-4. Replace obsolete matrix conclusions when current visible evidence differs; do not append contradictory history indefinitely.
+1. Read `references/research-routing.md` and state what the public search failed to provide, unless the user directly requested a logged-in destination.
+2. Read `references/browser-profile.md` before selecting a browser or account.
+3. Read `references/site-matrix.md` before operating on a recorded site.
+4. Treat blank or placeholder fields as unverified. Inspect current browser state instead of inventing a preference.
+5. Replace obsolete matrix conclusions when current visible evidence differs; do not append contradictory history indefinitely.
 
 ## Execute safely
 
@@ -28,10 +31,17 @@ Use the installed BrowserSkill as the browser executor. Use this Skill as the pe
 3. Prefer a new Agent tab. Borrow a user tab only when the new tab lacks the required login or page context.
 4. When borrowing, select the minimum necessary target tab. Do not inspect unrelated tabs, history, messages, drafts, saved items, account settings, or previous conversations.
 5. Take a snapshot before interaction. After navigation, lazy loading, or page changes, take a fresh snapshot before using element references.
-6. Perform only the minimum search, click, pagination, and reading needed for the task.
+6. Perform only the minimum search, click, pagination, and reading needed to fill the stated information gap.
 7. Stop before publishing, sending, deleting, paying, uploading, liking, commenting, following, changing an account, or submitting a state-changing form. Obtain explicit confirmation for the exact action.
 8. Verify the visible business result. Distinguish page visibility, input, submission, generated response, source availability, and final task completion.
 9. Stop the BrowserSkill session on every success, failure, timeout, or user interruption. Confirm that no active session remains when the task ends.
+
+## Report evidence by layer
+
+1. Separate official or original sources, user experience, current platform discussion, and AI-search leads.
+2. Treat platform posts as experience or leads, not proof of regulated, medical, legal, financial, or price claims.
+3. Treat answers from logged-in AI search pages as query expansion and source discovery. Trace material claims to original links when possible.
+4. State whether the first public-web pass was sufficient, why logged-in research was added, which channels were skipped, and why the search stopped.
 
 ## Handle failures
 

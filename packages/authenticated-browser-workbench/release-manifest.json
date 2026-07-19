@@ -3,11 +3,11 @@
   "status": "public-candidate",
   "release": {
     "slug": "authenticated-browser-workbench",
-    "name": "Authenticated Browser Workbench",
+    "name": "登录态增强检索",
     "type": "Skill",
     "packageMode": "Standalone",
-    "version": "v0.1.0-candidate.1",
-    "archiveName": "authenticated-browser-workbench-v0.1.0-candidate.1.zip",
+    "version": "v0.1.0-candidate.2",
+    "archiveName": "authenticated-browser-workbench-v0.1.0-candidate.2.zip",
     "archiveRoot": "authenticated-browser-workbench",
     "source": "skill/authenticated-browser-workbench",
     "bundleFiles": [
