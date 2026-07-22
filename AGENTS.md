@@ -14,6 +14,7 @@
 ## 测试与 Git
 
 - 按改动范围运行最快相关检查；正式发布前至少运行 `npm test` 和 `npm run lint`，并按 `DESIGN.md` 做桌面端和移动端浏览器验收。
+- Windows重建前如本仓库的`wrangler dev`或`npm start`生产预览仍在运行，先精确确认并停止该仓库进程，避免`dist/server/.wrangler`被占用；不得为解除锁定而泛化结束全部Node进程，也不得直接删除仍在使用的`dist`目录。
 - 唯一正式发布链路是 GitHub `main` → Cloudflare Workers Builds → `z-skill.com`；本项目不使用 Codex Sites，不得恢复 `.openai/hosting.json` 或新建 Sites 项目，除非用户明确确认迁移托管架构。
 - 完成一次边界明确、检查通过的写入任务后，默认创建仅包含本轮文件的本地提交。
 - 修改公开页面、公开下载包、候选版或正式版时，若用户已经确认“执行”“按方案执行”“发布”“上线”或“更新网站”，默认在测试与浏览器验收通过后提交并推送`main`，等待Cloudflare自动部署，再验收`z-skill.com`；上述确认视为包含本次公开交付，不要求用户另行重复说“推送”。

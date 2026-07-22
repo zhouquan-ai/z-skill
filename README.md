@@ -48,6 +48,8 @@ npm start
 
 `npm start` 使用构建产物中的 Wrangler 配置，同时加载服务端代码、样式、脚本和下载资源；不要用只启动应用服务的方式代替生产预览。
 
+在Windows上，正在运行的`npm start`或`wrangler dev`可能占用`dist/server/.wrangler`。再次执行`npm run build`或`npm test`前，应先确认并停止本仓库对应的生产预览；不要结束其他项目的Node进程，也不要删除仍被占用的`dist`目录。若出现`EPERM`、`operation not permitted`或无法删除`.wrangler`，先按进程工作目录定位本仓库预览，再重试构建。
+
 ## 验证
 
 ```bash
@@ -70,9 +72,11 @@ npm run audit
 
 `npm test` 会先执行发布校验和生产构建，再运行服务端渲染测试。
 
+渲染测试还会核对图标注册表中的每一种受控色调都存在对应CSS规则，防止新增作品时登记了颜色但生产页面退回无样式状态。
+
 `npm run build` 本身也会先执行发布校验，因此 Cloudflare 自动构建不能绕过版本、下载包和 SHA-256 门禁。GitHub Actions 会在推送和 Pull Request 时重复运行依赖审计、测试与 ESLint；高等级依赖告警会阻止发布质量检查通过。
 
-当前依赖审计仅保留 Next.js 内嵌 PostCSS 的中等级上游提示。该问题要求把不受信任的 CSS 解析后重新嵌入 HTML，而本站不接收、解析或展示用户提交的 CSS，因此当前没有对应输入面。`npm audit fix --force` 会把 Next.js 错降到不兼容的旧版本，不应执行；后续在 Next.js 提供兼容修复时随正常依赖维护更新。
+当前`npm audit`为零告警。Next.js与Miniflare上游仍固定了旧版PostCSS和Sharp，因此`package.json`暂用`overrides`锁定已修复的小版本；构建、渲染和Cloudflare链路必须持续通过测试。上游依赖正式纳入修复后，应移除对应override并重新生成锁文件，不得使用会把Next.js降到旧主版本的`npm audit fix --force`。
 
 ## 发布方式
 

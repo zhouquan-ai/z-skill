@@ -2,6 +2,16 @@ import assert from "node:assert/strict";
 import { access, readFile, stat } from "node:fs/promises";
 import test from "node:test";
 import { buildInstallPrompt, getIncludedIn, getRecentTools, getToolSearchText, getVerifiedFormats, tools } from "../app/tool-data.ts";
+import { toolIconTones } from "../app/tool-icon-registry.ts";
+
+test("every registered tool icon tone has a CSS definition", async () => {
+  const css = await readFile(new URL("../app/globals.css", import.meta.url), "utf8");
+
+  assert.equal(new Set(toolIconTones).size, toolIconTones.length);
+  for (const tone of toolIconTones) {
+    assert.match(css, new RegExp(`\\.tool-icon\\[data-icon-tone=["']${tone}["']\\]`));
+  }
+});
 
 async function render(pathname = "/") {
   const workerUrl = new URL("../dist/server/index.js", import.meta.url);
