@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "status": "public-candidate",
+  "release": {
+    "slug": "article-visual-workflow",
+    "name": "文章视觉规划与生图",
+    "type": "Skill",
+    "packageMode": "Standalone",
+    "version": "v0.1.0-candidate.1",
+    "archiveName": "article-visual-workflow-v0.1.0-candidate.1.zip",
+    "archiveRoot": "article-visual-workflow",
+    "source": "skill/article-visual-workflow",
+    "bundleFiles": [
+      "README.md",
+      "PRIVACY.md",
+      "KNOWN_LIMITATIONS.md",
+      "TEST_MATRIX.md",
+      "LICENSE",
+      "THIRD_PARTY_NOTICES.md"
+    ],
+    "extraDirectories": [
+      "examples",
+      "tests"
+    ]
+  }
+}

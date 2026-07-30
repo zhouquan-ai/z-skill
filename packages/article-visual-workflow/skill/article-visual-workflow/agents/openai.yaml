@@ -1,0 +1,4 @@
+interface:
+  display_name: "文章视觉规划与生图"
+  short_description: "先决定文章该画什么，再生成、验收并只重做问题图片"
+  default_prompt: "Use $article-visual-workflow to plan visuals for this frozen article before generating any image."

@@ -66,7 +66,7 @@ test("standalone public candidate archives are reproducible and isolated", async
       outputDirectory: second,
     });
     assert.deepEqual(firstResult.artifacts, secondResult.artifacts);
-    assert.equal(firstResult.artifacts.length, 2);
+    assert.equal(firstResult.artifacts.length, candidateManifestPaths.length);
 
     for (const artifact of firstResult.artifacts) {
       const firstArchive = await readFile(join(first, artifact.file));

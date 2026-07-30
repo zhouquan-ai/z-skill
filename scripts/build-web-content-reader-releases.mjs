@@ -80,6 +80,13 @@ export async function collectDirectory(sourceDirectory, archivePrefix) {
   children.sort((left, right) => left.name.localeCompare(right.name, "en"));
 
   for (const child of children) {
+    if (
+      child.name === "__pycache__"
+      || child.name === ".DS_Store"
+      || child.name.endsWith(".pyc")
+    ) {
+      continue;
+    }
     const sourcePath = join(sourceDirectory, child.name);
     const archivePath = normalizeArchivePath(join(archivePrefix, child.name));
     if (child.isSymbolicLink()) throw new Error(`发布源不得包含符号链接：${sourcePath}`);

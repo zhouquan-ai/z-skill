@@ -47,9 +47,9 @@ test("server-renders the z-skill brand homepage", async () => {
   assert.match(html, /<title>z-skill｜AI 工具与可复用工作流<\/title>/i);
   assert.match(html, /把\s*<span>AI 工具<\/span>/);
   assert.doesNotMatch(html, /Any-to-MD/);
+  assert.match(html, /文章视觉规划与生图/);
   assert.match(html, /法律实务文章写作/);
   assert.match(html, /知识卡产出与调用/);
-  assert.match(html, /登录态网页检索/);
   assert.match(html, /class="tag candidate">公开候选/);
   assert.match(html, /最近发布/);
   assert.match(html, /发布于[\s\S]{0,24}2026-07-30/);
@@ -57,7 +57,7 @@ test("server-renders the z-skill brand homepage", async () => {
   assert.match(html, /z-skill 发布周全制作、整理或验证的 AI 工具，并说明用途、测试、安装和下载方式/);
   assert.match(html, /搜索工具名称或用途/);
   assert.match(html, />搜索工具</);
-  assert.match(html, /已发布[\s\S]{0,24}<strong>6<\/strong>[\s\S]{0,24}项工具/);
+  assert.match(html, new RegExp(`已发布[\\s\\S]{0,24}<strong>${tools.length}<\\/strong>[\\s\\S]{0,24}项工具`));
   assert.match(html, /Agent 安装指令/);
   assert.match(html, /ZIP 下载/);
   assert.doesNotMatch(html, /支持 Agent 安装，也可下载 ZIP/);
@@ -71,7 +71,6 @@ test("server-renders the z-skill brand homepage", async () => {
   assert.doesNotMatch(html, /搜索工具名称、用途或已验证格式/);
   assert.doesNotMatch(html, /下载量|用户数|排行榜|评分/);
   assert.doesNotMatch(html, /codex-preview|SkeletonPreview|Your site is taking shape/i);
-  assert.match(html, /data-icon-key="secure-search"/);
   assert.match(html, /data-icon-tone="violet"/);
   assert.match(html, /data-icon-key="file-convert"/);
   assert.match(html, /data-icon-key="article-read"/);
@@ -90,12 +89,14 @@ test("server-renders the searchable tool directory", async () => {
   assert.match(html, /登录态网页检索/);
   assert.match(html, /法律实务文章写作/);
   assert.match(html, /知识卡产出与调用/);
+  assert.match(html, /文章视觉规划与生图/);
   assert.match(html, /知识管理 · 文件处理/);
   assert.match(html, /信息获取 · 网页阅读/);
   assert.match(html, /信息获取 · 微信公众号/);
   assert.match(html, /信息获取 · 登录态网页检索/);
   assert.match(html, /法律工作 · 实务写作/);
   assert.match(html, /知识管理 · 资料复用/);
+  assert.match(html, /内容生产 · 视觉规划/);
   assert.match(html, /组合包/);
   assert.match(html, /独立包/);
   assert.match(html, /正式版/);
@@ -106,6 +107,7 @@ test("server-renders the searchable tool directory", async () => {
   assert.match(html, /\/downloads\/authenticated-web-search-v0\.1\.0-candidate\.3\.zip/);
   assert.match(html, /\/downloads\/legal-practice-article-v0\.1\.0-candidate\.3\.zip/);
   assert.match(html, /\/downloads\/callable-knowledge-v0\.1\.0-candidate\.4\.zip/);
+  assert.match(html, /\/downloads\/article-visual-workflow-v0\.1\.0-candidate\.1\.zip/);
   assert.match(html, /data-icon-key="file-convert"/);
   assert.match(html, /data-icon-tone="indigo"/);
   assert.match(html, /data-icon-key="web-read"/);
@@ -223,6 +225,20 @@ test("server-renders the 知识卡产出与调用 public candidate", async () =>
   assert.match(html, new RegExp(tools[5].download.sha256));
 });
 
+test("server-renders the 文章视觉规划与生图 public candidate", async () => {
+  const response = await render("/tools/article-visual-workflow");
+  assert.equal(response.status, 200);
+
+  const html = await response.text();
+  assert.match(html, /<title>文章视觉规划与生图｜z-skill<\/title>/i);
+  assert.match(html, /Skill/);
+  assert.match(html, /公开候选/);
+  assert.match(html, /v0\.1\.0-candidate\.1/);
+  assert.match(html, /场景图、示意图和不配图/);
+  assert.match(html, /article-visual-workflow-v0\.1\.0-candidate\.1\.zip/);
+  assert.match(html, new RegExp(tools[6].download.sha256));
+});
+
 test("redirects the authenticated browser candidate legacy slug", async () => {
   const response = await render("/tools/authenticated-browser-workbench");
   assert.ok([307, 308].includes(response.status));
@@ -304,9 +320,9 @@ test("derives release metadata and install prompt from one tool record", () => {
   assert.ok(prompt.includes(tool.install.fallback));
   assert.deepEqual(getIncludedIn("weixin-article-reader").map((item) => item.slug), ["web-content-reader"]);
   assert.deepEqual(getRecentTools().map((item) => item.slug), [
+    "article-visual-workflow",
     "legal-practice-article",
     "callable-knowledge",
-    "authenticated-web-search",
   ]);
   assert.match(getToolSearchText(tools[0]), /any-to-md/);
   assert.match(getToolSearchText(tools[1]), /web content reader/);
@@ -314,6 +330,7 @@ test("derives release metadata and install prompt from one tool record", () => {
   assert.match(getToolSearchText(tools[3]), /authenticated-browser-workbench/);
   assert.match(getToolSearchText(tools[4]), /legal-practice-article/);
   assert.match(getToolSearchText(tools[5]), /callable-knowledge/);
+  assert.match(getToolSearchText(tools[6]), /article-visual-workflow/);
 });
 
 test("stores one public tool record per file", async () => {

@@ -1,5 +1,6 @@
 import type { ToolIconKey, ToolIconTone } from "./tool-icon-registry";
 import { anyToMd } from "./tool-records/any-to-md.ts";
+import { articleVisualWorkflow } from "./tool-records/article-visual-workflow.ts";
 import { authenticatedWebSearch } from "./tool-records/authenticated-web-search.ts";
 import { callableKnowledge } from "./tool-records/callable-knowledge.ts";
 import { legalPracticeArticle } from "./tool-records/legal-practice-article.ts";
@@ -83,6 +84,7 @@ export const tools: ToolRecord[] = [
   authenticatedWebSearch,
   legalPracticeArticle,
   callableKnowledge,
+  articleVisualWorkflow,
 ];
 
 export function getToolBySlug(slug: string) {

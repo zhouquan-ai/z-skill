@@ -16,6 +16,7 @@ const defaultRepositoryRoot = dirname(scriptDirectory);
 export const candidateManifestPaths = [
   "packages/legal-practice-article/release-manifest.json",
   "packages/callable-knowledge/release-manifest.json",
+  "packages/article-visual-workflow/release-manifest.json",
 ];
 
 async function buildOne(root, manifestRelativePath) {
@@ -32,6 +33,12 @@ async function buildOne(root, manifestRelativePath) {
     join(packageRoot, target.source),
     `${target.archiveRoot}/skill/${target.slug}`,
   ));
+  for (const extraDirectory of target.extraDirectories ?? []) {
+    entries.push(...await collectDirectory(
+      join(packageRoot, extraDirectory),
+      `${target.archiveRoot}/${extraDirectory}`,
+    ));
+  }
   entries.push(generatedJsonEntry(
     `${target.archiveRoot}/COMPONENTS.json`,
     {
