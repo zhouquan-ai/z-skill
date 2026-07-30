@@ -1,0 +1,4 @@
+interface:
+  display_name: "法律实务文章写作"
+  short_description: "基于真实材料、现行法律和可核验案例起草法律实务文章"
+  default_prompt: "Use $legal-practice-article to turn verified legal materials into a practical article."

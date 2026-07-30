@@ -301,8 +301,9 @@ test("ships all public downloads without starter dependencies", async () => {
   assert.match(packageJson, /"start": "wrangler dev --config dist\/server\/wrangler\.json"/);
   assert.match(packageJson, /"validate:release": "node --experimental-strip-types scripts\/validate-release\.mjs"/);
   assert.match(packageJson, /"test:authenticated-search": "node --test tests\/authenticated-web-search-release\.test\.mjs"/);
+  assert.match(packageJson, /"test:internal-candidates": "node --test tests\/internal-candidate-releases\.test\.mjs"/);
   assert.match(packageJson, /"test:web-reader": "node --test tests\/web-content-reader-release\.test\.mjs"/);
-  assert.match(packageJson, /"test": "npm run test:web-reader && npm run test:authenticated-search && npm run build && node --experimental-strip-types --test tests\/rendered-html\.test\.mjs"/);
+  assert.match(packageJson, /"test": "npm run test:web-reader && npm run test:authenticated-search && npm run test:internal-candidates && npm run build && node --experimental-strip-types --test tests\/rendered-html\.test\.mjs"/);
   await assert.rejects(access(new URL("../app/_sites-preview/", import.meta.url)));
   await assert.rejects(access(new URL("../app/chatgpt-auth.ts", import.meta.url)));
   await assert.rejects(access(new URL("../db/", import.meta.url)));
