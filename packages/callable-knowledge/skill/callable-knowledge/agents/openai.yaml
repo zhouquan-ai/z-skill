@@ -1,4 +1,4 @@
 interface:
-  display_name: "可调用知识"
+  display_name: "知识卡产出与调用"
   short_description: "把收藏资料整理成可检索、可复核并能参与后续判断的知识卡"
   default_prompt: "Use $callable-knowledge to save this material as reusable knowledge or retrieve prior cards for the current question."
