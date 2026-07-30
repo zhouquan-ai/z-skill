@@ -11,6 +11,7 @@ import {
 
 const repositoryRoot = dirname(dirname(fileURLToPath(import.meta.url)));
 const outputsRoot = join(repositoryRoot, "outputs");
+const workTypePattern = /Skill|Workflow|Agent|工作流|智能体/i;
 
 function readStoredZipEntryNames(buffer) {
   const names = [];
@@ -39,6 +40,9 @@ test("internal candidate identities and public boundaries are explicit", async (
     const readme = await readFile(join(repositoryRoot, dirname(manifestPath), "README.md"), "utf8");
 
     assert.equal(manifest.status, "internal-candidate");
+    assert.match(slug, /^[a-z0-9]+(?:-[a-z0-9]+)*$/);
+    assert.doesNotMatch(name, workTypePattern);
+    assert.match(readme, new RegExp(`^# ${name}$`, "m"));
     assert.match(skill, new RegExp(`^name: ${slug}$`, "m"));
     assert.match(skill, new RegExp(`^# ${name}$`, "m"));
     assert.ok(interfaceYaml.includes(`display_name: "${name}"`));

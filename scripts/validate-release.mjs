@@ -15,6 +15,7 @@ const seenDownloads = new Set();
 const allowedIconKeys = new Set(toolIconKeys);
 const allowedIconTones = new Set(toolIconTones);
 const toolsBySlug = new Map(tools.map((tool) => [tool.slug, tool]));
+const workTypePattern = /Skill|Workflow|Agent|工作流|智能体/i;
 const statusTones = {
   正式版: "stable",
   公开候选: "candidate",
@@ -62,6 +63,9 @@ for (const tool of tools) {
 
   if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(tool.slug)) {
     errors.push(`${tool.slug}: slug 只能使用小写字母、数字和连字符`);
+  }
+  if (workTypePattern.test(tool.name)) {
+    errors.push(`${tool.slug}: 中文正式展示名不得重复Skill、Workflow或Agent类型`);
   }
   if (seenSlugs.has(tool.slug)) errors.push(`${tool.slug}: slug 重复`);
   seenSlugs.add(tool.slug);

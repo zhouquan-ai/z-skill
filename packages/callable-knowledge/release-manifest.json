@@ -3,11 +3,11 @@
   "status": "internal-candidate",
   "release": {
     "slug": "callable-knowledge",
-    "name": "可调用知识工作流",
+    "name": "可调用知识",
     "type": "Workflow",
     "packageMode": "Standalone",
-    "version": "v0.1.0-candidate.1",
-    "archiveName": "callable-knowledge-v0.1.0-candidate.1.zip",
+    "version": "v0.1.0-candidate.2",
+    "archiveName": "callable-knowledge-v0.1.0-candidate.2.zip",
     "archiveRoot": "callable-knowledge",
     "source": "skill/callable-knowledge",
     "bundleFiles": [
