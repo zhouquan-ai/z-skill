@@ -4,6 +4,7 @@ import { articleVisualWorkflow } from "./tool-records/article-visual-workflow.ts
 import { authenticatedWebSearch } from "./tool-records/authenticated-web-search.ts";
 import { callableKnowledge } from "./tool-records/callable-knowledge.ts";
 import { legalPracticeArticle } from "./tool-records/legal-practice-article.ts";
+import { resumeLibraryManagement } from "./tool-records/resume-library-management.ts";
 import { webContentReader } from "./tool-records/web-content-reader.ts";
 import { weixinArticleReader } from "./tool-records/weixin-article-reader.ts";
 
@@ -85,6 +86,7 @@ export const tools: ToolRecord[] = [
   legalPracticeArticle,
   callableKnowledge,
   articleVisualWorkflow,
+  resumeLibraryManagement,
 ];
 
 export function getToolBySlug(slug: string) {

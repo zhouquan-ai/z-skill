@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "status": "public-candidate",
+  "release": {
+    "slug": "resume-library-management",
+    "name": "简历库与简历管理",
+    "type": "Workflow",
+    "packageMode": "Standalone",
+    "version": "v0.1.0-candidate.1",
+    "archiveName": "resume-library-management-v0.1.0-candidate.1.zip",
+    "archiveRoot": "resume-library-management",
+    "source": "skill/resume-library-management",
+    "bundleFiles": [
+      "README.md",
+      "PRIVACY.md",
+      "KNOWN_LIMITATIONS.md",
+      "TEST_MATRIX.md",
+      "LICENSE",
+      "THIRD_PARTY_NOTICES.md"
+    ],
+    "extraDirectories": [
+      "examples",
+      "tests"
+    ]
+  }
+}

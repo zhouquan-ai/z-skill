@@ -17,6 +17,7 @@ export const candidateManifestPaths = [
   "packages/legal-practice-article/release-manifest.json",
   "packages/callable-knowledge/release-manifest.json",
   "packages/article-visual-workflow/release-manifest.json",
+  "packages/resume-library-management/release-manifest.json",
 ];
 
 async function buildOne(root, manifestRelativePath) {

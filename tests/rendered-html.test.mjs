@@ -48,8 +48,8 @@ test("server-renders the z-skill brand homepage", async () => {
   assert.match(html, /把\s*<span>AI 工具<\/span>/);
   assert.doesNotMatch(html, /Any-to-MD/);
   assert.match(html, /文章视觉规划与生图/);
+  assert.match(html, /简历库与简历管理/);
   assert.match(html, /法律实务文章写作/);
-  assert.match(html, /知识卡产出与调用/);
   assert.match(html, /class="tag candidate">公开候选/);
   assert.match(html, /最近发布/);
   assert.match(html, /发布于[\s\S]{0,24}2026-07-30/);
@@ -90,6 +90,7 @@ test("server-renders the searchable tool directory", async () => {
   assert.match(html, /法律实务文章写作/);
   assert.match(html, /知识卡产出与调用/);
   assert.match(html, /文章视觉规划与生图/);
+  assert.match(html, /简历库与简历管理/);
   assert.match(html, /知识管理 · 文件处理/);
   assert.match(html, /信息获取 · 网页阅读/);
   assert.match(html, /信息获取 · 微信公众号/);
@@ -97,6 +98,7 @@ test("server-renders the searchable tool directory", async () => {
   assert.match(html, /法律工作 · 实务写作/);
   assert.match(html, /知识管理 · 资料复用/);
   assert.match(html, /内容生产 · 视觉规划/);
+  assert.match(html, /职业管理 · 简历事实/);
   assert.match(html, /组合包/);
   assert.match(html, /独立包/);
   assert.match(html, /正式版/);
@@ -108,6 +110,7 @@ test("server-renders the searchable tool directory", async () => {
   assert.match(html, /\/downloads\/legal-practice-article-v0\.1\.0-candidate\.3\.zip/);
   assert.match(html, /\/downloads\/callable-knowledge-v0\.1\.0-candidate\.4\.zip/);
   assert.match(html, /\/downloads\/article-visual-workflow-v0\.1\.0-candidate\.1\.zip/);
+  assert.match(html, /\/downloads\/resume-library-management-v0\.1\.0-candidate\.1\.zip/);
   assert.match(html, /data-icon-key="file-convert"/);
   assert.match(html, /data-icon-tone="indigo"/);
   assert.match(html, /data-icon-key="web-read"/);
@@ -239,6 +242,20 @@ test("server-renders the 文章视觉规划与生图 public candidate", async ()
   assert.match(html, new RegExp(tools[6].download.sha256));
 });
 
+test("server-renders the 简历库与简历管理 public candidate", async () => {
+  const response = await render("/tools/resume-library-management");
+  assert.equal(response.status, 200);
+
+  const html = await response.text();
+  assert.match(html, /<title>简历库与简历管理｜z-skill<\/title>/i);
+  assert.match(html, /Workflow/);
+  assert.match(html, /公开候选/);
+  assert.match(html, /v0\.1\.0-candidate\.1/);
+  assert.match(html, /来源、职业事实、经历模块、岗位画像和输出/);
+  assert.match(html, /resume-library-management-v0\.1\.0-candidate\.1\.zip/);
+  assert.match(html, new RegExp(tools[7].download.sha256));
+});
+
 test("redirects the authenticated browser candidate legacy slug", async () => {
   const response = await render("/tools/authenticated-browser-workbench");
   assert.ok([307, 308].includes(response.status));
@@ -320,9 +337,9 @@ test("derives release metadata and install prompt from one tool record", () => {
   assert.ok(prompt.includes(tool.install.fallback));
   assert.deepEqual(getIncludedIn("weixin-article-reader").map((item) => item.slug), ["web-content-reader"]);
   assert.deepEqual(getRecentTools().map((item) => item.slug), [
+    "resume-library-management",
     "article-visual-workflow",
     "legal-practice-article",
-    "callable-knowledge",
   ]);
   assert.match(getToolSearchText(tools[0]), /any-to-md/);
   assert.match(getToolSearchText(tools[1]), /web content reader/);
@@ -331,6 +348,7 @@ test("derives release metadata and install prompt from one tool record", () => {
   assert.match(getToolSearchText(tools[4]), /legal-practice-article/);
   assert.match(getToolSearchText(tools[5]), /callable-knowledge/);
   assert.match(getToolSearchText(tools[6]), /article-visual-workflow/);
+  assert.match(getToolSearchText(tools[7]), /resume-library-management/);
 });
 
 test("stores one public tool record per file", async () => {

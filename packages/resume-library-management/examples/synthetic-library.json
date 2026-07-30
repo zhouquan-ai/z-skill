@@ -1,0 +1,329 @@
+{
+  "schema_version": 1,
+  "synthetic": true,
+  "person": {
+    "person_id": "PERSON-SYNTH-001",
+    "display_name": "林岚（仿真人物）",
+    "headline": "企业法务与争议解决候选人（仿真）"
+  },
+  "sources": [
+    {
+      "source_id": "SRC-SYNTH-001",
+      "title": "仿真学历证明摘要",
+      "kind": "正式证明摘要",
+      "evidence_grade": "A",
+      "verification_status": "已核验",
+      "locator": "synthetic/sources/education-summary.md"
+    },
+    {
+      "source_id": "SRC-SYNTH-002",
+      "title": "仿真任职证明摘要",
+      "kind": "单位证明摘要",
+      "evidence_grade": "A",
+      "verification_status": "已核验",
+      "locator": "synthetic/sources/employment-summary.md"
+    },
+    {
+      "source_id": "SRC-SYNTH-003",
+      "title": "仿真年度工作复盘",
+      "kind": "本人工作总结",
+      "evidence_grade": "D",
+      "verification_status": "用户确认",
+      "locator": "synthetic/sources/annual-review.md"
+    },
+    {
+      "source_id": "SRC-SYNTH-004",
+      "title": "仿真仲裁结果摘要",
+      "kind": "司法材料摘要",
+      "evidence_grade": "A",
+      "verification_status": "已核验",
+      "locator": "synthetic/sources/arbitration-result.md"
+    },
+    {
+      "source_id": "SRC-SYNTH-005",
+      "title": "仿真项目访谈确认",
+      "kind": "人工确认记录",
+      "evidence_grade": "C",
+      "verification_status": "用户确认",
+      "locator": "synthetic/sources/project-confirmation.md"
+    },
+    {
+      "source_id": "SRC-SYNTH-006",
+      "title": "仿真旧简历",
+      "kind": "历史简历",
+      "evidence_grade": "D",
+      "verification_status": "存在冲突",
+      "locator": "synthetic/sources/legacy-resume.md"
+    }
+  ],
+  "facts": [
+    {
+      "fact_id": "FACT-EDU-001",
+      "fact_type": "education",
+      "summary": "2014年至2018年在仿真大学甲完成法学本科教育。",
+      "source_ids": [
+        "SRC-SYNTH-001"
+      ],
+      "verification_status": "已核验",
+      "last_reviewed": "2026-07-30"
+    },
+    {
+      "fact_id": "FACT-EXP-001",
+      "fact_type": "experience",
+      "summary": "2018年7月至2021年3月在仿真制造企业甲担任法务专员。",
+      "source_ids": [
+        "SRC-SYNTH-002",
+        "SRC-SYNTH-003"
+      ],
+      "verification_status": "多源一致",
+      "last_reviewed": "2026-07-30"
+    },
+    {
+      "fact_id": "FACT-EXP-002",
+      "fact_type": "experience",
+      "summary": "2021年4月至2024年6月在仿真科技企业乙担任高级法务。",
+      "source_ids": [
+        "SRC-SYNTH-002",
+        "SRC-SYNTH-003"
+      ],
+      "verification_status": "已核验",
+      "last_reviewed": "2026-07-30"
+    },
+    {
+      "fact_id": "FACT-EXP-003",
+      "fact_type": "experience",
+      "summary": "2024年7月起在仿真能源企业丙负责合同治理与争议支持。",
+      "source_ids": [
+        "SRC-SYNTH-002",
+        "SRC-SYNTH-003"
+      ],
+      "verification_status": "用户确认",
+      "last_reviewed": "2026-07-30"
+    },
+    {
+      "fact_id": "FACT-PROJ-001",
+      "fact_type": "project",
+      "summary": "参与仿真合同模板治理项目，完成条款盘点、业务访谈和试运行支持。",
+      "source_ids": [
+        "SRC-SYNTH-003",
+        "SRC-SYNTH-005"
+      ],
+      "verification_status": "用户确认",
+      "last_reviewed": "2026-07-30"
+    },
+    {
+      "fact_id": "FACT-CASE-001",
+      "fact_type": "case",
+      "summary": "仿真设备采购仲裁以部分支持、部分驳回结案。",
+      "source_ids": [
+        "SRC-SYNTH-004",
+        "SRC-SYNTH-005"
+      ],
+      "verification_status": "已核验",
+      "last_reviewed": "2026-07-30"
+    },
+    {
+      "fact_id": "FACT-CERT-001",
+      "fact_type": "qualification",
+      "summary": "已取得仿真法律职业资格证明。",
+      "source_ids": [
+        "SRC-SYNTH-003"
+      ],
+      "verification_status": "单源待核",
+      "last_reviewed": "2026-07-30"
+    }
+  ],
+  "cases": [
+    {
+      "case_id": "CASE-SYNTH-001",
+      "experience_fact_id": "FACT-EXP-002",
+      "objective_facts": [
+        "争议源于仿真设备交付与验收分歧。",
+        "仲裁结果为部分支持对方请求并驳回其余请求。"
+      ],
+      "personal_actions": [
+        "整理合同、往来函件和验收材料。",
+        "起草答辩要点、证据目录和案件时间轴。",
+        "参与庭前讨论和开庭准备。"
+      ],
+      "contribution_boundary": "裁决结果由仲裁庭作出；技术判断由业务和技术团队提供；不得把全部风险减少写成个人独立业绩。",
+      "source_ids": [
+        "SRC-SYNTH-004",
+        "SRC-SYNTH-005"
+      ],
+      "verification_status": "已核验"
+    },
+    {
+      "case_id": "CASE-SYNTH-002",
+      "experience_fact_id": "FACT-EXP-003",
+      "objective_facts": [
+        "仿真合作项目在试运行阶段出现交付标准分歧。",
+        "双方通过补充协议调整后续安排。"
+      ],
+      "personal_actions": [
+        "梳理合同义务和现有材料。",
+        "提出函件与协议条款方案。",
+        "协调业务、财务和技术团队确认执行条件。"
+      ],
+      "contribution_boundary": "商业选择与技术验收由跨部门团队共同完成；本人贡献限于法律分析、材料组织和协议文本。",
+      "source_ids": [
+        "SRC-SYNTH-003",
+        "SRC-SYNTH-005"
+      ],
+      "verification_status": "用户确认"
+    }
+  ],
+  "modules": [
+    {
+      "module_id": "MOD-EDU-001",
+      "name": "法学教育",
+      "fact_ids": [
+        "FACT-EDU-001"
+      ],
+      "short_statement": "法学本科。",
+      "standard_statement": "在仿真大学甲完成法学本科教育。",
+      "contribution_boundary": "只陈述教育事实，不延伸为未经证明的能力评价。",
+      "suitable_roles": [
+        "企业法务",
+        "争议解决"
+      ],
+      "output_readiness": "可生成完整草稿"
+    },
+    {
+      "module_id": "MOD-EXP-002",
+      "name": "科技企业法务经历",
+      "fact_ids": [
+        "FACT-EXP-002"
+      ],
+      "short_statement": "负责合同与争议支持。",
+      "standard_statement": "在仿真科技企业乙承担合同审查、争议材料组织和跨部门协同。",
+      "contribution_boundary": "不把部门整体成果写成个人独立成果。",
+      "suitable_roles": [
+        "企业法务",
+        "争议解决"
+      ],
+      "output_readiness": "待人工审阅"
+    },
+    {
+      "module_id": "MOD-EXP-003",
+      "name": "能源企业合同治理",
+      "fact_ids": [
+        "FACT-EXP-003",
+        "FACT-PROJ-001"
+      ],
+      "short_statement": "参与合同模板治理与试运行。",
+      "standard_statement": "围绕仿真能源企业的合同模板治理，参与条款盘点、业务访谈、风险分级和试运行支持。",
+      "contribution_boundary": "模板上线和业务效果属于跨部门成果。",
+      "suitable_roles": [
+        "企业法务",
+        "合规管理"
+      ],
+      "output_readiness": "待人工审阅"
+    },
+    {
+      "module_id": "MOD-CASE-001",
+      "name": "设备采购仲裁",
+      "fact_ids": [
+        "FACT-EXP-002",
+        "FACT-CASE-001"
+      ],
+      "short_statement": "参与设备采购仲裁材料组织与开庭准备。",
+      "standard_statement": "围绕设备交付与验收争议，整理合同和履约材料，起草答辩要点、证据目录及案件时间轴，并参与开庭准备。",
+      "contribution_boundary": "不将仲裁裁决或全部风险减少表述为个人独立业绩。",
+      "suitable_roles": [
+        "争议解决",
+        "企业法务"
+      ],
+      "output_readiness": "待人工审阅"
+    },
+    {
+      "module_id": "MOD-CERT-001",
+      "name": "职业资格",
+      "fact_ids": [
+        "FACT-CERT-001"
+      ],
+      "short_statement": "法律职业资格待证明材料。",
+      "standard_statement": "仿真资料记载已取得法律职业资格，当前仍待正式证明材料核验。",
+      "contribution_boundary": "核验前必须保留状态提示。",
+      "suitable_roles": [
+        "企业法务",
+        "争议解决"
+      ],
+      "output_readiness": "待证明材料"
+    }
+  ],
+  "job_profiles": [
+    {
+      "profile_id": "PROFILE-LEGAL-001",
+      "target_role": "企业法务（仿真通用画像）",
+      "profile_type": "通用画像",
+      "core_tasks": [
+        "合同审查与模板治理",
+        "业务风险识别",
+        "争议协同"
+      ],
+      "must_have": [
+        "法学教育",
+        "企业法务经历",
+        "跨部门沟通"
+      ],
+      "preferred": [
+        "合同治理项目"
+      ],
+      "risk_boundaries": [
+        "不得把团队项目写成个人独立成果",
+        "待核资格必须保留状态提示"
+      ]
+    },
+    {
+      "profile_id": "PROFILE-DISPUTE-001",
+      "target_role": "争议解决助理（仿真通用画像）",
+      "profile_type": "通用画像",
+      "core_tasks": [
+        "事实与证据整理",
+        "法律文书起草",
+        "程序推进"
+      ],
+      "must_have": [
+        "案件材料组织",
+        "书面表达",
+        "贡献边界"
+      ],
+      "preferred": [
+        "企业内部争议经验"
+      ],
+      "risk_boundaries": [
+        "不得把企业员工经历写成律师执业经历",
+        "程序结果与实体结果分开表述"
+      ]
+    }
+  ],
+  "outputs": [
+    {
+      "output_id": "CV-SYNTH-LEGAL-001",
+      "job_profile_id": "PROFILE-LEGAL-001",
+      "selected_module_ids": [
+        "MOD-EDU-001",
+        "MOD-EXP-002",
+        "MOD-EXP-003",
+        "MOD-CERT-001"
+      ],
+      "fact_snapshot_date": "2026-07-30",
+      "review_status": "待人工审阅",
+      "draft_file": "expected/resume-enterprise-legal.md"
+    },
+    {
+      "output_id": "CV-SYNTH-DISPUTE-001",
+      "job_profile_id": "PROFILE-DISPUTE-001",
+      "selected_module_ids": [
+        "MOD-EDU-001",
+        "MOD-EXP-002",
+        "MOD-CASE-001",
+        "MOD-CERT-001"
+      ],
+      "fact_snapshot_date": "2026-07-30",
+      "review_status": "待人工审阅",
+      "draft_file": "expected/resume-dispute-resolution.md"
+    }
+  ]
+}

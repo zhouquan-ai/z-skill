@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "synthetic": false,
+  "person": {
+    "person_id": "PERSON-001",
+    "display_name": "",
+    "headline": ""
+  },
+  "sources": [],
+  "facts": [],
+  "cases": [],
+  "modules": [],
+  "job_profiles": [],
+  "outputs": []
+}
