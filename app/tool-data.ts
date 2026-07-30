@@ -3,6 +3,7 @@ import { anyToMd } from "./tool-records/any-to-md.ts";
 import { articleVisualWorkflow } from "./tool-records/article-visual-workflow.ts";
 import { authenticatedWebSearch } from "./tool-records/authenticated-web-search.ts";
 import { callableKnowledge } from "./tool-records/callable-knowledge.ts";
+import { feishuLocalAiBridge } from "./tool-records/feishu-local-ai-bridge.ts";
 import { legalPracticeArticle } from "./tool-records/legal-practice-article.ts";
 import { resumeLibraryManagement } from "./tool-records/resume-library-management.ts";
 import { webContentReader } from "./tool-records/web-content-reader.ts";
@@ -87,6 +88,7 @@ export const tools: ToolRecord[] = [
   callableKnowledge,
   articleVisualWorkflow,
   resumeLibraryManagement,
+  feishuLocalAiBridge,
 ];
 
 export function getToolBySlug(slug: string) {

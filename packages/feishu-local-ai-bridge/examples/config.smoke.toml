@@ -1,0 +1,10 @@
+schema_version = 1
+
+[bridge]
+permission_mode = "workspace_write"
+allowed_chat_types = ["p2p"]
+allowed_senders = ["user-example-001"]
+command_prefix = "/ai "
+max_text_length = 500
+require_explicit_write = true
+allowed_write_prefixes = ["smoke-output/"]

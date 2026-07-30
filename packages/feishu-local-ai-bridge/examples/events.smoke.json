@@ -1,0 +1,38 @@
+[
+  {
+    "event_id": "evt-example-001",
+    "chat_type": "p2p",
+    "sender_id": "user-example-001",
+    "text": "/ai status"
+  },
+  {
+    "event_id": "evt-example-001",
+    "chat_type": "p2p",
+    "sender_id": "user-example-001",
+    "text": "/ai status"
+  },
+  {
+    "event_id": "evt-example-002",
+    "chat_type": "group",
+    "sender_id": "user-example-001",
+    "text": "/ai status"
+  },
+  {
+    "event_id": "evt-example-003",
+    "chat_type": "p2p",
+    "sender_id": "user-example-999",
+    "text": "/ai status"
+  },
+  {
+    "event_id": "evt-example-004",
+    "chat_type": "p2p",
+    "sender_id": "user-example-001",
+    "text": "/ai write smoke-output/result.md :: offline smoke accepted"
+  },
+  {
+    "event_id": "evt-example-005",
+    "chat_type": "p2p",
+    "sender_id": "user-example-001",
+    "text": "/ai write ../outside.md :: must be rejected"
+  }
+]

@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "status": "public-candidate",
+  "release": {
+    "slug": "feishu-local-ai-bridge",
+    "name": "飞书远程调用本地AI",
+    "type": "Workflow",
+    "packageMode": "Standalone",
+    "version": "v0.1.0-candidate.1",
+    "archiveName": "feishu-local-ai-bridge-v0.1.0-candidate.1.zip",
+    "archiveRoot": "feishu-local-ai-bridge",
+    "source": "skill/feishu-local-ai-bridge",
+    "bundleFiles": [
+      "README.md",
+      "PRIVACY.md",
+      "KNOWN_LIMITATIONS.md",
+      "TEST_MATRIX.md",
+      "LICENSE",
+      "THIRD_PARTY_NOTICES.md"
+    ],
+    "extraDirectories": [
+      "examples",
+      "tests"
+    ]
+  }
+}

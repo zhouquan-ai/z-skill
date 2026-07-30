@@ -1,0 +1,4 @@
+interface:
+  display_name: "飞书远程调用本地AI"
+  short_description: "设计最小权限的飞书本地AI桥接与验收"
+  default_prompt: "Use $feishu-local-ai-bridge to design or audit a least-privilege Feishu-to-local-AI bridge without exposing credentials or expanding host control."

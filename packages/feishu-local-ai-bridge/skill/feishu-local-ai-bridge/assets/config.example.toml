@@ -1,0 +1,23 @@
+schema_version = 1
+
+[credentials]
+app_id_env = "FEISHU_APP_ID"
+app_secret_env = "FEISHU_APP_SECRET"
+
+[bridge]
+permission_mode = "read_only"
+allowed_chat_types = ["p2p"]
+allowed_senders = ["replace-with-feishu-open-id"]
+command_prefix = "/ai "
+max_text_length = 500
+require_explicit_write = true
+allowed_write_prefixes = []
+
+[local_ai]
+adapter = "not-configured"
+workspace_root_env = "LOCAL_AI_WORKSPACE"
+
+[audit]
+include_message_text = false
+include_absolute_paths = false
+retention_days = 14
