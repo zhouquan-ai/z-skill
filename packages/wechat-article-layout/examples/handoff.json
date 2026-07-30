@@ -1,0 +1,9 @@
+{
+  "article_id": "SYNTHETIC-LAYOUT-001",
+  "frozen": true,
+  "expected_images": [
+    "figure-01.svg"
+  ],
+  "mobile_acceptance": "pending",
+  "notes": "仿真示例；没有连接公众号。"
+}

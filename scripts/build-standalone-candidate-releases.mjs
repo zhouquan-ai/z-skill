@@ -19,6 +19,7 @@ export const candidateManifestPaths = [
   "packages/article-visual-workflow/release-manifest.json",
   "packages/resume-library-management/release-manifest.json",
   "packages/feishu-local-ai-bridge/release-manifest.json",
+  "packages/wechat-article-layout/release-manifest.json",
 ];
 
 async function buildOne(root, manifestRelativePath) {

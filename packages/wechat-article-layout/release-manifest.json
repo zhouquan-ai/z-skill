@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "status": "public-candidate",
+  "release": {
+    "slug": "wechat-article-layout",
+    "name": "微信公众号半自动排版",
+    "type": "Workflow",
+    "packageMode": "Standalone",
+    "version": "v0.1.0-candidate.1",
+    "archiveName": "wechat-article-layout-v0.1.0-candidate.1.zip",
+    "archiveRoot": "wechat-article-layout",
+    "source": "skill/wechat-article-layout",
+    "bundleFiles": [
+      "README.md",
+      "PRIVACY.md",
+      "KNOWN_LIMITATIONS.md",
+      "TEST_MATRIX.md",
+      "LICENSE",
+      "THIRD_PARTY_NOTICES.md"
+    ],
+    "extraDirectories": [
+      "examples",
+      "tests"
+    ]
+  }
+}

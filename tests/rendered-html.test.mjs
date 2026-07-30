@@ -47,9 +47,9 @@ test("server-renders the z-skill brand homepage", async () => {
   assert.match(html, /<title>z-skill｜AI 工具与可复用工作流<\/title>/i);
   assert.match(html, /把\s*<span>AI 工具<\/span>/);
   assert.doesNotMatch(html, /Any-to-MD/);
-  assert.match(html, /文章视觉规划与生图/);
   assert.match(html, /简历库与简历管理/);
   assert.match(html, /飞书远程调用本地AI/);
+  assert.match(html, /微信公众号半自动排版/);
   assert.match(html, /class="tag candidate">公开候选/);
   assert.match(html, /最近发布/);
   assert.match(html, /发布于[\s\S]{0,24}2026-07-30/);
@@ -71,7 +71,7 @@ test("server-renders the z-skill brand homepage", async () => {
   assert.doesNotMatch(html, /搜索工具名称、用途或已验证格式/);
   assert.doesNotMatch(html, /下载量|用户数|排行榜|评分/);
   assert.doesNotMatch(html, /codex-preview|SkeletonPreview|Your site is taking shape/i);
-  assert.match(html, /data-icon-tone="violet"/);
+  assert.match(html, /data-icon-tone="sky"/);
   assert.match(html, /data-icon-key="file-convert"/);
   assert.match(html, /data-icon-key="article-read"/);
   assert.doesNotMatch(html, />R\+<|>WEB<|>WX</);
@@ -101,6 +101,7 @@ test("server-renders the searchable tool directory", async () => {
   assert.match(html, /内容生产 · 视觉规划/);
   assert.match(html, /职业管理 · 简历事实/);
   assert.match(html, /通讯协作 · 本地AI/);
+  assert.match(html, /内容生产 · 公众号排版/);
   assert.match(html, /组合包/);
   assert.match(html, /独立包/);
   assert.match(html, /正式版/);
@@ -114,6 +115,7 @@ test("server-renders the searchable tool directory", async () => {
   assert.match(html, /\/downloads\/article-visual-workflow-v0\.1\.0-candidate\.1\.zip/);
   assert.match(html, /\/downloads\/resume-library-management-v0\.1\.0-candidate\.1\.zip/);
   assert.match(html, /\/downloads\/feishu-local-ai-bridge-v0\.1\.0-candidate\.1\.zip/);
+  assert.match(html, /\/downloads\/wechat-article-layout-v0\.1\.0-candidate\.1\.zip/);
   assert.match(html, /data-icon-key="file-convert"/);
   assert.match(html, /data-icon-tone="indigo"/);
   assert.match(html, /data-icon-key="web-read"/);
@@ -273,6 +275,20 @@ test("server-renders the 飞书远程调用本地AI public candidate", async () 
   assert.match(html, new RegExp(tools[8].download.sha256));
 });
 
+test("server-renders the 微信公众号半自动排版 public candidate", async () => {
+  const response = await render("/tools/wechat-article-layout");
+  assert.equal(response.status, 200);
+
+  const html = await response.text();
+  assert.match(html, /<title>微信公众号半自动排版｜z-skill<\/title>/i);
+  assert.match(html, /Workflow/);
+  assert.match(html, /公开候选/);
+  assert.match(html, /v0\.1\.0-candidate\.1/);
+  assert.match(html, /自动校验和手机人工终审/);
+  assert.match(html, /wechat-article-layout-v0\.1\.0-candidate\.1\.zip/);
+  assert.match(html, new RegExp(tools[9].download.sha256));
+});
+
 test("redirects the authenticated browser candidate legacy slug", async () => {
   const response = await render("/tools/authenticated-browser-workbench");
   assert.ok([307, 308].includes(response.status));
@@ -354,9 +370,9 @@ test("derives release metadata and install prompt from one tool record", () => {
   assert.ok(prompt.includes(tool.install.fallback));
   assert.deepEqual(getIncludedIn("weixin-article-reader").map((item) => item.slug), ["web-content-reader"]);
   assert.deepEqual(getRecentTools().map((item) => item.slug), [
+    "wechat-article-layout",
     "feishu-local-ai-bridge",
     "resume-library-management",
-    "article-visual-workflow",
   ]);
   assert.match(getToolSearchText(tools[0]), /any-to-md/);
   assert.match(getToolSearchText(tools[1]), /web content reader/);
@@ -367,6 +383,7 @@ test("derives release metadata and install prompt from one tool record", () => {
   assert.match(getToolSearchText(tools[6]), /article-visual-workflow/);
   assert.match(getToolSearchText(tools[7]), /resume-library-management/);
   assert.match(getToolSearchText(tools[8]), /feishu-local-ai-bridge/);
+  assert.match(getToolSearchText(tools[9]), /wechat-article-layout/);
 });
 
 test("stores one public tool record per file", async () => {

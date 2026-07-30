@@ -1,0 +1,9 @@
+{
+  "article_id": "DEMO-0001",
+  "frozen": true,
+  "expected_images": [
+    "figure-01.svg"
+  ],
+  "mobile_acceptance": "pending",
+  "notes": "自动校验通过后仍需在真实公众号编辑器和手机预览中人工验收。"
+}

@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720" role="img" aria-labelledby="title desc">
+  <title id="title">仿真排版闭环</title>
+  <desc id="desc">冻结输入经过自动构建，再进入公众号编辑器和手机人工验收。</desc>
+  <rect width="1200" height="720" fill="#f5f8ff"/>
+  <rect x="90" y="240" width="250" height="180" rx="24" fill="#ffffff" stroke="#3157d5" stroke-width="5"/>
+  <rect x="475" y="240" width="250" height="180" rx="24" fill="#ffffff" stroke="#3157d5" stroke-width="5"/>
+  <rect x="860" y="240" width="250" height="180" rx="24" fill="#ffffff" stroke="#3157d5" stroke-width="5"/>
+  <path d="M350 330h100m285 0h100" stroke="#3157d5" stroke-width="8" stroke-linecap="round"/>
+  <path d="M430 310l25 20-25 20m385-40 25 20-25 20" fill="none" stroke="#3157d5" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  <g fill="#10214f" font-family="Arial, 'Microsoft YaHei', sans-serif" text-anchor="middle">
+    <text x="215" y="310" font-size="38" font-weight="700">冻结输入</text>
+    <text x="215" y="360" font-size="25">Markdown · 图片 · 清单</text>
+    <text x="600" y="310" font-size="38" font-weight="700">确定性构建</text>
+    <text x="600" y="360" font-size="25">预览 · 复制 · 回执</text>
+    <text x="985" y="310" font-size="38" font-weight="700">人工终审</text>
+    <text x="985" y="360" font-size="25">编辑器 · 手机预览</text>
+    <text x="600" y="560" font-size="30">自动校验通过 ≠ 公众号页面完成</text>
+  </g>
+</svg>
