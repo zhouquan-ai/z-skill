@@ -1,13 +1,13 @@
 {
   "schemaVersion": 1,
-  "status": "internal-candidate",
+  "status": "public-candidate",
   "release": {
     "slug": "callable-knowledge",
     "name": "知识卡产出与调用",
     "type": "Workflow",
     "packageMode": "Standalone",
-    "version": "v0.1.0-candidate.3",
-    "archiveName": "callable-knowledge-v0.1.0-candidate.3.zip",
+    "version": "v0.1.0-candidate.4",
+    "archiveName": "callable-knowledge-v0.1.0-candidate.4.zip",
     "archiveRoot": "callable-knowledge",
     "source": "skill/callable-knowledge",
     "bundleFiles": [

@@ -5,6 +5,7 @@ import { fileURLToPath } from "node:url";
 import { buildInstallPrompt, tools } from "../app/tool-data.ts";
 import { toolIconKeys, toolIconTones } from "../app/tool-icon-registry.ts";
 import { buildAuthenticatedWebSearchRelease } from "./build-authenticated-web-search-release.mjs";
+import { buildStandaloneCandidateReleases } from "./build-standalone-candidate-releases.mjs";
 import { buildReleases } from "./build-web-content-reader-releases.mjs";
 
 const repositoryRoot = dirname(dirname(fileURLToPath(import.meta.url)));
@@ -233,10 +234,37 @@ try {
   errors.push(`登录态网页检索源码构建校验失败（${error.message}）`);
 }
 
+try {
+  const sourceBuild = await buildStandaloneCandidateReleases({
+    repositoryRoot,
+    outputDirectory: "outputs/standalone-candidate-validation",
+  });
+  for (const artifact of sourceBuild.artifacts) {
+    const tool = toolsBySlug.get(artifact.slug);
+    if (!tool) {
+      errors.push(`确定性构建产物没有对应公开作品（${artifact.slug}）`);
+      continue;
+    }
+    if (tool.version !== artifact.version) {
+      errors.push(`${artifact.slug}: 网站版本与源码构建版本不一致`);
+    }
+    if (tool.download.path !== `/downloads/${artifact.file}`) {
+      errors.push(`${artifact.slug}: 网站下载路径与源码构建文件名不一致`);
+    }
+    if (tool.download.sha256 !== artifact.sha256) {
+      errors.push(`${artifact.slug}: 网站SHA-256与源码确定性构建结果不一致`);
+    }
+  }
+} catch (error) {
+  errors.push(`独立公开候选源码构建校验失败（${error.message}）`);
+}
+
 for (const { slug, source } of [
   { slug: "web-content-reader", source: "packages/web-content-reader/skill/web-content-reader" },
   { slug: "weixin-article-reader", source: "packages/web-content-reader/skill/weixin-article-reader" },
   { slug: "authenticated-web-search", source: "packages/authenticated-web-search/skill/authenticated-web-search" },
+  { slug: "legal-practice-article", source: "packages/legal-practice-article/skill/legal-practice-article" },
+  { slug: "callable-knowledge", source: "packages/callable-knowledge/skill/callable-knowledge" },
 ]) {
   const tool = toolsBySlug.get(slug);
   if (!tool) continue;

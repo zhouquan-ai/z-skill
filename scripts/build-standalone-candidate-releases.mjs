@@ -21,8 +21,8 @@ export const candidateManifestPaths = [
 async function buildOne(root, manifestRelativePath) {
   const manifestPath = join(root, manifestRelativePath);
   const manifest = JSON.parse(await readFile(manifestPath, "utf8"));
-  if (manifest.status !== "internal-candidate") {
-    throw new Error(`${manifestRelativePath}: 只能构建internal-candidate`);
+  if (manifest.status !== "public-candidate") {
+    throw new Error(`${manifestRelativePath}: 只能构建public-candidate`);
   }
 
   const packageRoot = dirname(manifestPath);
@@ -59,9 +59,9 @@ async function buildOne(root, manifestRelativePath) {
   };
 }
 
-export async function buildInternalCandidateReleases({
+export async function buildStandaloneCandidateReleases({
   repositoryRoot = defaultRepositoryRoot,
-  outputDirectory = "outputs/internal-candidates",
+  outputDirectory = "outputs/standalone-candidates",
 } = {}) {
   const root = resolve(repositoryRoot);
   const resolvedOutput = resolve(root, outputDirectory);
@@ -83,8 +83,8 @@ export async function buildInternalCandidateReleases({
     join(resolvedOutput, "artifacts.json"),
     `${JSON.stringify({
       schemaVersion: 1,
-      status: "internal-candidate",
-      generatedBy: "scripts/build-internal-candidate-releases.mjs",
+      status: "public-candidate",
+      generatedBy: "scripts/build-standalone-candidate-releases.mjs",
       artifacts: builds.map((build) => build.artifact),
     }, null, 2)}\n`,
     "utf8",
@@ -97,7 +97,7 @@ export async function buildInternalCandidateReleases({
 }
 
 if (process.argv[1] && pathToFileURL(resolve(process.argv[1])).href === import.meta.url) {
-  const result = await buildInternalCandidateReleases();
+  const result = await buildStandaloneCandidateReleases();
   for (const artifact of result.artifacts) {
     console.log(`${artifact.file} ${artifact.sha256} ${artifact.bytes} bytes`);
   }

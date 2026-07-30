@@ -5,9 +5,9 @@ import { fileURLToPath } from "node:url";
 import test from "node:test";
 
 import {
-  buildInternalCandidateReleases,
+  buildStandaloneCandidateReleases,
   candidateManifestPaths,
-} from "../scripts/build-internal-candidate-releases.mjs";
+} from "../scripts/build-standalone-candidate-releases.mjs";
 
 const repositoryRoot = dirname(dirname(fileURLToPath(import.meta.url)));
 const outputsRoot = join(repositoryRoot, "outputs");
@@ -30,7 +30,7 @@ function readStoredZipEntryNames(buffer) {
   return names;
 }
 
-test("internal candidate identities and public boundaries are explicit", async () => {
+test("standalone public candidate identities and boundaries are explicit", async () => {
   for (const manifestPath of candidateManifestPaths) {
     const manifest = JSON.parse(await readFile(join(repositoryRoot, manifestPath), "utf8"));
     const { slug, name, source } = manifest.release;
@@ -39,7 +39,7 @@ test("internal candidate identities and public boundaries are explicit", async (
     const interfaceYaml = await readFile(join(sourceRoot, "agents", "openai.yaml"), "utf8");
     const readme = await readFile(join(repositoryRoot, dirname(manifestPath), "README.md"), "utf8");
 
-    assert.equal(manifest.status, "internal-candidate");
+    assert.equal(manifest.status, "public-candidate");
     assert.match(slug, /^[a-z0-9]+(?:-[a-z0-9]+)*$/);
     assert.doesNotMatch(name, workTypePattern);
     assert.match(readme, new RegExp(`^# ${name}$`, "m"));
@@ -47,21 +47,21 @@ test("internal candidate identities and public boundaries are explicit", async (
     assert.match(skill, new RegExp(`^# ${name}$`, "m"));
     assert.ok(interfaceYaml.includes(`display_name: "${name}"`));
     assert.ok(interfaceYaml.includes(`$${slug}`));
-    assert.match(readme, /尚未进入z-skill公开目录/);
+    assert.match(readme, /公开候选包，已进入z-skill公开目录/);
     assert.doesNotMatch(`${skill}\n${interfaceYaml}\n${readme}`, /\[TODO|周全秘书|D:\\|C:\\/);
   }
 });
 
-test("internal candidate archives are reproducible and isolated", async () => {
+test("standalone public candidate archives are reproducible and isolated", async () => {
   await mkdir(outputsRoot, { recursive: true });
-  const first = await mkdtemp(join(outputsRoot, ".internal-candidates-a-"));
-  const second = await mkdtemp(join(outputsRoot, ".internal-candidates-b-"));
+  const first = await mkdtemp(join(outputsRoot, ".standalone-candidates-a-"));
+  const second = await mkdtemp(join(outputsRoot, ".standalone-candidates-b-"));
   try {
-    const firstResult = await buildInternalCandidateReleases({
+    const firstResult = await buildStandaloneCandidateReleases({
       repositoryRoot,
       outputDirectory: first,
     });
-    const secondResult = await buildInternalCandidateReleases({
+    const secondResult = await buildStandaloneCandidateReleases({
       repositoryRoot,
       outputDirectory: second,
     });

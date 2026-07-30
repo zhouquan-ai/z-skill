@@ -1,13 +1,13 @@
 {
   "schemaVersion": 1,
-  "status": "internal-candidate",
+  "status": "public-candidate",
   "release": {
     "slug": "legal-practice-article",
     "name": "法律实务文章写作",
     "type": "Skill",
     "packageMode": "Standalone",
-    "version": "v0.1.0-candidate.2",
-    "archiveName": "legal-practice-article-v0.1.0-candidate.2.zip",
+    "version": "v0.1.0-candidate.3",
+    "archiveName": "legal-practice-article-v0.1.0-candidate.3.zip",
     "archiveRoot": "legal-practice-article",
     "source": "skill/legal-practice-article",
     "bundleFiles": [

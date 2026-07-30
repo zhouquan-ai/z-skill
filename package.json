@@ -12,20 +12,20 @@
     "typecheck": "tsc --noEmit --incremental false",
     "validate:release": "node --experimental-strip-types scripts/validate-release.mjs",
     "build:authenticated-search": "node scripts/build-authenticated-web-search-release.mjs",
-    "build:internal-candidates": "node scripts/build-internal-candidate-releases.mjs",
+    "build:standalone-candidates": "node scripts/build-standalone-candidate-releases.mjs",
     "build:web-reader": "node scripts/build-web-content-reader-releases.mjs",
     "test:authenticated-search": "node --test tests/authenticated-web-search-release.test.mjs",
-    "test:internal-candidates": "node --test tests/internal-candidate-releases.test.mjs",
+    "test:standalone-candidates": "node --test tests/standalone-candidate-releases.test.mjs",
     "test:web-reader": "node --test tests/web-content-reader-release.test.mjs",
     "test:web-reader:smoke": "pwsh -NoProfile -File tests/web-content-reader-smoke.ps1",
-    "test": "npm run test:web-reader && npm run test:authenticated-search && npm run test:internal-candidates && npm run build && node --experimental-strip-types --test tests/rendered-html.test.mjs",
+    "test": "npm run test:web-reader && npm run test:authenticated-search && npm run test:standalone-candidates && npm run build && node --experimental-strip-types --test tests/rendered-html.test.mjs",
     "lint": "eslint . --ignore-pattern dist --ignore-pattern .next",
     "audit": "npm audit --audit-level=high"
   },
   "dependencies": {
-    "next": "16.2.6",
-    "react": "19.2.6",
-    "react-dom": "19.2.6"
+    "next": "16.2.12",
+    "react": "19.2.8",
+    "react-dom": "19.2.8"
   },
   "devDependencies": {
     "@cloudflare/vite-plugin": "1.44.0",
@@ -37,8 +37,8 @@
     "@vitejs/plugin-react": "6.0.2",
     "@vitejs/plugin-rsc": "0.5.26",
     "eslint": "9.39.4",
-    "eslint-config-next": "16.2.6",
-    "react-server-dom-webpack": "19.2.6",
+    "eslint-config-next": "16.2.12",
+    "react-server-dom-webpack": "19.2.8",
     "tailwindcss": "4.2.1",
     "typescript": "5.9.3",
     "vinext": "0.0.50",
@@ -46,7 +46,8 @@
     "wrangler": "4.110.0"
   },
   "overrides": {
-    "postcss": "8.5.10",
+    "minimatch": "10.2.5",
+    "postcss": "8.5.25",
     "sharp": "0.35.3"
   },
   "type": "module"

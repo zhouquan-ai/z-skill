@@ -47,18 +47,17 @@ test("server-renders the z-skill brand homepage", async () => {
   assert.match(html, /<title>z-skill｜AI 工具与可复用工作流<\/title>/i);
   assert.match(html, /把\s*<span>AI 工具<\/span>/);
   assert.doesNotMatch(html, /Any-to-MD/);
-  assert.match(html, /网页内容批量读取/);
-  assert.match(html, /微信公众号文章读取/);
+  assert.match(html, /法律实务文章写作/);
+  assert.match(html, /知识卡产出与调用/);
   assert.match(html, /登录态网页检索/);
-  assert.match(html, /class="tag stable">正式版/);
   assert.match(html, /class="tag candidate">公开候选/);
   assert.match(html, /最近发布/);
-  assert.match(html, /发布于[\s\S]{0,24}2026-07-19/);
+  assert.match(html, /发布于[\s\S]{0,24}2026-07-30/);
   assert.match(html, /href="\/tools"[^>]*>查看全部工具/);
   assert.match(html, /z-skill 发布周全制作、整理或验证的 AI 工具，并说明用途、测试、安装和下载方式/);
   assert.match(html, /搜索工具名称或用途/);
   assert.match(html, />搜索工具</);
-  assert.match(html, /已发布[\s\S]{0,24}<strong>4<\/strong>[\s\S]{0,24}项工具/);
+  assert.match(html, /已发布[\s\S]{0,24}<strong>6<\/strong>[\s\S]{0,24}项工具/);
   assert.match(html, /Agent 安装指令/);
   assert.match(html, /ZIP 下载/);
   assert.doesNotMatch(html, /支持 Agent 安装，也可下载 ZIP/);
@@ -74,7 +73,7 @@ test("server-renders the z-skill brand homepage", async () => {
   assert.doesNotMatch(html, /codex-preview|SkeletonPreview|Your site is taking shape/i);
   assert.match(html, /data-icon-key="secure-search"/);
   assert.match(html, /data-icon-tone="violet"/);
-  assert.match(html, /data-icon-key="web-read"/);
+  assert.match(html, /data-icon-key="file-convert"/);
   assert.match(html, /data-icon-key="article-read"/);
   assert.doesNotMatch(html, />R\+<|>WEB<|>WX</);
 });
@@ -89,10 +88,14 @@ test("server-renders the searchable tool directory", async () => {
   assert.match(html, /网页内容批量读取/);
   assert.match(html, /微信公众号文章读取/);
   assert.match(html, /登录态网页检索/);
+  assert.match(html, /法律实务文章写作/);
+  assert.match(html, /知识卡产出与调用/);
   assert.match(html, /知识管理 · 文件处理/);
   assert.match(html, /信息获取 · 网页阅读/);
   assert.match(html, /信息获取 · 微信公众号/);
   assert.match(html, /信息获取 · 登录态网页检索/);
+  assert.match(html, /法律工作 · 实务写作/);
+  assert.match(html, /知识管理 · 资料复用/);
   assert.match(html, /组合包/);
   assert.match(html, /独立包/);
   assert.match(html, /正式版/);
@@ -101,6 +104,8 @@ test("server-renders the searchable tool directory", async () => {
   assert.match(html, /\/downloads\/web-content-reader-v0\.2\.0\.zip/);
   assert.match(html, /\/downloads\/weixin-article-reader-v0\.1\.0\.zip/);
   assert.match(html, /\/downloads\/authenticated-web-search-v0\.1\.0-candidate\.3\.zip/);
+  assert.match(html, /\/downloads\/legal-practice-article-v0\.1\.0-candidate\.3\.zip/);
+  assert.match(html, /\/downloads\/callable-knowledge-v0\.1\.0-candidate\.4\.zip/);
   assert.match(html, /data-icon-key="file-convert"/);
   assert.match(html, /data-icon-tone="indigo"/);
   assert.match(html, /data-icon-key="web-read"/);
@@ -192,6 +197,32 @@ test("server-renders the authenticated browser public candidate", async () => {
   assert.match(html, new RegExp(tools[3].download.sha256));
 });
 
+test("server-renders the 法律实务文章写作 public candidate", async () => {
+  const response = await render("/tools/legal-practice-article");
+  assert.equal(response.status, 200);
+
+  const html = await response.text();
+  assert.match(html, /<title>法律实务文章写作｜z-skill<\/title>/i);
+  assert.match(html, /公开候选/);
+  assert.match(html, /v0\.1\.0-candidate\.3/);
+  assert.match(html, /现行法律、裁判原文/);
+  assert.match(html, /legal-practice-article-v0\.1\.0-candidate\.3\.zip/);
+  assert.match(html, new RegExp(tools[4].download.sha256));
+});
+
+test("server-renders the 知识卡产出与调用 public candidate", async () => {
+  const response = await render("/tools/callable-knowledge");
+  assert.equal(response.status, 200);
+
+  const html = await response.text();
+  assert.match(html, /<title>知识卡产出与调用｜z-skill<\/title>/i);
+  assert.match(html, /公开候选/);
+  assert.match(html, /v0\.1\.0-candidate\.4/);
+  assert.match(html, /不包含向量数据库或自动语义召回/);
+  assert.match(html, /callable-knowledge-v0\.1\.0-candidate\.4\.zip/);
+  assert.match(html, new RegExp(tools[5].download.sha256));
+});
+
 test("redirects the authenticated browser candidate legacy slug", async () => {
   const response = await render("/tools/authenticated-browser-workbench");
   assert.ok([307, 308].includes(response.status));
@@ -273,14 +304,25 @@ test("derives release metadata and install prompt from one tool record", () => {
   assert.ok(prompt.includes(tool.install.fallback));
   assert.deepEqual(getIncludedIn("weixin-article-reader").map((item) => item.slug), ["web-content-reader"]);
   assert.deepEqual(getRecentTools().map((item) => item.slug), [
+    "legal-practice-article",
+    "callable-knowledge",
     "authenticated-web-search",
-    "web-content-reader",
-    "weixin-article-reader",
   ]);
   assert.match(getToolSearchText(tools[0]), /any-to-md/);
   assert.match(getToolSearchText(tools[1]), /web content reader/);
   assert.match(getToolSearchText(tools[2]), /weixin article reader/);
   assert.match(getToolSearchText(tools[3]), /authenticated-browser-workbench/);
+  assert.match(getToolSearchText(tools[4]), /legal-practice-article/);
+  assert.match(getToolSearchText(tools[5]), /callable-knowledge/);
+});
+
+test("stores one public tool record per file", async () => {
+  for (const tool of tools) {
+    await access(new URL(`../app/tool-records/${tool.slug}.ts`, import.meta.url));
+  }
+
+  const toolData = await readFile(new URL("../app/tool-data.ts", import.meta.url), "utf8");
+  assert.doesNotMatch(toolData, /slug:\s*"/);
 });
 
 test("ships all public downloads without starter dependencies", async () => {
@@ -301,9 +343,9 @@ test("ships all public downloads without starter dependencies", async () => {
   assert.match(packageJson, /"start": "wrangler dev --config dist\/server\/wrangler\.json"/);
   assert.match(packageJson, /"validate:release": "node --experimental-strip-types scripts\/validate-release\.mjs"/);
   assert.match(packageJson, /"test:authenticated-search": "node --test tests\/authenticated-web-search-release\.test\.mjs"/);
-  assert.match(packageJson, /"test:internal-candidates": "node --test tests\/internal-candidate-releases\.test\.mjs"/);
+  assert.match(packageJson, /"test:standalone-candidates": "node --test tests\/standalone-candidate-releases\.test\.mjs"/);
   assert.match(packageJson, /"test:web-reader": "node --test tests\/web-content-reader-release\.test\.mjs"/);
-  assert.match(packageJson, /"test": "npm run test:web-reader && npm run test:authenticated-search && npm run test:internal-candidates && npm run build && node --experimental-strip-types --test tests\/rendered-html\.test\.mjs"/);
+  assert.match(packageJson, /"test": "npm run test:web-reader && npm run test:authenticated-search && npm run test:standalone-candidates && npm run build && node --experimental-strip-types --test tests\/rendered-html\.test\.mjs"/);
   await assert.rejects(access(new URL("../app/_sites-preview/", import.meta.url)));
   await assert.rejects(access(new URL("../app/chatgpt-auth.ts", import.meta.url)));
   await assert.rejects(access(new URL("../db/", import.meta.url)));
