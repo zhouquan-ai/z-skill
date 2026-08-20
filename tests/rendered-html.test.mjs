@@ -47,7 +47,7 @@ test("server-renders the z-skill brand homepage", async () => {
   assert.match(html, /<title>z-skill｜AI 工具与可复用工作流<\/title>/i);
   assert.match(html, /把\s*<span>AI 工具<\/span>/);
   assert.doesNotMatch(html, /Any-to-MD/);
-  assert.match(html, /简历库与简历管理/);
+  assert.match(html, /护眼提醒/);
   assert.match(html, /飞书远程调用本地AI/);
   assert.match(html, /微信公众号半自动排版/);
   assert.match(html, /class="tag candidate">公开候选/);
@@ -72,8 +72,9 @@ test("server-renders the z-skill brand homepage", async () => {
   assert.doesNotMatch(html, /下载量|用户数|排行榜|评分/);
   assert.doesNotMatch(html, /codex-preview|SkeletonPreview|Your site is taking shape/i);
   assert.match(html, /data-icon-tone="sky"/);
-  assert.match(html, /data-icon-key="file-convert"/);
+  assert.match(html, /data-icon-key="eye-break"/);
   assert.match(html, /data-icon-key="article-read"/);
+  assert.match(html, /data-icon-key="secure-search"/);
   assert.doesNotMatch(html, />R\+<|>WEB<|>WX</);
 });
 
@@ -102,6 +103,7 @@ test("server-renders the searchable tool directory", async () => {
   assert.match(html, /职业管理 · 简历事实/);
   assert.match(html, /通讯协作 · 本地AI/);
   assert.match(html, /内容生产 · 公众号排版/);
+  assert.match(html, /桌面工具 · 健康提醒/);
   assert.match(html, /组合包/);
   assert.match(html, /独立包/);
   assert.match(html, /正式版/);
@@ -116,6 +118,7 @@ test("server-renders the searchable tool directory", async () => {
   assert.match(html, /\/downloads\/resume-library-management-v0\.1\.0-candidate\.1\.zip/);
   assert.match(html, /\/downloads\/feishu-local-ai-bridge-v0\.1\.0-candidate\.1\.zip/);
   assert.match(html, /\/downloads\/wechat-article-layout-v0\.1\.0-candidate\.1\.zip/);
+  assert.match(html, /github\.com\/zhouquan-ai\/z-skill\/releases\/download\/eye-break-reminder-v0\.1\.0-candidate\.5\/eye-break-reminder-v0\.1\.0-candidate\.5\.zip/);
   assert.match(html, /data-icon-key="file-convert"/);
   assert.match(html, /data-icon-tone="indigo"/);
   assert.match(html, /data-icon-key="web-read"/);
@@ -289,10 +292,28 @@ test("server-renders the 微信公众号半自动排版 public candidate", async
   assert.match(html, new RegExp(tools[9].download.sha256));
 });
 
+test("server-renders the 护眼提醒 Windows tool candidate", async () => {
+  const response = await render("/tools/eye-break-reminder");
+  assert.equal(response.status, 200);
+
+  const html = await response.text();
+  const tool = tools.find((item) => item.slug === "eye-break-reminder");
+  assert.ok(tool);
+  assert.match(html, /<title>护眼提醒｜z-skill<\/title>/i);
+  assert.match(html, /Tool/);
+  assert.match(html, /公开候选/);
+  assert.match(html, /v0\.1\.0-candidate\.5/);
+  assert.match(html, /Windows x64/);
+  assert.match(html, /系统托盘/);
+  assert.match(html, /data-icon-key="eye-break"/);
+  assert.match(html, /github\.com\/zhouquan-ai\/z-skill\/releases\/download/);
+  assert.match(html, new RegExp(tool.download.sha256));
+});
+
 test("redirects the authenticated browser candidate legacy slug", async () => {
   const response = await render("/tools/authenticated-browser-workbench");
   assert.ok([307, 308].includes(response.status));
-  assert.equal(response.headers.get("location"), "http://localhost/tools/authenticated-web-search");
+  assert.equal(response.headers.get("location"), "/tools/authenticated-web-search");
 });
 
 test("returns 404 for an unpublished tool slug", async () => {
@@ -370,9 +391,9 @@ test("derives release metadata and install prompt from one tool record", () => {
   assert.ok(prompt.includes(tool.install.fallback));
   assert.deepEqual(getIncludedIn("weixin-article-reader").map((item) => item.slug), ["web-content-reader"]);
   assert.deepEqual(getRecentTools().map((item) => item.slug), [
+    "eye-break-reminder",
     "wechat-article-layout",
     "feishu-local-ai-bridge",
-    "resume-library-management",
   ]);
   assert.match(getToolSearchText(tools[0]), /any-to-md/);
   assert.match(getToolSearchText(tools[1]), /web content reader/);
@@ -384,6 +405,7 @@ test("derives release metadata and install prompt from one tool record", () => {
   assert.match(getToolSearchText(tools[7]), /resume-library-management/);
   assert.match(getToolSearchText(tools[8]), /feishu-local-ai-bridge/);
   assert.match(getToolSearchText(tools[9]), /wechat-article-layout/);
+  assert.match(getToolSearchText(tools[10]), /eye-break-reminder/);
 });
 
 test("stores one public tool record per file", async () => {
@@ -399,6 +421,10 @@ test("ships all public downloads without starter dependencies", async () => {
   const packageJsonUrl = new URL("../package.json", import.meta.url);
 
   for (const tool of tools) {
+    if (tool.download.delivery === "github-release") {
+      assert.match(tool.download.path, /^https:\/\/github\.com\/zhouquan-ai\/z-skill\/releases\/download\//);
+      continue;
+    }
     const archive = new URL(`../public${tool.download.path}`, import.meta.url);
     await access(archive);
     const archiveStat = await stat(archive);
@@ -414,8 +440,9 @@ test("ships all public downloads without starter dependencies", async () => {
   assert.match(packageJson, /"validate:release": "node --experimental-strip-types scripts\/validate-release\.mjs"/);
   assert.match(packageJson, /"test:authenticated-search": "node --test tests\/authenticated-web-search-release\.test\.mjs"/);
   assert.match(packageJson, /"test:standalone-candidates": "node --test tests\/standalone-candidate-releases\.test\.mjs"/);
+  assert.match(packageJson, /"test:eye-break": "node --test tests\/eye-break-reminder-release\.test\.mjs"/);
   assert.match(packageJson, /"test:web-reader": "node --test tests\/web-content-reader-release\.test\.mjs"/);
-  assert.match(packageJson, /"test": "npm run test:web-reader && npm run test:authenticated-search && npm run test:standalone-candidates && npm run build && node --experimental-strip-types --test tests\/rendered-html\.test\.mjs"/);
+  assert.match(packageJson, /"test": "npm run test:web-reader && npm run test:authenticated-search && npm run test:standalone-candidates && npm run test:eye-break && npm run build && node --experimental-strip-types --test tests\/rendered-html\.test\.mjs"/);
   await assert.rejects(access(new URL("../app/_sites-preview/", import.meta.url)));
   await assert.rejects(access(new URL("../app/chatgpt-auth.ts", import.meta.url)));
   await assert.rejects(access(new URL("../db/", import.meta.url)));

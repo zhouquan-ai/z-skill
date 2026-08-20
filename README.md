@@ -65,6 +65,7 @@ npm run audit
 - 版本与 ZIP 文件名；
 - 网站下载路径与 GitHub 权威地址；
 - ZIP 文件存在性、文件签名和 SHA-256；
+- 大型桌面工具的 GitHub Release 地址、仓库内发布清单、EXE 校验信息与 ZIP SHA-256；
 - 网页内容批量读取两项正式包及登录态网页检索候选包与权威源码的确定性构建结果；
 - 中文展示名、技术标识、搜索别名及可用源码中的Agent界面名称；
 - 已验证格式、适用场景、使用步骤、隐私与限制说明；
@@ -76,7 +77,7 @@ npm run audit
 
 `npm run build` 本身也会先执行发布校验，因此 Cloudflare 自动构建不能绕过版本、下载包和 SHA-256 门禁。GitHub Actions 会在推送和 Pull Request 时重复运行依赖审计、测试与 ESLint；高等级依赖告警会阻止发布质量检查通过。
 
-当前`npm audit`为零告警。Next.js与Miniflare上游仍固定了旧版PostCSS和Sharp，因此`package.json`暂用`overrides`锁定已修复的小版本；构建、渲染和Cloudflare链路必须持续通过测试。上游依赖正式纳入修复后，应移除对应override并重新生成锁文件，不得使用会把Next.js降到旧主版本的`npm audit fix --force`。
+当前`npm audit`为零告警。部分上游依赖的兼容范围尚未直接选择已修复版本，因此`package.json`暂用`overrides`锁定已验证的小版本；构建、渲染和Cloudflare链路必须持续通过测试。上游依赖正式纳入修复后，应移除对应override并重新生成锁文件，不得用`npm audit fix --force`绕过兼容性检查。
 
 ## 发布方式
 

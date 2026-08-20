@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light">
+    <title>护眼提醒</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="app-header">
+        <h1>护眼提醒</h1>
+        <span id="status-pill" class="status-label is-paused">已暂停</span>
+      </header>
+
+      <section class="countdown-card" aria-live="polite">
+        <p id="countdown-label">准备就绪</p>
+        <strong id="countdown">40:00</strong>
+        <p id="notice" class="notice" role="status"></p>
+      </section>
+
+      <section id="settings-card" class="settings-card" aria-label="提醒设置" aria-disabled="false">
+        <div class="setting-row">
+          <div class="setting-copy">
+            <label for="interval-input">提醒间隔</label>
+          </div>
+          <div class="field-wrap">
+            <div class="stepper">
+              <button type="button" class="step-button" data-field="intervalMinutes" data-delta="-1" aria-label="减少提醒间隔">−</button>
+              <div class="value-field">
+                <input id="interval-input" type="text" inputmode="numeric" autocomplete="off" aria-describedby="interval-error" value="40">
+                <span>分钟</span>
+              </div>
+              <button type="button" class="step-button" data-field="intervalMinutes" data-delta="1" aria-label="增加提醒间隔">＋</button>
+            </div>
+            <p id="interval-error" class="field-error"></p>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="setting-row">
+          <div class="setting-copy">
+            <label for="break-input">放松时长</label>
+          </div>
+          <div class="field-wrap">
+            <div class="stepper">
+              <button type="button" class="step-button" data-field="breakSeconds" data-delta="-1" aria-label="减少放松时长">−</button>
+              <div class="value-field">
+                <input id="break-input" type="text" inputmode="numeric" autocomplete="off" aria-describedby="break-error" value="60">
+                <span>秒</span>
+              </div>
+              <button type="button" class="step-button" data-field="breakSeconds" data-delta="1" aria-label="增加放松时长">＋</button>
+            </div>
+            <p id="break-error" class="field-error"></p>
+          </div>
+        </div>
+      </section>
+
+      <button id="toggle-button" class="primary-button" type="button">
+        <span>开始提醒</span>
+      </button>
+    </main>
+
+    <div id="close-dialog-layer" class="dialog-layer" hidden>
+      <section class="close-dialog" role="dialog" aria-modal="true" aria-labelledby="close-dialog-title" aria-describedby="close-dialog-description">
+        <h2 id="close-dialog-title">关闭窗口</h2>
+        <p id="close-dialog-description">退出后将停止提醒；最小化到托盘后，提醒会继续运行。</p>
+        <label class="remember-choice">
+          <input id="remember-close-choice" type="checkbox">
+          <span>记住我的选择</span>
+        </label>
+        <div class="dialog-actions">
+          <button id="minimize-to-tray-button" class="dialog-button is-safe" type="button">最小化到托盘</button>
+          <button id="quit-app-button" class="dialog-button is-destructive" type="button">退出应用</button>
+        </div>
+      </section>
+    </div>
+    <script src="renderer.js"></script>
+  </body>
+</html>

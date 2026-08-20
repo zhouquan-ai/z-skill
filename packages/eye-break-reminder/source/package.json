@@ -1,0 +1,47 @@
+{
+  "name": "eye-break-reminder",
+  "version": "0.1.0-candidate.5",
+  "description": "A private, lightweight Windows reminder to look into the distance at configurable intervals.",
+  "main": "main.cjs",
+  "author": "Zhou Quan",
+  "license": "MIT",
+  "scripts": {
+    "start": "electron .",
+    "test": "node --test",
+    "check": "npm test && node scripts/check-package.cjs",
+    "capture": "electron scripts/capture-ui.cjs",
+    "build:portable": "electron-builder --win portable --x64 --publish never"
+  },
+  "devDependencies": {
+    "electron": "43.4.1",
+    "electron-builder": "26.15.3"
+  },
+  "build": {
+    "appId": "cn.zhouquan.eye-break-reminder",
+    "productName": "护眼提醒",
+    "artifactName": "eye-break-reminder-${version}-${arch}.${ext}",
+    "asar": true,
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "main.cjs",
+      "preload.cjs",
+      "lib/**/*",
+      "src/**/*",
+      "assets/icon.ico",
+      "package.json"
+    ],
+    "win": {
+      "icon": "assets/icon.ico",
+      "target": [
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        }
+      ]
+    }
+  }
+}

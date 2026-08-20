@@ -3,6 +3,7 @@ import { anyToMd } from "./tool-records/any-to-md.ts";
 import { articleVisualWorkflow } from "./tool-records/article-visual-workflow.ts";
 import { authenticatedWebSearch } from "./tool-records/authenticated-web-search.ts";
 import { callableKnowledge } from "./tool-records/callable-knowledge.ts";
+import { eyeBreakReminder } from "./tool-records/eye-break-reminder.ts";
 import { feishuLocalAiBridge } from "./tool-records/feishu-local-ai-bridge.ts";
 import { legalPracticeArticle } from "./tool-records/legal-practice-article.ts";
 import { resumeLibraryManagement } from "./tool-records/resume-library-management.ts";
@@ -56,6 +57,8 @@ export type ToolRecord = {
     label: string;
     fileType: "ZIP";
     sha256: string;
+    delivery?: "static" | "github-release";
+    manifestPath?: string;
   };
   overview: {
     title: string;
@@ -91,6 +94,7 @@ export const tools: ToolRecord[] = [
   resumeLibraryManagement,
   feishuLocalAiBridge,
   wechatArticleLayout,
+  eyeBreakReminder,
 ];
 
 export function getToolBySlug(slug: string) {
@@ -170,5 +174,5 @@ export const catalogUpdated = tools
   .at(-1) ?? "";
 
 export const toolTypes = ["全部", "Skill", "Workflow", "Agent", "Tool"] as const;
-export const toolEnvironments = ["全部环境", "Codex"] as const;
+export const toolEnvironments = ["全部环境", "Codex", "Windows"] as const;
 export const toolStatuses = ["全部状态", "正式版", "公开候选"] as const;

@@ -13,12 +13,14 @@
     "validate:release": "node --experimental-strip-types scripts/validate-release.mjs",
     "build:authenticated-search": "node scripts/build-authenticated-web-search-release.mjs",
     "build:standalone-candidates": "node scripts/build-standalone-candidate-releases.mjs",
+    "build:eye-break": "node scripts/build-eye-break-reminder-release.mjs",
     "build:web-reader": "node scripts/build-web-content-reader-releases.mjs",
     "test:authenticated-search": "node --test tests/authenticated-web-search-release.test.mjs",
     "test:standalone-candidates": "node --test tests/standalone-candidate-releases.test.mjs",
+    "test:eye-break": "node --test tests/eye-break-reminder-release.test.mjs",
     "test:web-reader": "node --test tests/web-content-reader-release.test.mjs",
     "test:web-reader:smoke": "pwsh -NoProfile -File tests/web-content-reader-smoke.ps1",
-    "test": "npm run test:web-reader && npm run test:authenticated-search && npm run test:standalone-candidates && npm run build && node --experimental-strip-types --test tests/rendered-html.test.mjs",
+    "test": "npm run test:web-reader && npm run test:authenticated-search && npm run test:standalone-candidates && npm run test:eye-break && npm run build && node --experimental-strip-types --test tests/rendered-html.test.mjs",
     "lint": "eslint . --ignore-pattern dist --ignore-pattern .next",
     "audit": "npm audit --audit-level=high"
   },
@@ -28,27 +30,32 @@
     "react-dom": "19.2.8"
   },
   "devDependencies": {
-    "@cloudflare/vite-plugin": "1.44.0",
-    "@cloudflare/workers-types": "5.20260715.1",
+    "@cloudflare/vite-plugin": "1.53.0",
+    "@cloudflare/workers-types": "5.20260820.1",
     "@tailwindcss/postcss": "4.2.1",
     "@types/node": "22.19.19",
     "@types/react": "19.2.14",
     "@types/react-dom": "19.2.3",
     "@vitejs/plugin-react": "6.0.2",
-    "@vitejs/plugin-rsc": "0.5.26",
+    "@vitejs/plugin-rsc": "0.5.34",
     "eslint": "9.39.4",
     "eslint-config-next": "16.2.12",
     "react-server-dom-webpack": "19.2.8",
     "tailwindcss": "4.2.1",
     "typescript": "5.9.3",
-    "vinext": "0.0.50",
+    "vinext": "1.0.0-beta.7",
     "vite": "8.1.4",
-    "wrangler": "4.110.0"
+    "wrangler": "4.124.0"
   },
   "overrides": {
+    "brace-expansion": "5.0.9",
+    "fast-uri": "3.1.5",
+    "js-yaml": "4.3.1",
     "minimatch": "10.2.5",
+    "nanoid": "3.3.18",
     "postcss": "8.5.25",
-    "sharp": "0.35.3"
+    "sharp": "0.35.3",
+    "undici": "7.29.0"
   },
   "type": "module"
 }

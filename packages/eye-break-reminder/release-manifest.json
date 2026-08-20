@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "status": "public-candidate",
+  "release": {
+    "slug": "eye-break-reminder",
+    "name": "护眼提醒",
+    "type": "Tool",
+    "packageMode": "Standalone",
+    "version": "v0.1.0-candidate.5",
+    "tag": "eye-break-reminder-v0.1.0-candidate.5",
+    "archiveName": "eye-break-reminder-v0.1.0-candidate.5.zip",
+    "archiveRoot": "eye-break-reminder",
+    "source": "source",
+    "bundleFiles": [
+      "README.md",
+      "PRIVACY.md",
+      "KNOWN_LIMITATIONS.md",
+      "TEST_MATRIX.md",
+      "TEST_REPORT.md",
+      "LICENSE",
+      "THIRD_PARTY_NOTICES.md"
+    ],
+    "executable": {
+      "file": "eye-break-reminder-0.1.0-candidate.5-x64.exe",
+      "bytes": 92862177,
+      "sha256": "b3dc653fc54676c42a5321471f815150212d60f5343b79af358f364d071a6df2"
+    },
+    "artifact": {
+      "bytes": 93082776,
+      "sha256": "89ed8b25cceab5436fd4cf447997009c7cb830dedcf13361ff78ab7eb5b87742"
+    }
+  }
+}

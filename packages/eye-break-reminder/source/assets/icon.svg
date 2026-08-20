@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-labelledby="title desc">
+  <title id="title">护眼提醒图标</title>
+  <desc id="desc">浅蓝圆角方形中的远方地平线和注视点</desc>
+  <defs>
+    <linearGradient id="bg" x1="36" y1="28" x2="218" y2="226" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#EAF5FF"/>
+      <stop offset="1" stop-color="#CFE6FF"/>
+    </linearGradient>
+    <linearGradient id="line" x1="58" y1="83" x2="198" y2="177" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#4798F3"/>
+      <stop offset="1" stop-color="#1768CE"/>
+    </linearGradient>
+  </defs>
+  <rect x="12" y="12" width="232" height="232" rx="56" fill="url(#bg)"/>
+  <path d="M52 129c20-30 46-45 76-45s56 15 76 45c-20 29-46 44-76 44s-56-15-76-44Z" fill="#FFFFFF" fill-opacity=".58" stroke="url(#line)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M72 139c18-11 37-16 56-16s38 5 56 16" fill="none" stroke="#2A7DDD" stroke-width="7" stroke-linecap="round" opacity=".78"/>
+  <circle cx="128" cy="116" r="10" fill="#1768CE"/>
+  <circle cx="128" cy="116" r="19" fill="none" stroke="#5BA5F5" stroke-width="5" opacity=".24"/>
+</svg>

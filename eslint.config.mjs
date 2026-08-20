@@ -11,7 +11,10 @@ const eslintConfig = defineConfig([
     ".next/**",
     "out/**",
     "build/**",
+    "work/**",
     "next-env.d.ts",
+    // Published Electron source snapshot keeps its reviewed CommonJS module format.
+    "packages/eye-break-reminder/source/**/*.cjs",
   ]),
 ]);
 

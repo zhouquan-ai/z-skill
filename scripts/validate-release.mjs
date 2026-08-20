@@ -120,8 +120,15 @@ for (const tool of tools) {
   }
 
   const expectedFileStem = `${tool.slug}-${tool.version}`;
-  if (!tool.download.path.startsWith("/downloads/") || !tool.download.path.endsWith(".zip")) {
-    errors.push(`${tool.slug}: 下载路径必须位于 /downloads/ 且为 ZIP`);
+  const delivery = tool.download.delivery ?? "static";
+  if (!["static", "github-release"].includes(delivery)) {
+    errors.push(`${tool.slug}: 未知下载交付方式（${delivery}）`);
+  }
+  if (delivery === "static" && (!tool.download.path.startsWith("/downloads/") || !tool.download.path.endsWith(".zip"))) {
+    errors.push(`${tool.slug}: 站内下载路径必须位于 /downloads/ 且为 ZIP`);
+  }
+  if (delivery === "github-release" && !tool.download.path.endsWith(".zip")) {
+    errors.push(`${tool.slug}: GitHub Release 下载地址必须指向 ZIP`);
   }
   if (!tool.download.path.includes(expectedFileStem)) {
     errors.push(`${tool.slug}: 下载文件名必须同时包含 slug 和 version`);
@@ -129,30 +136,59 @@ for (const tool of tools) {
   if (seenDownloads.has(tool.download.path)) errors.push(`${tool.slug}: 下载路径重复`);
   seenDownloads.add(tool.download.path);
 
-  let sourcePath = "";
+  let sourceUrl;
   try {
-    sourcePath = new URL(tool.download.sourceUrl).pathname;
+    sourceUrl = new URL(tool.download.sourceUrl);
   } catch {
     errors.push(`${tool.slug}: sourceUrl 不是有效 URL`);
   }
-  if (sourcePath && !sourcePath.endsWith(`/public${tool.download.path}`)) {
+  if (delivery === "static" && sourceUrl && !sourceUrl.pathname.endsWith(`/public${tool.download.path}`)) {
     errors.push(`${tool.slug}: sourceUrl 与网站下载路径不一致`);
+  }
+  if (delivery === "github-release" && sourceUrl) {
+    if (sourceUrl.hostname !== "github.com") errors.push(`${tool.slug}: 外部分发必须使用 GitHub Release`);
+    if (tool.download.path !== tool.download.sourceUrl) errors.push(`${tool.slug}: 外部分发的下载地址与权威地址必须一致`);
   }
 
   if (!/^[a-f0-9]{64}$/.test(tool.download.sha256)) {
     errors.push(`${tool.slug}: sha256 必须是64位小写十六进制`);
   }
 
-  const archivePath = join(repositoryRoot, "public", tool.download.path.replace(/^\//, ""));
-  try {
-    const archive = await readFile(archivePath);
-    const archiveStat = await stat(archivePath);
-    const digest = createHash("sha256").update(archive).digest("hex");
-    if (archiveStat.size === 0) errors.push(`${tool.slug}: ZIP 文件为空`);
-    if (archive.subarray(0, 2).toString() !== "PK") errors.push(`${tool.slug}: 下载文件不是有效 ZIP 签名`);
-    if (digest !== tool.download.sha256) errors.push(`${tool.slug}: ZIP 的 SHA-256 与工具记录不一致`);
-  } catch (error) {
-    errors.push(`${tool.slug}: 无法读取下载包（${error.message}）`);
+  if (delivery === "static") {
+    const archivePath = join(repositoryRoot, "public", tool.download.path.replace(/^\//, ""));
+    try {
+      const archive = await readFile(archivePath);
+      const archiveStat = await stat(archivePath);
+      const digest = createHash("sha256").update(archive).digest("hex");
+      if (archiveStat.size === 0) errors.push(`${tool.slug}: ZIP 文件为空`);
+      if (archive.subarray(0, 2).toString() !== "PK") errors.push(`${tool.slug}: 下载文件不是有效 ZIP 签名`);
+      if (digest !== tool.download.sha256) errors.push(`${tool.slug}: ZIP 的 SHA-256 与工具记录不一致`);
+    } catch (error) {
+      errors.push(`${tool.slug}: 无法读取下载包（${error.message}）`);
+    }
+  } else if (delivery === "github-release") {
+    if (!tool.download.manifestPath?.startsWith(`packages/${tool.slug}/`)) {
+      errors.push(`${tool.slug}: GitHub Release 分发必须登记仓库内发布清单`);
+    } else {
+      try {
+        const manifest = JSON.parse(await readFile(join(repositoryRoot, tool.download.manifestPath), "utf8"));
+        const release = manifest.release;
+        const expectedUrl = `https://github.com/zhouquan-ai/z-skill/releases/download/${release.tag}/${release.archiveName}`;
+        if (manifest.status !== "public-candidate") errors.push(`${tool.slug}: 外部发布清单状态不正确`);
+        if (release.slug !== tool.slug || release.name !== tool.name || release.version !== tool.version) {
+          errors.push(`${tool.slug}: 外部发布清单身份与工具记录不一致`);
+        }
+        if (release.archiveName !== `${expectedFileStem}.zip`) errors.push(`${tool.slug}: 外部发布文件名不正确`);
+        if (tool.download.sourceUrl !== expectedUrl) errors.push(`${tool.slug}: GitHub Release 地址与发布清单不一致`);
+        if (release.artifact.sha256 !== tool.download.sha256) errors.push(`${tool.slug}: 外部发布清单 SHA-256 与工具记录不一致`);
+        if (!Number.isInteger(release.artifact.bytes) || release.artifact.bytes <= 0) errors.push(`${tool.slug}: 外部发布清单缺少有效 ZIP 大小`);
+        if (!/^[a-f0-9]{64}$/.test(release.executable.sha256) || release.executable.bytes <= 0) {
+          errors.push(`${tool.slug}: 外部发布清单缺少有效 EXE 校验信息`);
+        }
+      } catch (error) {
+        errors.push(`${tool.slug}: 无法读取外部发布清单（${error.message}）`);
+      }
+    }
   }
 
   if (!tool.formatTests.some((test) => test.status === "verified")) {

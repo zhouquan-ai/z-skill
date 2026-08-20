@@ -31,6 +31,12 @@ const iconArtwork: Record<ToolIconKey, ReactNode> = {
       <path d="m7.5 10 1.7 1.7 3.5-3.5" />
     </>
   ),
+  "eye-break": (
+    <>
+      <path d="M3.5 12s3.2-5 8.5-5 8.5 5 8.5 5-3.2 5-8.5 5-8.5-5-8.5-5Z" />
+      <circle cx="12" cy="12" r="2.5" />
+    </>
+  ),
 };
 
 export function ToolIcon({
