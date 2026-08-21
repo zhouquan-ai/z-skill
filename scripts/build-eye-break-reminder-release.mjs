@@ -3,13 +3,7 @@ import { mkdir, readFile, stat, writeFile } from "node:fs/promises";
 import { dirname, isAbsolute, join, relative, resolve } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
-import {
-  artifactRecord,
-  collectDirectory,
-  collectFiles,
-  createDeterministicZip,
-  generatedJsonEntry,
-} from "./build-web-content-reader-releases.mjs";
+import { artifactRecord, createDeterministicZip } from "./build-web-content-reader-releases.mjs";
 
 const scriptDirectory = dirname(fileURLToPath(import.meta.url));
 const defaultRepositoryRoot = dirname(scriptDirectory);
@@ -31,7 +25,7 @@ export async function buildEyeBreakReminderRelease({
   const root = resolve(repositoryRoot);
   const manifestPath = join(root, manifestRelativePath);
   const manifest = JSON.parse(await readFile(manifestPath, "utf8"));
-  if (manifest.status !== "public-candidate") throw new Error("护眼提醒发布状态必须是 public-candidate");
+  if (manifest.status !== "public-candidate") throw new Error("桌面工具发布状态必须是 public-candidate");
 
   const packageRoot = dirname(manifestPath);
   const target = manifest.release;
@@ -50,28 +44,10 @@ export async function buildEyeBreakReminderRelease({
     throw new Error(`源码版本与发布版本不一致：${sourcePackage.version} / ${target.version}`);
   }
 
-  const entries = await collectFiles(packageRoot, target.bundleFiles, target.archiveRoot);
-  entries.push(...await collectDirectory(
-    join(packageRoot, target.source),
-    `${target.archiveRoot}/source`,
-  ));
-  entries.push({
-    archivePath: `${target.archiveRoot}/bin/${target.executable.file}`,
+  const entries = [{
+    archivePath: target.userExecutableName,
     content: executable,
-  });
-  entries.push(generatedJsonEntry(
-    `${target.archiveRoot}/RELEASE.json`,
-    {
-      schemaVersion: 1,
-      slug: target.slug,
-      name: target.name,
-      type: target.type,
-      packageMode: target.packageMode,
-      version: target.version,
-      releaseStatus: manifest.status,
-      executable: target.executable,
-    },
-  ));
+  }];
 
   const archiveBuffer = createDeterministicZip(entries);
   const artifact = artifactRecord(target, archiveBuffer);
@@ -104,14 +80,15 @@ export async function buildEyeBreakReminderRelease({
   return { manifest, outputDirectory: resolvedOutput, artifacts: [artifact] };
 }
 
-function parseExecutableArgument(argv) {
-  const index = argv.indexOf("--executable");
+function parseArgument(argv, name) {
+  const index = argv.indexOf(name);
   return index >= 0 ? argv[index + 1] : undefined;
 }
 
 if (process.argv[1] && pathToFileURL(resolve(process.argv[1])).href === import.meta.url) {
   const result = await buildEyeBreakReminderRelease({
-    executablePath: parseExecutableArgument(process.argv.slice(2)),
+    executablePath: parseArgument(process.argv.slice(2), "--executable"),
+    manifestRelativePath: parseArgument(process.argv.slice(2), "--manifest") ?? defaultManifestRelativePath,
   });
   for (const artifact of result.artifacts) {
     console.log(`${artifact.file} ${artifact.sha256} ${artifact.bytes} bytes`);

@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "status": "public-candidate",
+  "release": {
+    "slug": "screen-keeper",
+    "name": "屏幕常亮",
+    "type": "Tool",
+    "packageMode": "Standalone",
+    "version": "v1.1.0-candidate.1",
+    "tag": "screen-keeper-v1.1.0-candidate.1",
+    "archiveName": "screen-keeper-v1.1.0-candidate.1.zip",
+    "source": "source",
+    "userExecutableName": "屏幕常亮.exe",
+    "executable": {
+      "file": "screen-keeper-1.1.0-candidate.1-x64.exe",
+      "bytes": 85199906,
+      "sha256": "b6b803059d311ac124e82a9a049d71ef2c12370c64cceba06c16612158230ee7"
+    },
+    "artifact": {
+      "bytes": 85200036,
+      "sha256": "02ca1f648a5966f7e3795f361f5f9ce9fe8585493065e8187a7ff283f2ca0b37"
+    }
+  }
+}

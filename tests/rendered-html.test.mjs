@@ -48,7 +48,7 @@ test("server-renders the z-skill brand homepage", async () => {
   assert.match(html, /把\s*<span>AI 工具<\/span>/);
   assert.doesNotMatch(html, /Any-to-MD/);
   assert.match(html, /护眼提醒/);
-  assert.match(html, /飞书远程调用本地AI/);
+  assert.match(html, /屏幕常亮/);
   assert.match(html, /微信公众号半自动排版/);
   assert.match(html, /class="tag candidate">公开候选/);
   assert.match(html, /最近发布/);
@@ -74,7 +74,7 @@ test("server-renders the z-skill brand homepage", async () => {
   assert.match(html, /data-icon-tone="sky"/);
   assert.match(html, /data-icon-key="eye-break"/);
   assert.match(html, /data-icon-key="article-read"/);
-  assert.match(html, /data-icon-key="secure-search"/);
+  assert.match(html, /data-icon-key="screen-keep"/);
   assert.doesNotMatch(html, />R\+<|>WEB<|>WX</);
 });
 
@@ -104,6 +104,7 @@ test("server-renders the searchable tool directory", async () => {
   assert.match(html, /通讯协作 · 本地AI/);
   assert.match(html, /内容生产 · 公众号排版/);
   assert.match(html, /桌面工具 · 健康提醒/);
+  assert.match(html, /桌面工具 · 屏幕管理/);
   assert.match(html, /组合包/);
   assert.match(html, /独立包/);
   assert.match(html, /正式版/);
@@ -118,7 +119,8 @@ test("server-renders the searchable tool directory", async () => {
   assert.match(html, /\/downloads\/resume-library-management-v0\.1\.0-candidate\.1\.zip/);
   assert.match(html, /\/downloads\/feishu-local-ai-bridge-v0\.1\.0-candidate\.1\.zip/);
   assert.match(html, /\/downloads\/wechat-article-layout-v0\.1\.0-candidate\.1\.zip/);
-  assert.match(html, /github\.com\/zhouquan-ai\/z-skill\/releases\/download\/eye-break-reminder-v0\.1\.0-candidate\.5\/eye-break-reminder-v0\.1\.0-candidate\.5\.zip/);
+  assert.match(html, /github\.com\/zhouquan-ai\/z-skill\/releases\/download\/eye-break-reminder-v0\.1\.0-candidate\.6\/eye-break-reminder-v0\.1\.0-candidate\.6\.zip/);
+  assert.match(html, /github\.com\/zhouquan-ai\/z-skill\/releases\/download\/screen-keeper-v1\.1\.0-candidate\.1\/screen-keeper-v1\.1\.0-candidate\.1\.zip/);
   assert.match(html, /data-icon-key="file-convert"/);
   assert.match(html, /data-icon-tone="indigo"/);
   assert.match(html, /data-icon-key="web-read"/);
@@ -302,11 +304,31 @@ test("server-renders the 护眼提醒 Windows tool candidate", async () => {
   assert.match(html, /<title>护眼提醒｜z-skill<\/title>/i);
   assert.match(html, /Tool/);
   assert.match(html, /公开候选/);
-  assert.match(html, /v0\.1\.0-candidate\.5/);
+  assert.match(html, /v0\.1\.0-candidate\.6/);
   assert.match(html, /Windows x64/);
   assert.match(html, /系统托盘/);
   assert.match(html, /data-icon-key="eye-break"/);
   assert.match(html, /github\.com\/zhouquan-ai\/z-skill\/releases\/download/);
+  assert.match(html, /源码与验证/);
+  assert.match(html, /查看源码/);
+  assert.match(html, /测试记录/);
+  assert.match(html, new RegExp(tool.download.sha256));
+});
+
+test("server-renders the 屏幕常亮 Windows tool candidate", async () => {
+  const response = await render("/tools/screen-keeper");
+  assert.equal(response.status, 200);
+
+  const html = await response.text();
+  const tool = tools.find((item) => item.slug === "screen-keeper");
+  assert.ok(tool);
+  assert.match(html, /<title>屏幕常亮｜z-skill<\/title>/i);
+  assert.match(html, /v1\.1\.0-candidate\.1/);
+  assert.match(html, /Windows 10\/11 x64/);
+  assert.match(html, /系统托盘/);
+  assert.match(html, /data-icon-key="screen-keep"/);
+  assert.match(html, /源码与验证/);
+  assert.match(html, /普通用户下载包只保留应用程序/);
   assert.match(html, new RegExp(tool.download.sha256));
 });
 
@@ -391,9 +413,9 @@ test("derives release metadata and install prompt from one tool record", () => {
   assert.ok(prompt.includes(tool.install.fallback));
   assert.deepEqual(getIncludedIn("weixin-article-reader").map((item) => item.slug), ["web-content-reader"]);
   assert.deepEqual(getRecentTools().map((item) => item.slug), [
+    "screen-keeper",
     "eye-break-reminder",
     "wechat-article-layout",
-    "feishu-local-ai-bridge",
   ]);
   assert.match(getToolSearchText(tools[0]), /any-to-md/);
   assert.match(getToolSearchText(tools[1]), /web content reader/);
@@ -406,6 +428,7 @@ test("derives release metadata and install prompt from one tool record", () => {
   assert.match(getToolSearchText(tools[8]), /feishu-local-ai-bridge/);
   assert.match(getToolSearchText(tools[9]), /wechat-article-layout/);
   assert.match(getToolSearchText(tools[10]), /eye-break-reminder/);
+  assert.match(getToolSearchText(tools[11]), /screen-keeper/);
 });
 
 test("stores one public tool record per file", async () => {

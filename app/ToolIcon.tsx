@@ -37,6 +37,13 @@ const iconArtwork: Record<ToolIconKey, ReactNode> = {
       <circle cx="12" cy="12" r="2.5" />
     </>
   ),
+  "screen-keep": (
+    <>
+      <rect x="3.5" y="4" width="17" height="13" rx="2.5" />
+      <path d="M8.5 20h7M12 17v3" />
+      <path d="M8 10.5h8" />
+    </>
+  ),
 };
 
 export function ToolIcon({

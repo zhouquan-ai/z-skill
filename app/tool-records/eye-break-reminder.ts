@@ -1,6 +1,7 @@
 import type { ToolRecord } from "../tool-data";
 
-const releaseUrl = "https://github.com/zhouquan-ai/z-skill/releases/download/eye-break-reminder-v0.1.0-candidate.5/eye-break-reminder-v0.1.0-candidate.5.zip";
+const tag = "eye-break-reminder-v0.1.0-candidate.6";
+const releaseUrl = `https://github.com/zhouquan-ai/z-skill/releases/download/${tag}/eye-break-reminder-v0.1.0-candidate.6.zip`;
 
 export const eyeBreakReminder: ToolRecord = {
   slug: "eye-break-reminder",
@@ -12,9 +13,9 @@ export const eyeBreakReminder: ToolRecord = {
   packageMode: "Standalone",
   status: "公开候选",
   statusTone: "candidate",
-  version: "v0.1.0-candidate.5",
-  releasedAt: "2026-08-20T16:57:05+08:00",
-  updated: "2026-08-20",
+  version: "v0.1.0-candidate.6",
+  releasedAt: "2026-08-21T21:45:00+08:00",
+  updated: "2026-08-21",
   author: "周全",
   license: "MIT",
   category: "桌面工具 · 健康提醒",
@@ -28,10 +29,15 @@ export const eyeBreakReminder: ToolRecord = {
     sourceUrl: releaseUrl,
     label: "下载 Windows x64 ZIP",
     fileType: "ZIP",
-    sha256: "89ed8b25cceab5436fd4cf447997009c7cb830dedcf13361ff78ab7eb5b87742",
+    sha256: "5ec07547fb771c12cde8f78dc216a2ea92f61e1adfa4d60232a6ef60d2ed54f3",
     delivery: "github-release",
     manifestPath: "packages/eye-break-reminder/release-manifest.json",
   },
+  releaseResources: [
+    { label: "查看源码", description: "查看与本候选版本对应的源码快照。", url: `https://github.com/zhouquan-ai/z-skill/tree/${tag}/packages/eye-break-reminder/source` },
+    { label: "测试记录", description: "查看自动测试、人工验收和未验证边界。", url: `https://github.com/zhouquan-ai/z-skill/blob/${tag}/packages/eye-break-reminder/TEST_REPORT.md` },
+    { label: "发布说明", description: "查看本版本的 GitHub Release 与下载制品。", url: `https://github.com/zhouquan-ai/z-skill/releases/tag/${tag}` },
+  ],
   overview: {
     title: "让周期性休息提醒保持简单、可控",
     description:
@@ -53,19 +59,19 @@ export const eyeBreakReminder: ToolRecord = {
     { format: "真实休眠与系统锁屏", status: "pending", label: "本轮未做物理场景验证" },
   ],
   usageSteps: [
-    "下载ZIP并核对详情页SHA-256，解压后运行bin目录中的Windows x64便携版EXE。",
+    "下载ZIP并核对详情页SHA-256，解压后运行其中唯一的“护眼提醒.exe”。",
     "输入提醒间隔和放松时长；默认分别为40分钟和60秒。",
     "点击“开始提醒”；运行期间设置锁定，暂停后可以重新修改。",
     "提醒出现后看向远处，等待倒计时结束或点击“完成”。",
     "关闭主窗口时选择最小化到托盘或退出；可按需记住选择，并可从托盘恢复询问。",
   ],
   install: {
-    intro: "候选包包含Windows x64便携版EXE、可审查源码、隐私说明、限制说明和测试报告，不需要安装程序或账号。",
+    intro: "用户下载包只包含一个Windows x64便携版EXE；源码、隐私说明、限制说明和测试报告可在本页独立查看。",
     steps: [
-      "下载v0.1.0-candidate.5 ZIP，并核对详情页公布的SHA-256。",
+      "下载v0.1.0-candidate.6 ZIP，并核对详情页公布的SHA-256。",
       "解压到用户选择的本地目录，不要在压缩包内直接运行。",
-      "阅读README.md、PRIVACY.md、KNOWN_LIMITATIONS.md和TEST_REPORT.md。",
-      "经用户确认后运行bin/eye-break-reminder-0.1.0-candidate.5-x64.exe。",
+      "如需审查，先打开详情页中的源码、测试记录和发布说明。",
+      "经用户确认后运行“护眼提醒.exe”。",
     ],
     fallback: "如果当前Agent不能运行Windows桌面程序，只需完成下载、哈希核对和解压，并把EXE位置交给用户手动启动。",
   },

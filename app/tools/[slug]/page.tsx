@@ -60,6 +60,7 @@ export default async function ToolDetailPage({ params }: ToolPageProps) {
               <a href="#testing">测试与验证</a>
               <a href="#usage">使用步骤</a>
               <a href="#install">安装指令</a>
+              {tool.releaseResources && <a href="#resources">源码与验证</a>}
               <a href="#limits">已知限制</a>
             </nav>
 
@@ -129,6 +130,21 @@ export default async function ToolDetailPage({ params }: ToolPageProps) {
               <p>{tool.install.intro}</p>
               <CopyPrompt prompt={installPrompt} />
             </section>
+
+            {tool.releaseResources && (
+              <section id="resources">
+                <h2>源码与验证</h2>
+                <p>普通用户下载包只保留应用程序；以下资料用于审查、复现和了解测试边界。</p>
+                <div className="relation-grid">
+                  {tool.releaseResources.map((resource) => (
+                    <a className="relation-card linked" href={resource.url} key={resource.label} target="_blank" rel="noreferrer">
+                      <div className="relation-card-head"><strong>{resource.label}</strong><span>GitHub</span></div>
+                      <p>{resource.description}</p>
+                    </a>
+                  ))}
+                </div>
+              </section>
+            )}
 
             <section id="limits">
               <h2>已知限制</h2>

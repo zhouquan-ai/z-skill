@@ -1,6 +1,6 @@
 {
   "name": "eye-break-reminder",
-  "version": "0.1.0-candidate.5",
+  "version": "0.1.0-candidate.6",
   "description": "A private, lightweight Windows reminder to look into the distance at configurable intervals.",
   "main": "main.cjs",
   "author": "Zhou Quan",

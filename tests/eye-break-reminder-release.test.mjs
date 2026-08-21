@@ -10,7 +10,7 @@ function digest(buffer) {
   return createHash("sha256").update(buffer).digest("hex");
 }
 
-test("eye break reminder archive is deterministic and keeps the executable isolated from Git", async () => {
+test("Windows portable archive is deterministic and contains only the user executable", async () => {
   await mkdir(join(process.cwd(), "outputs"), { recursive: true });
   const root = await mkdtemp(join(process.cwd(), "outputs", ".eye-break-test-"));
   const packageRoot = join(root, "packages", "eye-break-reminder");
@@ -18,8 +18,7 @@ test("eye break reminder archive is deterministic and keeps the executable isola
   const executable = Buffer.from("synthetic-windows-executable", "utf8");
   try {
     await mkdir(join(packageRoot, "source"), { recursive: true });
-    await writeFile(join(packageRoot, "README.md"), "# 护眼提醒\n", "utf8");
-    await writeFile(join(packageRoot, "source", "package.json"), JSON.stringify({ version: "0.1.0-candidate.5" }), "utf8");
+    await writeFile(join(packageRoot, "source", "package.json"), JSON.stringify({ version: "0.1.0-candidate.6" }), "utf8");
     await writeFile(executablePath, executable);
     await writeFile(join(packageRoot, "release-manifest.json"), `${JSON.stringify({
       schemaVersion: 1,
@@ -29,13 +28,12 @@ test("eye break reminder archive is deterministic and keeps the executable isola
         name: "护眼提醒",
         type: "Tool",
         packageMode: "Standalone",
-        version: "v0.1.0-candidate.5",
-        archiveName: "eye-break-reminder-v0.1.0-candidate.5.zip",
-        archiveRoot: "eye-break-reminder",
+        version: "v0.1.0-candidate.6",
+        archiveName: "eye-break-reminder-v0.1.0-candidate.6.zip",
         source: "source",
-        bundleFiles: ["README.md"],
+        userExecutableName: "护眼提醒.exe",
         executable: {
-          file: "eye-break-reminder-0.1.0-candidate.5-x64.exe",
+          file: "eye-break-reminder-0.1.0-candidate.6-x64.exe",
           bytes: executable.length,
           sha256: digest(executable),
         },
@@ -60,8 +58,9 @@ test("eye break reminder archive is deterministic and keeps the executable isola
     const secondArchive = await readFile(join(second.outputDirectory, second.artifacts[0].file));
     assert.deepEqual(firstArchive, secondArchive);
     assert.ok(firstArchive.includes(executable));
-    assert.ok(firstArchive.includes(Buffer.from("eye-break-reminder/RELEASE.json")));
-    assert.ok(firstArchive.includes(Buffer.from("eye-break-reminder/source/package.json")));
+    assert.ok(firstArchive.includes(Buffer.from("护眼提醒.exe")));
+    assert.ok(!firstArchive.includes(Buffer.from("source/package.json")));
+    assert.ok(!firstArchive.includes(Buffer.from("README.md")));
   } finally {
     await rm(root, { recursive: true, force: true });
   }

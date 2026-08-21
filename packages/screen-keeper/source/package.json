@@ -1,0 +1,55 @@
+{
+  "name": "screen-keeper",
+  "version": "1.1.0-candidate.1",
+  "description": "一款私密、轻量的 Windows 屏幕常亮工具。",
+  "main": "main.cjs",
+  "author": "Zhou Quan",
+  "license": "MIT",
+  "scripts": {
+    "start": "electron .",
+    "test": "node --test",
+    "check": "npm test && node scripts/check-package.cjs && npm run smoke",
+    "icon": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/generate-icon.ps1",
+    "smoke": "node scripts/run-smoke.cjs",
+    "capture": "electron scripts/capture-ui.cjs",
+    "build": "npm run build:portable",
+    "build:portable": "npm run check && electron-builder --win portable --x64 --publish never"
+  },
+  "devDependencies": {
+    "electron": "43.4.1",
+    "electron-builder": "26.15.3"
+  },
+  "build": {
+    "appId": "cn.zhouquan.screen-keeper",
+    "productName": "屏幕常亮",
+    "artifactName": "screen-keeper-${version}-${arch}.${ext}",
+    "asar": true,
+    "compression": "maximum",
+    "electronLanguages": [
+      "zh-CN",
+      "en-US"
+    ],
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "main.cjs",
+      "preload.cjs",
+      "lib/**/*",
+      "src/**/*",
+      "assets/icon.ico",
+      "package.json"
+    ],
+    "win": {
+      "icon": "assets/icon.ico",
+      "target": [
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        }
+      ]
+    }
+  }
+}

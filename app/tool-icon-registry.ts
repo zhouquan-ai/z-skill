@@ -4,6 +4,7 @@ export const toolIconKeys = [
   "article-read",
   "secure-search",
   "eye-break",
+  "screen-keep",
 ] as const;
 
 export type ToolIconKey = (typeof toolIconKeys)[number];

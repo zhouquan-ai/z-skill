@@ -7,6 +7,7 @@ import { eyeBreakReminder } from "./tool-records/eye-break-reminder.ts";
 import { feishuLocalAiBridge } from "./tool-records/feishu-local-ai-bridge.ts";
 import { legalPracticeArticle } from "./tool-records/legal-practice-article.ts";
 import { resumeLibraryManagement } from "./tool-records/resume-library-management.ts";
+import { screenKeeper } from "./tool-records/screen-keeper.ts";
 import { webContentReader } from "./tool-records/web-content-reader.ts";
 import { wechatArticleLayout } from "./tool-records/wechat-article-layout.ts";
 import { weixinArticleReader } from "./tool-records/weixin-article-reader.ts";
@@ -60,6 +61,11 @@ export type ToolRecord = {
     delivery?: "static" | "github-release";
     manifestPath?: string;
   };
+  releaseResources?: Array<{
+    label: string;
+    description: string;
+    url: string;
+  }>;
   overview: {
     title: string;
     description: string;
@@ -95,6 +101,7 @@ export const tools: ToolRecord[] = [
   feishuLocalAiBridge,
   wechatArticleLayout,
   eyeBreakReminder,
+  screenKeeper,
 ];
 
 export function getToolBySlug(slug: string) {

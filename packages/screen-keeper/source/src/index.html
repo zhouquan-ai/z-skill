@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <title>屏幕常亮</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="app-shell">
+    <div class="app-card">
+      <section class="status-card" id="statusCard" aria-live="polite" aria-atomic="true">
+        <div class="status-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24">
+            <rect x="3" y="4" width="18" height="13" rx="2"></rect>
+            <path d="M8 21h8M12 17v4"></path>
+          </svg>
+        </div>
+        <div class="status-copy">
+          <span>屏幕常亮</span>
+          <h1 id="statusText">已停止</h1>
+        </div>
+      </section>
+
+      <button class="primary-action" id="toggleButton" type="button">开启常亮</button>
+
+      <section class="timer-panel" aria-labelledby="timerTitle">
+        <h2 id="timerTitle">定时关闭</h2>
+        <div class="preset-grid" id="presetGrid">
+          <button class="preset-button" type="button" data-minutes="15">15 分钟</button>
+          <button class="preset-button" type="button" data-minutes="30">30 分钟</button>
+          <button class="preset-button" type="button" data-minutes="60">1 小时</button>
+          <button class="preset-button" type="button" data-minutes="120">2 小时</button>
+        </div>
+        <div class="custom-timer">
+          <label class="visually-hidden" for="customMinutes">自定义分钟数</label>
+          <input id="customMinutes" type="number" min="1" max="480" step="1" inputmode="numeric" placeholder="自定义分钟">
+          <button class="secondary-action" id="setCustomTimer" type="button">确定</button>
+        </div>
+        <div class="timer-footer" id="timerFooter">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="12" r="9"></circle>
+            <path d="M12 7v5l3 2"></path>
+          </svg>
+          <span id="timerSummary">未设置定时</span>
+          <button id="cancelTimerButton" type="button" hidden>取消</button>
+        </div>
+        <p class="inline-error" id="timerError" role="alert" hidden></p>
+      </section>
+    </div>
+  </main>
+
+  <dialog class="modal close-modal" id="closeDialog" aria-labelledby="closeTitle">
+    <form method="dialog">
+      <h2 id="closeTitle">关闭窗口</h2>
+      <label class="remember-choice">
+        <input id="rememberChoice" type="checkbox">
+        <span>记住我的选择</span>
+      </label>
+      <div class="modal-actions">
+        <button class="modal-secondary" id="quitButton" type="button">退出应用</button>
+        <button class="modal-primary" id="trayButton" type="button">最小化到托盘</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="renderer.js"></script>
+</body>
+</html>
